@@ -1,0 +1,11 @@
+{
+	"extends": "//",
+	"css": {
+		"parser": {
+			"tailwindDirectives": true
+		}
+	},
+	"linter": {
+		"includes": ["**", "!public/**/*.svg"]
+	}
+}
