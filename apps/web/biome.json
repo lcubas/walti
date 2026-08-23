@@ -7,5 +7,16 @@
 	},
 	"linter": {
 		"includes": ["**", "!public/**/*.svg"]
-	}
+	},
+	"overrides": [
+		{
+			"includes": ["src/components/ui/**"],
+			"linter": {
+				"enabled": false
+			},
+			"formatter": {
+				"enabled": false
+			}
+		}
+	]
 }
