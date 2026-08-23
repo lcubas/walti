@@ -1,26 +1,26 @@
 export type SpaceTone = 'emerald' | 'sky' | 'amber' | 'violet';
 
-type ToneClasses = { badge: string; accent: string; action: string };
+type ToneClasses = { accent: string; action: string };
 
+/**
+ * Shades are pinned by contrast, not by taste: white on -700 clears AA in the four tones,
+ * and the accent line needs -700 on light chrome and -300 on dark to clear 3:1.
+ */
 export const spaceTones: Record<SpaceTone, ToneClasses> = {
 	emerald: {
-		badge: 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300',
-		accent: 'bg-emerald-500',
-		action: 'bg-emerald-600 text-white hover:bg-emerald-700',
+		accent: 'bg-emerald-700 dark:bg-emerald-300',
+		action: 'bg-emerald-700 text-white hover:bg-emerald-800',
 	},
 	sky: {
-		badge: 'bg-sky-500/15 text-sky-700 dark:text-sky-300',
-		accent: 'bg-sky-500',
-		action: 'bg-sky-600 text-white hover:bg-sky-700',
+		accent: 'bg-sky-700 dark:bg-sky-300',
+		action: 'bg-sky-700 text-white hover:bg-sky-800',
 	},
 	amber: {
-		badge: 'bg-amber-500/15 text-amber-800 dark:text-amber-300',
-		accent: 'bg-amber-500',
-		action: 'bg-amber-600 text-white hover:bg-amber-700',
+		accent: 'bg-amber-700 dark:bg-amber-300',
+		action: 'bg-amber-700 text-white hover:bg-amber-800',
 	},
 	violet: {
-		badge: 'bg-violet-500/15 text-violet-700 dark:text-violet-300',
-		accent: 'bg-violet-500',
-		action: 'bg-violet-600 text-white hover:bg-violet-700',
+		accent: 'bg-violet-700 dark:bg-violet-300',
+		action: 'bg-violet-700 text-white hover:bg-violet-800',
 	},
 };
