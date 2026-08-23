@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import { defineConfig } from 'drizzle-kit';
-import { env } from './src/shared/config/env';
+import { env } from './src/config/env';
 
 export default defineConfig({
 	dialect: 'turso',
