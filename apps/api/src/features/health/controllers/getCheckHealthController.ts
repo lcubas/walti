@@ -3,7 +3,7 @@ import { respond } from '../../../shared/http/response';
 import type { HealthService } from '../services/healthService';
 
 export class GetCheckHealthController {
-	constructor(private readonly service: HealthService) { }
+	constructor(private readonly service: HealthService) {}
 
 	async handle(c: Context) {
 		const report = await this.service.check();

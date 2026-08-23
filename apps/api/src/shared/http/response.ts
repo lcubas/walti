@@ -11,8 +11,11 @@ export type ErrorBody = {
 	};
 };
 
-export const respond = <T>(c: Context, data: T, status: ContentfulStatusCode = 200) =>
-	c.json<SuccessBody<T>>({ data }, status);
+export const respond = <T>(
+	c: Context,
+	data: T,
+	status: ContentfulStatusCode = 200,
+) => c.json<SuccessBody<T>>({ data }, status);
 
 export const ok = <T>(c: Context, data: T) => respond(c, data, 200);
 
