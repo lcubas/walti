@@ -1,5 +1,6 @@
 export * from './categories';
 export * from './columns';
+export * from './enums';
 export * from './expenses';
 export * from './notifications';
 export * from './plans';

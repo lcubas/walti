@@ -1,0 +1,1945 @@
+{
+	"version": "7",
+	"dialect": "sqlite",
+	"id": "01b2855c-9975-499d-8f24-385b9e33a753",
+	"prevIds": ["4fe47410-d0f2-4bef-9f44-80b35fdd95df"],
+	"ddl": [
+		{
+			"name": "categories",
+			"entityType": "tables"
+		},
+		{
+			"name": "category_groups",
+			"entityType": "tables"
+		},
+		{
+			"name": "events",
+			"entityType": "tables"
+		},
+		{
+			"name": "expenses",
+			"entityType": "tables"
+		},
+		{
+			"name": "notification_prefs",
+			"entityType": "tables"
+		},
+		{
+			"name": "monthly_plan_allocations",
+			"entityType": "tables"
+		},
+		{
+			"name": "monthly_plans",
+			"entityType": "tables"
+		},
+		{
+			"name": "recurring_items",
+			"entityType": "tables"
+		},
+		{
+			"name": "recurring_periods",
+			"entityType": "tables"
+		},
+		{
+			"name": "payment_sources",
+			"entityType": "tables"
+		},
+		{
+			"name": "space_members",
+			"entityType": "tables"
+		},
+		{
+			"name": "spaces",
+			"entityType": "tables"
+		},
+		{
+			"name": "user_settings",
+			"entityType": "tables"
+		},
+		{
+			"name": "users",
+			"entityType": "tables"
+		},
+		{
+			"type": "text",
+			"notNull": false,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "id",
+			"entityType": "columns",
+			"table": "categories"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "space_id",
+			"entityType": "columns",
+			"table": "categories"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "group_id",
+			"entityType": "columns",
+			"table": "categories"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "name",
+			"entityType": "columns",
+			"table": "categories"
+		},
+		{
+			"type": "integer",
+			"notNull": true,
+			"autoincrement": false,
+			"default": "0",
+			"generated": null,
+			"name": "sort_order",
+			"entityType": "columns",
+			"table": "categories"
+		},
+		{
+			"type": "text",
+			"notNull": false,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "intent",
+			"entityType": "columns",
+			"table": "categories"
+		},
+		{
+			"type": "text",
+			"notNull": false,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "archived_at",
+			"entityType": "columns",
+			"table": "categories"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "created_at",
+			"entityType": "columns",
+			"table": "categories"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "updated_at",
+			"entityType": "columns",
+			"table": "categories"
+		},
+		{
+			"type": "text",
+			"notNull": false,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "id",
+			"entityType": "columns",
+			"table": "category_groups"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "space_id",
+			"entityType": "columns",
+			"table": "category_groups"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "name",
+			"entityType": "columns",
+			"table": "category_groups"
+		},
+		{
+			"type": "integer",
+			"notNull": true,
+			"autoincrement": false,
+			"default": "0",
+			"generated": null,
+			"name": "sort_order",
+			"entityType": "columns",
+			"table": "category_groups"
+		},
+		{
+			"type": "text",
+			"notNull": false,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "archived_at",
+			"entityType": "columns",
+			"table": "category_groups"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "created_at",
+			"entityType": "columns",
+			"table": "category_groups"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "updated_at",
+			"entityType": "columns",
+			"table": "category_groups"
+		},
+		{
+			"type": "text",
+			"notNull": false,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "id",
+			"entityType": "columns",
+			"table": "events"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "space_id",
+			"entityType": "columns",
+			"table": "events"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "name",
+			"entityType": "columns",
+			"table": "events"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "starts_on",
+			"entityType": "columns",
+			"table": "events"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "ends_on",
+			"entityType": "columns",
+			"table": "events"
+		},
+		{
+			"type": "integer",
+			"notNull": false,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "budget_cents",
+			"entityType": "columns",
+			"table": "events"
+		},
+		{
+			"type": "text",
+			"notNull": false,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "archived_at",
+			"entityType": "columns",
+			"table": "events"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "created_at",
+			"entityType": "columns",
+			"table": "events"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "updated_at",
+			"entityType": "columns",
+			"table": "events"
+		},
+		{
+			"type": "text",
+			"notNull": false,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "id",
+			"entityType": "columns",
+			"table": "expenses"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "space_id",
+			"entityType": "columns",
+			"table": "expenses"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "category_id",
+			"entityType": "columns",
+			"table": "expenses"
+		},
+		{
+			"type": "integer",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "amount_cents",
+			"entityType": "columns",
+			"table": "expenses"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "occurred_on",
+			"entityType": "columns",
+			"table": "expenses"
+		},
+		{
+			"type": "text",
+			"notNull": false,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "event_id",
+			"entityType": "columns",
+			"table": "expenses"
+		},
+		{
+			"type": "text",
+			"notNull": false,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "payment_source_id",
+			"entityType": "columns",
+			"table": "expenses"
+		},
+		{
+			"type": "text",
+			"notNull": false,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "merchant",
+			"entityType": "columns",
+			"table": "expenses"
+		},
+		{
+			"type": "text",
+			"notNull": false,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "note",
+			"entityType": "columns",
+			"table": "expenses"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "created_by_user_id",
+			"entityType": "columns",
+			"table": "expenses"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "created_at",
+			"entityType": "columns",
+			"table": "expenses"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "updated_at",
+			"entityType": "columns",
+			"table": "expenses"
+		},
+		{
+			"type": "text",
+			"notNull": false,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "id",
+			"entityType": "columns",
+			"table": "notification_prefs"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "space_id",
+			"entityType": "columns",
+			"table": "notification_prefs"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "user_id",
+			"entityType": "columns",
+			"table": "notification_prefs"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "kind",
+			"entityType": "columns",
+			"table": "notification_prefs"
+		},
+		{
+			"type": "integer",
+			"notNull": true,
+			"autoincrement": false,
+			"default": "true",
+			"generated": null,
+			"name": "enabled",
+			"entityType": "columns",
+			"table": "notification_prefs"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "created_at",
+			"entityType": "columns",
+			"table": "notification_prefs"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "updated_at",
+			"entityType": "columns",
+			"table": "notification_prefs"
+		},
+		{
+			"type": "text",
+			"notNull": false,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "id",
+			"entityType": "columns",
+			"table": "monthly_plan_allocations"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "monthly_plan_id",
+			"entityType": "columns",
+			"table": "monthly_plan_allocations"
+		},
+		{
+			"type": "text",
+			"notNull": false,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "group_id",
+			"entityType": "columns",
+			"table": "monthly_plan_allocations"
+		},
+		{
+			"type": "text",
+			"notNull": false,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "category_id",
+			"entityType": "columns",
+			"table": "monthly_plan_allocations"
+		},
+		{
+			"type": "integer",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "amount_cents",
+			"entityType": "columns",
+			"table": "monthly_plan_allocations"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "created_at",
+			"entityType": "columns",
+			"table": "monthly_plan_allocations"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "updated_at",
+			"entityType": "columns",
+			"table": "monthly_plan_allocations"
+		},
+		{
+			"type": "text",
+			"notNull": false,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "id",
+			"entityType": "columns",
+			"table": "monthly_plans"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "space_id",
+			"entityType": "columns",
+			"table": "monthly_plans"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "period",
+			"entityType": "columns",
+			"table": "monthly_plans"
+		},
+		{
+			"type": "integer",
+			"notNull": false,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "max_limit_cents",
+			"entityType": "columns",
+			"table": "monthly_plans"
+		},
+		{
+			"type": "text",
+			"notNull": false,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "accepted_at",
+			"entityType": "columns",
+			"table": "monthly_plans"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "created_at",
+			"entityType": "columns",
+			"table": "monthly_plans"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "updated_at",
+			"entityType": "columns",
+			"table": "monthly_plans"
+		},
+		{
+			"type": "text",
+			"notNull": false,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "id",
+			"entityType": "columns",
+			"table": "recurring_items"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "space_id",
+			"entityType": "columns",
+			"table": "recurring_items"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "category_id",
+			"entityType": "columns",
+			"table": "recurring_items"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "name",
+			"entityType": "columns",
+			"table": "recurring_items"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "kind",
+			"entityType": "columns",
+			"table": "recurring_items"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": "'monthly'",
+			"generated": null,
+			"name": "frequency",
+			"entityType": "columns",
+			"table": "recurring_items"
+		},
+		{
+			"type": "integer",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "anchor_day",
+			"entityType": "columns",
+			"table": "recurring_items"
+		},
+		{
+			"type": "integer",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "expected_amount_cents",
+			"entityType": "columns",
+			"table": "recurring_items"
+		},
+		{
+			"type": "text",
+			"notNull": false,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "paused_at",
+			"entityType": "columns",
+			"table": "recurring_items"
+		},
+		{
+			"type": "text",
+			"notNull": false,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "archived_at",
+			"entityType": "columns",
+			"table": "recurring_items"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "created_at",
+			"entityType": "columns",
+			"table": "recurring_items"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "updated_at",
+			"entityType": "columns",
+			"table": "recurring_items"
+		},
+		{
+			"type": "text",
+			"notNull": false,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "id",
+			"entityType": "columns",
+			"table": "recurring_periods"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "recurring_item_id",
+			"entityType": "columns",
+			"table": "recurring_periods"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "period",
+			"entityType": "columns",
+			"table": "recurring_periods"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "due_on",
+			"entityType": "columns",
+			"table": "recurring_periods"
+		},
+		{
+			"type": "integer",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "expected_amount_cents",
+			"entityType": "columns",
+			"table": "recurring_periods"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": "'pending'",
+			"generated": null,
+			"name": "status",
+			"entityType": "columns",
+			"table": "recurring_periods"
+		},
+		{
+			"type": "text",
+			"notNull": false,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "expense_id",
+			"entityType": "columns",
+			"table": "recurring_periods"
+		},
+		{
+			"type": "text",
+			"notNull": false,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "remind_at",
+			"entityType": "columns",
+			"table": "recurring_periods"
+		},
+		{
+			"type": "text",
+			"notNull": false,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "resolved_by_user_id",
+			"entityType": "columns",
+			"table": "recurring_periods"
+		},
+		{
+			"type": "text",
+			"notNull": false,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "resolved_at",
+			"entityType": "columns",
+			"table": "recurring_periods"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "created_at",
+			"entityType": "columns",
+			"table": "recurring_periods"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "updated_at",
+			"entityType": "columns",
+			"table": "recurring_periods"
+		},
+		{
+			"type": "text",
+			"notNull": false,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "id",
+			"entityType": "columns",
+			"table": "payment_sources"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "user_id",
+			"entityType": "columns",
+			"table": "payment_sources"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "name",
+			"entityType": "columns",
+			"table": "payment_sources"
+		},
+		{
+			"type": "text",
+			"notNull": false,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "archived_at",
+			"entityType": "columns",
+			"table": "payment_sources"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "created_at",
+			"entityType": "columns",
+			"table": "payment_sources"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "updated_at",
+			"entityType": "columns",
+			"table": "payment_sources"
+		},
+		{
+			"type": "text",
+			"notNull": false,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "id",
+			"entityType": "columns",
+			"table": "space_members"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "space_id",
+			"entityType": "columns",
+			"table": "space_members"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "user_id",
+			"entityType": "columns",
+			"table": "space_members"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "role",
+			"entityType": "columns",
+			"table": "space_members"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "created_at",
+			"entityType": "columns",
+			"table": "space_members"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "updated_at",
+			"entityType": "columns",
+			"table": "space_members"
+		},
+		{
+			"type": "text",
+			"notNull": false,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "id",
+			"entityType": "columns",
+			"table": "spaces"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "name",
+			"entityType": "columns",
+			"table": "spaces"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "currency",
+			"entityType": "columns",
+			"table": "spaces"
+		},
+		{
+			"type": "integer",
+			"notNull": true,
+			"autoincrement": false,
+			"default": "false",
+			"generated": null,
+			"name": "is_default",
+			"entityType": "columns",
+			"table": "spaces"
+		},
+		{
+			"type": "text",
+			"notNull": false,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "archived_at",
+			"entityType": "columns",
+			"table": "spaces"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "created_at",
+			"entityType": "columns",
+			"table": "spaces"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "updated_at",
+			"entityType": "columns",
+			"table": "spaces"
+		},
+		{
+			"type": "text",
+			"notNull": false,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "id",
+			"entityType": "columns",
+			"table": "user_settings"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "user_id",
+			"entityType": "columns",
+			"table": "user_settings"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": "'PEN'",
+			"generated": null,
+			"name": "currency",
+			"entityType": "columns",
+			"table": "user_settings"
+		},
+		{
+			"type": "integer",
+			"notNull": true,
+			"autoincrement": false,
+			"default": "3",
+			"generated": null,
+			"name": "planning_reminder_day",
+			"entityType": "columns",
+			"table": "user_settings"
+		},
+		{
+			"type": "integer",
+			"notNull": true,
+			"autoincrement": false,
+			"default": "true",
+			"generated": null,
+			"name": "planning_reminder_enabled",
+			"entityType": "columns",
+			"table": "user_settings"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "created_at",
+			"entityType": "columns",
+			"table": "user_settings"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "updated_at",
+			"entityType": "columns",
+			"table": "user_settings"
+		},
+		{
+			"type": "text",
+			"notNull": false,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "id",
+			"entityType": "columns",
+			"table": "users"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "google_sub",
+			"entityType": "columns",
+			"table": "users"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "email",
+			"entityType": "columns",
+			"table": "users"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "name",
+			"entityType": "columns",
+			"table": "users"
+		},
+		{
+			"type": "text",
+			"notNull": false,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "avatar_url",
+			"entityType": "columns",
+			"table": "users"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "created_at",
+			"entityType": "columns",
+			"table": "users"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoincrement": false,
+			"default": null,
+			"generated": null,
+			"name": "updated_at",
+			"entityType": "columns",
+			"table": "users"
+		},
+		{
+			"columns": ["space_id"],
+			"tableTo": "spaces",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"nameExplicit": false,
+			"name": "fk_categories_space_id_spaces_id_fk",
+			"entityType": "fks",
+			"table": "categories"
+		},
+		{
+			"columns": ["group_id"],
+			"tableTo": "category_groups",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"nameExplicit": false,
+			"name": "fk_categories_group_id_category_groups_id_fk",
+			"entityType": "fks",
+			"table": "categories"
+		},
+		{
+			"columns": ["space_id"],
+			"tableTo": "spaces",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"nameExplicit": false,
+			"name": "fk_category_groups_space_id_spaces_id_fk",
+			"entityType": "fks",
+			"table": "category_groups"
+		},
+		{
+			"columns": ["space_id"],
+			"tableTo": "spaces",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"nameExplicit": false,
+			"name": "fk_events_space_id_spaces_id_fk",
+			"entityType": "fks",
+			"table": "events"
+		},
+		{
+			"columns": ["space_id"],
+			"tableTo": "spaces",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"nameExplicit": false,
+			"name": "fk_expenses_space_id_spaces_id_fk",
+			"entityType": "fks",
+			"table": "expenses"
+		},
+		{
+			"columns": ["category_id"],
+			"tableTo": "categories",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"nameExplicit": false,
+			"name": "fk_expenses_category_id_categories_id_fk",
+			"entityType": "fks",
+			"table": "expenses"
+		},
+		{
+			"columns": ["event_id"],
+			"tableTo": "events",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"nameExplicit": false,
+			"name": "fk_expenses_event_id_events_id_fk",
+			"entityType": "fks",
+			"table": "expenses"
+		},
+		{
+			"columns": ["payment_source_id"],
+			"tableTo": "payment_sources",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"nameExplicit": false,
+			"name": "fk_expenses_payment_source_id_payment_sources_id_fk",
+			"entityType": "fks",
+			"table": "expenses"
+		},
+		{
+			"columns": ["created_by_user_id"],
+			"tableTo": "users",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"nameExplicit": false,
+			"name": "fk_expenses_created_by_user_id_users_id_fk",
+			"entityType": "fks",
+			"table": "expenses"
+		},
+		{
+			"columns": ["space_id"],
+			"tableTo": "spaces",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"nameExplicit": false,
+			"name": "fk_notification_prefs_space_id_spaces_id_fk",
+			"entityType": "fks",
+			"table": "notification_prefs"
+		},
+		{
+			"columns": ["user_id"],
+			"tableTo": "users",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"nameExplicit": false,
+			"name": "fk_notification_prefs_user_id_users_id_fk",
+			"entityType": "fks",
+			"table": "notification_prefs"
+		},
+		{
+			"columns": ["monthly_plan_id"],
+			"tableTo": "monthly_plans",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"nameExplicit": false,
+			"name": "fk_monthly_plan_allocations_monthly_plan_id_monthly_plans_id_fk",
+			"entityType": "fks",
+			"table": "monthly_plan_allocations"
+		},
+		{
+			"columns": ["group_id"],
+			"tableTo": "category_groups",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"nameExplicit": false,
+			"name": "fk_monthly_plan_allocations_group_id_category_groups_id_fk",
+			"entityType": "fks",
+			"table": "monthly_plan_allocations"
+		},
+		{
+			"columns": ["category_id"],
+			"tableTo": "categories",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"nameExplicit": false,
+			"name": "fk_monthly_plan_allocations_category_id_categories_id_fk",
+			"entityType": "fks",
+			"table": "monthly_plan_allocations"
+		},
+		{
+			"columns": ["space_id"],
+			"tableTo": "spaces",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"nameExplicit": false,
+			"name": "fk_monthly_plans_space_id_spaces_id_fk",
+			"entityType": "fks",
+			"table": "monthly_plans"
+		},
+		{
+			"columns": ["space_id"],
+			"tableTo": "spaces",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"nameExplicit": false,
+			"name": "fk_recurring_items_space_id_spaces_id_fk",
+			"entityType": "fks",
+			"table": "recurring_items"
+		},
+		{
+			"columns": ["category_id"],
+			"tableTo": "categories",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"nameExplicit": false,
+			"name": "fk_recurring_items_category_id_categories_id_fk",
+			"entityType": "fks",
+			"table": "recurring_items"
+		},
+		{
+			"columns": ["recurring_item_id"],
+			"tableTo": "recurring_items",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"nameExplicit": false,
+			"name": "fk_recurring_periods_recurring_item_id_recurring_items_id_fk",
+			"entityType": "fks",
+			"table": "recurring_periods"
+		},
+		{
+			"columns": ["expense_id"],
+			"tableTo": "expenses",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"nameExplicit": false,
+			"name": "fk_recurring_periods_expense_id_expenses_id_fk",
+			"entityType": "fks",
+			"table": "recurring_periods"
+		},
+		{
+			"columns": ["resolved_by_user_id"],
+			"tableTo": "users",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"nameExplicit": false,
+			"name": "fk_recurring_periods_resolved_by_user_id_users_id_fk",
+			"entityType": "fks",
+			"table": "recurring_periods"
+		},
+		{
+			"columns": ["user_id"],
+			"tableTo": "users",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"nameExplicit": false,
+			"name": "fk_payment_sources_user_id_users_id_fk",
+			"entityType": "fks",
+			"table": "payment_sources"
+		},
+		{
+			"columns": ["space_id"],
+			"tableTo": "spaces",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"nameExplicit": false,
+			"name": "fk_space_members_space_id_spaces_id_fk",
+			"entityType": "fks",
+			"table": "space_members"
+		},
+		{
+			"columns": ["user_id"],
+			"tableTo": "users",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"nameExplicit": false,
+			"name": "fk_space_members_user_id_users_id_fk",
+			"entityType": "fks",
+			"table": "space_members"
+		},
+		{
+			"columns": ["user_id"],
+			"tableTo": "users",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"nameExplicit": false,
+			"name": "fk_user_settings_user_id_users_id_fk",
+			"entityType": "fks",
+			"table": "user_settings"
+		},
+		{
+			"columns": ["id"],
+			"nameExplicit": false,
+			"name": "categories_pk",
+			"table": "categories",
+			"entityType": "pks"
+		},
+		{
+			"columns": ["id"],
+			"nameExplicit": false,
+			"name": "category_groups_pk",
+			"table": "category_groups",
+			"entityType": "pks"
+		},
+		{
+			"columns": ["id"],
+			"nameExplicit": false,
+			"name": "events_pk",
+			"table": "events",
+			"entityType": "pks"
+		},
+		{
+			"columns": ["id"],
+			"nameExplicit": false,
+			"name": "expenses_pk",
+			"table": "expenses",
+			"entityType": "pks"
+		},
+		{
+			"columns": ["id"],
+			"nameExplicit": false,
+			"name": "notification_prefs_pk",
+			"table": "notification_prefs",
+			"entityType": "pks"
+		},
+		{
+			"columns": ["id"],
+			"nameExplicit": false,
+			"name": "monthly_plan_allocations_pk",
+			"table": "monthly_plan_allocations",
+			"entityType": "pks"
+		},
+		{
+			"columns": ["id"],
+			"nameExplicit": false,
+			"name": "monthly_plans_pk",
+			"table": "monthly_plans",
+			"entityType": "pks"
+		},
+		{
+			"columns": ["id"],
+			"nameExplicit": false,
+			"name": "recurring_items_pk",
+			"table": "recurring_items",
+			"entityType": "pks"
+		},
+		{
+			"columns": ["id"],
+			"nameExplicit": false,
+			"name": "recurring_periods_pk",
+			"table": "recurring_periods",
+			"entityType": "pks"
+		},
+		{
+			"columns": ["id"],
+			"nameExplicit": false,
+			"name": "payment_sources_pk",
+			"table": "payment_sources",
+			"entityType": "pks"
+		},
+		{
+			"columns": ["id"],
+			"nameExplicit": false,
+			"name": "space_members_pk",
+			"table": "space_members",
+			"entityType": "pks"
+		},
+		{
+			"columns": ["id"],
+			"nameExplicit": false,
+			"name": "spaces_pk",
+			"table": "spaces",
+			"entityType": "pks"
+		},
+		{
+			"columns": ["id"],
+			"nameExplicit": false,
+			"name": "user_settings_pk",
+			"table": "user_settings",
+			"entityType": "pks"
+		},
+		{
+			"columns": ["id"],
+			"nameExplicit": false,
+			"name": "users_pk",
+			"table": "users",
+			"entityType": "pks"
+		},
+		{
+			"columns": [
+				{
+					"value": "space_id",
+					"isExpression": false
+				},
+				{
+					"value": "group_id",
+					"isExpression": false
+				}
+			],
+			"isUnique": false,
+			"where": null,
+			"origin": "manual",
+			"name": "categories_space_group_idx",
+			"entityType": "indexes",
+			"table": "categories"
+		},
+		{
+			"columns": [
+				{
+					"value": "space_id",
+					"isExpression": false
+				}
+			],
+			"isUnique": false,
+			"where": null,
+			"origin": "manual",
+			"name": "category_groups_space_idx",
+			"entityType": "indexes",
+			"table": "category_groups"
+		},
+		{
+			"columns": [
+				{
+					"value": "space_id",
+					"isExpression": false
+				}
+			],
+			"isUnique": false,
+			"where": null,
+			"origin": "manual",
+			"name": "events_space_idx",
+			"entityType": "indexes",
+			"table": "events"
+		},
+		{
+			"columns": [
+				{
+					"value": "space_id",
+					"isExpression": false
+				},
+				{
+					"value": "occurred_on",
+					"isExpression": false
+				}
+			],
+			"isUnique": false,
+			"where": null,
+			"origin": "manual",
+			"name": "expenses_space_date_idx",
+			"entityType": "indexes",
+			"table": "expenses"
+		},
+		{
+			"columns": [
+				{
+					"value": "space_id",
+					"isExpression": false
+				},
+				{
+					"value": "category_id",
+					"isExpression": false
+				},
+				{
+					"value": "occurred_on",
+					"isExpression": false
+				}
+			],
+			"isUnique": false,
+			"where": null,
+			"origin": "manual",
+			"name": "expenses_space_category_date_idx",
+			"entityType": "indexes",
+			"table": "expenses"
+		},
+		{
+			"columns": [
+				{
+					"value": "event_id",
+					"isExpression": false
+				}
+			],
+			"isUnique": false,
+			"where": null,
+			"origin": "manual",
+			"name": "expenses_event_idx",
+			"entityType": "indexes",
+			"table": "expenses"
+		},
+		{
+			"columns": [
+				{
+					"value": "created_by_user_id",
+					"isExpression": false
+				},
+				{
+					"value": "created_at",
+					"isExpression": false
+				}
+			],
+			"isUnique": false,
+			"where": null,
+			"origin": "manual",
+			"name": "expenses_creator_recent_idx",
+			"entityType": "indexes",
+			"table": "expenses"
+		},
+		{
+			"columns": [
+				{
+					"value": "space_id",
+					"isExpression": false
+				},
+				{
+					"value": "user_id",
+					"isExpression": false
+				},
+				{
+					"value": "kind",
+					"isExpression": false
+				}
+			],
+			"isUnique": true,
+			"where": null,
+			"origin": "manual",
+			"name": "notification_prefs_space_user_kind_unique",
+			"entityType": "indexes",
+			"table": "notification_prefs"
+		},
+		{
+			"columns": [
+				{
+					"value": "monthly_plan_id",
+					"isExpression": false
+				}
+			],
+			"isUnique": false,
+			"where": null,
+			"origin": "manual",
+			"name": "monthly_plan_allocations_plan_idx",
+			"entityType": "indexes",
+			"table": "monthly_plan_allocations"
+		},
+		{
+			"columns": [
+				{
+					"value": "space_id",
+					"isExpression": false
+				},
+				{
+					"value": "period",
+					"isExpression": false
+				}
+			],
+			"isUnique": true,
+			"where": null,
+			"origin": "manual",
+			"name": "monthly_plans_space_period_unique",
+			"entityType": "indexes",
+			"table": "monthly_plans"
+		},
+		{
+			"columns": [
+				{
+					"value": "space_id",
+					"isExpression": false
+				}
+			],
+			"isUnique": false,
+			"where": null,
+			"origin": "manual",
+			"name": "recurring_items_space_idx",
+			"entityType": "indexes",
+			"table": "recurring_items"
+		},
+		{
+			"columns": [
+				{
+					"value": "recurring_item_id",
+					"isExpression": false
+				},
+				{
+					"value": "period",
+					"isExpression": false
+				}
+			],
+			"isUnique": true,
+			"where": null,
+			"origin": "manual",
+			"name": "recurring_periods_item_period_unique",
+			"entityType": "indexes",
+			"table": "recurring_periods"
+		},
+		{
+			"columns": [
+				{
+					"value": "status",
+					"isExpression": false
+				},
+				{
+					"value": "due_on",
+					"isExpression": false
+				}
+			],
+			"isUnique": false,
+			"where": null,
+			"origin": "manual",
+			"name": "recurring_periods_status_due_idx",
+			"entityType": "indexes",
+			"table": "recurring_periods"
+		},
+		{
+			"columns": [
+				{
+					"value": "space_id",
+					"isExpression": false
+				},
+				{
+					"value": "user_id",
+					"isExpression": false
+				}
+			],
+			"isUnique": true,
+			"where": null,
+			"origin": "manual",
+			"name": "space_members_space_user_unique",
+			"entityType": "indexes",
+			"table": "space_members"
+		},
+		{
+			"columns": [
+				{
+					"value": "user_id",
+					"isExpression": false
+				}
+			],
+			"isUnique": false,
+			"where": null,
+			"origin": "manual",
+			"name": "space_members_user_idx",
+			"entityType": "indexes",
+			"table": "space_members"
+		},
+		{
+			"columns": [
+				{
+					"value": "user_id",
+					"isExpression": false
+				}
+			],
+			"isUnique": true,
+			"where": null,
+			"origin": "manual",
+			"name": "user_settings_user_unique",
+			"entityType": "indexes",
+			"table": "user_settings"
+		},
+		{
+			"columns": [
+				{
+					"value": "google_sub",
+					"isExpression": false
+				}
+			],
+			"isUnique": true,
+			"where": null,
+			"origin": "manual",
+			"name": "users_google_sub_unique",
+			"entityType": "indexes",
+			"table": "users"
+		},
+		{
+			"columns": [
+				{
+					"value": "email",
+					"isExpression": false
+				}
+			],
+			"isUnique": true,
+			"where": null,
+			"origin": "manual",
+			"name": "users_email_unique",
+			"entityType": "indexes",
+			"table": "users"
+		},
+		{
+			"value": "\"ends_on\" >= \"starts_on\"",
+			"name": "events_range_valid",
+			"entityType": "checks",
+			"table": "events"
+		},
+		{
+			"value": "\"occurred_on\" GLOB '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]'",
+			"name": "expenses_occurred_on_format",
+			"entityType": "checks",
+			"table": "expenses"
+		},
+		{
+			"value": "\"amount_cents\" > 0",
+			"name": "expenses_amount_positive",
+			"entityType": "checks",
+			"table": "expenses"
+		},
+		{
+			"value": "\"amount_cents\" > 0",
+			"name": "monthly_plan_allocations_amount_positive",
+			"entityType": "checks",
+			"table": "monthly_plan_allocations"
+		},
+		{
+			"value": "(\"group_id\" IS NOT NULL) <> (\"category_id\" IS NOT NULL)",
+			"name": "monthly_plan_allocations_group_xor_category",
+			"entityType": "checks",
+			"table": "monthly_plan_allocations"
+		},
+		{
+			"value": "\"period\" GLOB '[0-9][0-9][0-9][0-9]-[0-9][0-9]'",
+			"name": "monthly_plans_period_format",
+			"entityType": "checks",
+			"table": "monthly_plans"
+		},
+		{
+			"value": "\"anchor_day\" BETWEEN 1 AND 31",
+			"name": "recurring_items_anchor_day_range",
+			"entityType": "checks",
+			"table": "recurring_items"
+		},
+		{
+			"value": "\"expected_amount_cents\" > 0",
+			"name": "recurring_items_expected_positive",
+			"entityType": "checks",
+			"table": "recurring_items"
+		},
+		{
+			"value": "\"period\" GLOB '[0-9][0-9][0-9][0-9]-[0-9][0-9]'",
+			"name": "recurring_periods_period_format",
+			"entityType": "checks",
+			"table": "recurring_periods"
+		},
+		{
+			"value": "(\"status\" = 'registered') = (\"expense_id\" IS NOT NULL)",
+			"name": "recurring_periods_expense_only_when_registered",
+			"entityType": "checks",
+			"table": "recurring_periods"
+		},
+		{
+			"value": "NOT (\"is_default\" = 1 AND \"archived_at\" IS NOT NULL)",
+			"name": "spaces_default_not_archived",
+			"entityType": "checks",
+			"table": "spaces"
+		},
+		{
+			"value": "\"planning_reminder_day\" BETWEEN 1 AND 31",
+			"name": "user_settings_day_range",
+			"entityType": "checks",
+			"table": "user_settings"
+		}
+	],
+	"renames": []
+}

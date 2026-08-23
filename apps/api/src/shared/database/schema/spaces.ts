@@ -8,6 +8,7 @@ import {
 	uniqueIndex,
 } from 'drizzle-orm/sqlite-core';
 import { primaryId, timestamps } from './columns';
+import { currencies } from './enums';
 import { users } from './users';
 
 export const spaces = sqliteTable(
@@ -15,6 +16,7 @@ export const spaces = sqliteTable(
 	{
 		id: primaryId(),
 		name: text('name').notNull(),
+		currency: text('currency', { enum: currencies }).notNull(),
 		isDefault: integer('is_default', { mode: 'boolean' })
 			.notNull()
 			.default(false),

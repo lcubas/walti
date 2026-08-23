@@ -7,6 +7,7 @@ import {
 } from 'drizzle-orm/sqlite-core';
 import { sql } from 'drizzle-orm';
 import { primaryId, timestamps } from './columns';
+import { currencies } from './enums';
 
 export const users = sqliteTable(
 	'users',
@@ -31,6 +32,7 @@ export const userSettings = sqliteTable(
 		userId: text('user_id')
 			.notNull()
 			.references(() => users.id),
+		currency: text('currency', { enum: currencies }).notNull().default('PEN'),
 		planningReminderDay: integer('planning_reminder_day').notNull().default(3),
 		planningReminderEnabled: integer('planning_reminder_enabled', {
 			mode: 'boolean',
