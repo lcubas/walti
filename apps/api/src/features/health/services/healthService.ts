@@ -1,9 +1,5 @@
+import type { HealthReport } from '@walti/shared';
 import type { HealthRepository } from '../../../shared/repositories/healthRepository';
-
-export type HealthReport = {
-	status: 'ok' | 'degraded';
-	database: 'up' | 'down';
-};
 
 export class HealthService {
 	constructor(private readonly repository: HealthRepository) {}

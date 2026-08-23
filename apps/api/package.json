@@ -18,6 +18,7 @@
 		"typescript": "5.9.2"
 	},
 	"dependencies": {
+		"@walti/shared": "workspace:*",
 		"@hono/valibot-validator": "^0.6.1",
 		"@libsql/client": "^0.17.4",
 		"dotenv": "^17.4.2",
