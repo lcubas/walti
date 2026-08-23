@@ -1,7 +1,7 @@
-import { useActiveSpace } from '../../shared/spaces/spacesContext';
-import { spaceTones } from '../../shared/spaces/spaceTones';
-import { AccountMenu } from './accountMenu';
-import { SpaceSwitcher } from './spaceSwitcher';
+import { useActiveSpace } from '@/shared/spaces/spacesContext';
+import { spaceTones } from '@/shared/spaces/spaceTones';
+import { AccountMenu } from '@/app/layout/accountMenu';
+import { SpaceSwitcher } from '@/app/layout/spaceSwitcher';
 
 export const AppHeader = () => {
 	const space = useActiveSpace();

@@ -1,5 +1,11 @@
-import { Drawer } from '@base-ui/react/drawer';
 import type { ReactNode } from 'react';
+import {
+	Drawer,
+	DrawerContent,
+	DrawerHeader,
+	DrawerTitle,
+	DrawerTrigger,
+} from '@/components/ui/drawer';
 
 type MenuDrawerProps = {
 	label: string;
@@ -20,30 +26,21 @@ export const MenuDrawer = ({
 	onOpenChange,
 	children,
 }: MenuDrawerProps) => (
-	<Drawer.Root open={open} onOpenChange={onOpenChange}>
-		<Drawer.Trigger aria-label={label} className={triggerClassName}>
+	<Drawer open={open} onOpenChange={onOpenChange} showSwipeHandle>
+		<DrawerTrigger aria-label={label} className={triggerClassName}>
 			{trigger}
-		</Drawer.Trigger>
+		</DrawerTrigger>
 
-		<Drawer.Portal>
-			<Drawer.Backdrop className="fixed inset-0 z-20 bg-black/40" />
+		<DrawerContent>
+			<DrawerHeader>
+				<DrawerTitle>{title}</DrawerTitle>
+			</DrawerHeader>
 
-			<Drawer.Viewport className="fixed inset-x-0 bottom-0 z-30">
-				<Drawer.Popup className="mx-auto max-w-screen-sm rounded-t-2xl border-t border-border bg-background pb-[env(safe-area-inset-bottom)]">
-					<div
-						className="mx-auto mt-3 h-1 w-10 rounded-full bg-border"
-						aria-hidden="true"
-					/>
-
-					<Drawer.Title className="px-5 pt-4 text-base font-semibold">
-						{title}
-					</Drawer.Title>
-
-					<div className="px-3 pt-2 pb-4">{children}</div>
-				</Drawer.Popup>
-			</Drawer.Viewport>
-		</Drawer.Portal>
-	</Drawer.Root>
+			<div className="px-3 pt-2 pb-[max(1rem,env(safe-area-inset-bottom))]">
+				{children}
+			</div>
+		</DrawerContent>
+	</Drawer>
 );
 
 type MenuRowProps = { icon: ReactNode; label: string; description?: string };

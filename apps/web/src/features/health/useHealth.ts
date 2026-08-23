@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { HealthReport } from '@walti/shared';
-import { request } from '../../shared/api/httpClient';
+import { request } from '@/shared/api/httpClient';
 
 export const useHealth = () =>
 	useQuery({

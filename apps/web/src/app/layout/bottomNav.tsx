@@ -1,9 +1,9 @@
 import { ChartNoAxesColumn, House, Plus, Receipt, Target } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { NavLink } from 'react-router';
-import { useActiveSpace } from '../../shared/spaces/spacesContext';
-import { spaceTones } from '../../shared/spaces/spaceTones';
-import { paths } from '../../shared/routes';
+import { useActiveSpace } from '@/shared/spaces/spacesContext';
+import { spaceTones } from '@/shared/spaces/spaceTones';
+import { paths } from '@/shared/routes';
 
 type NavItem = { to: string; label: string; icon: LucideIcon };
 

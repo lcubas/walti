@@ -1,5 +1,5 @@
-import { ApiError } from '../../shared/api/apiError';
-import { useHealth } from './useHealth';
+import { ApiError } from '@/shared/api/apiError';
+import { useHealth } from '@/features/health/useHealth';
 
 const StatusLine = ({ tone, label }: { tone: string; label: string }) => (
 	<p className="flex items-center gap-2 text-sm text-muted-foreground">

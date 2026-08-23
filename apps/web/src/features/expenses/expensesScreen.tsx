@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router';
-import { PendingScreen } from '../../shared/components/pendingScreen';
+import { PendingScreen } from '@/shared/components/pendingScreen';
 
 export const ExpensesScreen = () => (
 	<>

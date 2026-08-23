@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router';
-import { AppHeader } from './appHeader';
-import { BottomNav } from './bottomNav';
+import { AppHeader } from '@/app/layout/appHeader';
+import { BottomNav } from '@/app/layout/bottomNav';
 
 export const AppLayout = () => (
 	<div className="min-h-dvh bg-background text-foreground">

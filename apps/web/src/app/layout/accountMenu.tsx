@@ -1,9 +1,9 @@
 import { CircleUser, CreditCard, LogOut } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router';
-import { ServiceStatus } from '../../features/health/serviceStatus';
-import { paths } from '../../shared/routes';
-import { MenuRow, MenuDrawer, menuRowClasses } from './menuDrawer';
+import { ServiceStatus } from '@/features/health/serviceStatus';
+import { paths } from '@/shared/routes';
+import { MenuRow, MenuDrawer, menuRowClasses } from '@/app/layout/menuDrawer';
 
 const account = { name: 'Tu nombre', email: 'tu@correo.com' };
 

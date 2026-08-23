@@ -1,10 +1,10 @@
 import { ChevronsUpDown, Plus, Settings2 } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router';
-import { useSpaces } from '../../shared/spaces/spacesContext';
-import { spaceTones } from '../../shared/spaces/spaceTones';
-import { paths } from '../../shared/routes';
-import { MenuRow, MenuDrawer, menuRowClasses } from './menuDrawer';
+import { useSpaces } from '@/shared/spaces/spacesContext';
+import { spaceTones } from '@/shared/spaces/spaceTones';
+import { paths } from '@/shared/routes';
+import { MenuRow, MenuDrawer, menuRowClasses } from '@/app/layout/menuDrawer';
 
 const pillClasses =
 	'flex min-h-9 shrink-0 items-center gap-1 rounded-full px-3 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring';

@@ -1,9 +1,10 @@
 import { createBrowserRouter } from 'react-router';
-import { AppLayout } from './layout/appLayout';
-import { paths } from '../shared/routes';
-import { ExpensesScreen } from '../features/expenses/expensesScreen';
-import { NewExpenseDrawer } from '../features/expenses/newExpenseDrawer';
-import { PendingScreen } from '../shared/components/pendingScreen';
+import { AppLayout } from '@/app/layout/appLayout';
+import { AccountScreen } from '@/features/account/accountScreen';
+import { paths } from '@/shared/routes';
+import { ExpensesScreen } from '@/features/expenses/expensesScreen';
+import { NewExpenseDrawer } from '@/features/expenses/newExpenseDrawer';
+import { PendingScreen } from '@/shared/components/pendingScreen';
 
 export const router = createBrowserRouter([
 	{
@@ -48,7 +49,7 @@ export const router = createBrowserRouter([
 			},
 			{
 				path: paths.cuenta,
-				element: <PendingScreen title="Tu cuenta" />,
+				element: <AccountScreen />,
 			},
 			{
 				path: '*',

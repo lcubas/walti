@@ -1,16 +1,24 @@
 import { createContext, useContext, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
-import type { SpaceTone } from './spaceTones';
+import type { Currency } from '@walti/shared';
+import type { SpaceTone } from '@/shared/spaces/spaceTones';
 
 export type Space = {
 	id: string;
 	name: string;
+	currency: Currency;
 	members: number;
 	tone: SpaceTone;
 };
 
 const seed: Space[] = [
-	{ id: 'personal', name: 'Personal', members: 1, tone: 'emerald' },
+	{
+		id: 'personal',
+		name: 'Personal',
+		currency: 'PEN',
+		members: 1,
+		tone: 'emerald',
+	},
 ];
 
 type SpacesValue = {

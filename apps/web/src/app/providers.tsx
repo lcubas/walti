@@ -1,7 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { ReactNode } from 'react';
-import { ApiError } from '../shared/api/apiError';
-import { SpacesProvider } from '../shared/spaces/spacesContext';
+import { ApiError } from '@/shared/api/apiError';
+import { SpacesProvider } from '@/shared/spaces/spacesContext';
 
 const queryClient = new QueryClient({
 	defaultOptions: {

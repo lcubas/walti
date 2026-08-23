@@ -122,8 +122,9 @@
 		@apply border-border outline-ring/50;
 	}
 
+	/* iOS Safari: `position: relative` is required for the drawer overlay to cover the viewport after scrolling. */
 	body {
-		@apply bg-background text-foreground;
+		@apply relative bg-background text-foreground;
 	}
 
 	html {

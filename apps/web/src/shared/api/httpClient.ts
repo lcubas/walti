@@ -1,6 +1,6 @@
 import * as v from 'valibot';
-import { env } from '../../config/env';
-import { ApiError, type ApiErrorDetail } from './apiError';
+import { env } from '@/config/env';
+import { ApiError, type ApiErrorDetail } from '@/shared/api/apiError';
 
 const ErrorBody = v.object({
 	error: v.object({
