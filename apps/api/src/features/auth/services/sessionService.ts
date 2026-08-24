@@ -5,16 +5,13 @@ import { UnauthorizedError } from '../../../shared/errors/unauthorizedError';
 const algorithm = 'HS256';
 const secret = new TextEncoder().encode(env.SESSION_SECRET);
 
-export const sessionCookieName = 'walti_session';
-export const sessionMaxAgeSeconds = 60 * 60 * 24 * 30;
-
 export class SessionService {
 	issue(userId: string): Promise<string> {
 		return new SignJWT({})
 			.setProtectedHeader({ alg: algorithm })
 			.setSubject(userId)
 			.setIssuedAt()
-			.setExpirationTime(`${sessionMaxAgeSeconds}s`)
+			.setExpirationTime(`${env.SESSION_MAX_AGE_IN_SECONDS}s`)
 			.sign(secret);
 	}
 

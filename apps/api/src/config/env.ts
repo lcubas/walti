@@ -6,6 +6,14 @@ const EnvSchema = v.object({
 	APP_ENV: v.optional(v.picklist(['development', 'production']), 'development'),
 	GOOGLE_CLIENT_ID: v.pipe(v.string(), v.nonEmpty()),
 	SESSION_SECRET: v.pipe(v.string(), v.minLength(32)),
+	SESSION_NAME: v.pipe(v.string(), v.minLength(1)),
+	SESSION_MAX_AGE_IN_SECONDS: v.pipe(
+		v.string(),
+		v.nonEmpty(),
+		v.toNumber(),
+		v.integer(),
+		v.minValue(1),
+	),
 	ALLOWED_EMAILS: v.pipe(
 		v.string(),
 		v.nonEmpty(),

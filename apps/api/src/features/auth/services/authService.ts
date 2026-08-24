@@ -10,7 +10,7 @@ export type SignInResult = { user: SessionUser; sessionToken: string };
 export class AuthService {
 	constructor(
 		private readonly googleTokens: GoogleTokenService,
-		private readonly sessions: SessionService,
+		private readonly sessionService: SessionService,
 		private readonly users: UserRepository,
 	) {}
 
@@ -18,6 +18,7 @@ export class AuthService {
 		const identity = await this.googleTokens.verify(idToken);
 		const existing = await this.users.findByGoogleSub(identity.googleSub);
 		const user = existing ?? (await this.register(identity));
+		const sessionToken = await this.sessionService.issue(user.id);
 
 		return {
 			user: {
@@ -26,12 +27,12 @@ export class AuthService {
 				name: user.name,
 				avatarUrl: user.avatarUrl,
 			},
-			sessionToken: await this.sessions.issue(user.id),
+			sessionToken,
 		};
 	}
 
-	/** A valid Google token proves identity, not permission: only invited emails may register. */
 	private register(identity: GoogleIdentity) {
+		// only invited emails may register
 		if (!env.ALLOWED_EMAILS.includes(identity.email)) {
 			throw new ForbiddenError(
 				'email_not_invited',
