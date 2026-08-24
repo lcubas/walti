@@ -4,7 +4,11 @@ import { useSignIn } from '@/features/auth/useSignIn';
 import { ApiError } from '@/shared/api/apiError';
 import { ErrorState } from '@/shared/components/errorState';
 
-const scriptError = new ApiError('network_error', 'No pudimos cargar el acceso con Google.', 0);
+const scriptError = new ApiError(
+	'network_error',
+	'No pudimos cargar el acceso con Google.',
+	0,
+);
 
 export const LoginScreen = () => {
 	const signIn = useSignIn();
@@ -25,12 +29,17 @@ export const LoginScreen = () => {
 			<div className="mt-10 flex justify-center">
 				<div
 					ref={containerRef}
-					className={signIn.isPending ? 'pointer-events-none opacity-40' : undefined}
+					className={
+						signIn.isPending ? 'pointer-events-none opacity-40' : undefined
+					}
 				/>
 			</div>
 
 			{signIn.isPending ? (
-				<p role="status" className="mt-4 flex items-center justify-center gap-2 text-sm text-muted-foreground">
+				<p
+					role="status"
+					className="mt-4 flex items-center justify-center gap-2 text-sm text-muted-foreground"
+				>
 					<Loader2 className="size-4 animate-spin" aria-hidden="true" />
 					Entrando…
 				</p>
@@ -41,7 +50,9 @@ export const LoginScreen = () => {
 			{signIn.error ? (
 				<>
 					<ErrorState error={signIn.error} />
-					<p className="text-sm text-muted-foreground">Puedes intentarlo con otra cuenta.</p>
+					<p className="text-sm text-muted-foreground">
+						Puedes intentarlo con otra cuenta.
+					</p>
 				</>
 			) : null}
 		</main>
