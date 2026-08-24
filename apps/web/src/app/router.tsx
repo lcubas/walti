@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router';
 import { AppLayout } from '@/app/layout/appLayout';
 import { AccountScreen } from '@/features/account/accountScreen';
+import { LoginScreen } from '@/features/auth/loginScreen';
 import { paths } from '@/shared/routes';
 import { ExpensesScreen } from '@/features/expenses/expensesScreen';
 import { NewExpenseDrawer } from '@/features/expenses/newExpenseDrawer';
@@ -59,6 +60,6 @@ export const router = createBrowserRouter([
 	},
 	{
 		path: paths.entrar,
-		element: <PendingScreen title="Acceso" />,
+		element: <LoginScreen />,
 	},
 ]);

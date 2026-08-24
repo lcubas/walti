@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { ReactNode } from 'react';
+import { Toaster } from '@/components/ui/toast';
 import { ApiError } from '@/shared/api/apiError';
 import { SpacesProvider } from '@/shared/spaces/spacesContext';
 
@@ -21,6 +22,9 @@ const queryClient = new QueryClient({
 
 export const Providers = ({ children }: { children: ReactNode }) => (
 	<QueryClientProvider client={queryClient}>
-		<SpacesProvider>{children}</SpacesProvider>
+		<SpacesProvider>
+			{children}
+			<Toaster />
+		</SpacesProvider>
 	</QueryClientProvider>
 );

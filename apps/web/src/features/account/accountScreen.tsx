@@ -1,3 +1,4 @@
+import { ServiceSection } from '@/features/health/serviceSection';
 import { ThemeSelector } from '@/features/account/themeSelector';
 
 export const AccountScreen = () => (
@@ -13,6 +14,14 @@ export const AccountScreen = () => (
 
 			<div className="mt-3">
 				<ThemeSelector />
+			</div>
+		</div>
+
+		<div className="mt-8 border-t border-border pt-6">
+			<h2 className="text-sm font-medium">Servicio</h2>
+
+			<div className="mt-3">
+				<ServiceSection />
 			</div>
 		</div>
 
