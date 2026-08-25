@@ -3,17 +3,23 @@ import { HTTPException } from 'hono/http-exception';
 import type { ContentfulStatusCode } from 'hono/utils/http-status';
 import { AppError } from '../../errors/appError';
 
+type ErrorDetail = { field: string; message: string };
+
 type ErrorBody = {
-	code: string;
-	message: string;
-	details?: { field: string; message: string }[];
+	error: {
+		code: string;
+		message: string;
+		details?: ErrorDetail[];
+	};
 };
 
 export const buildErrorBody = (
 	code: string,
 	message: string,
-	details?: ErrorBody['details'],
-): ErrorBody => (details ? { code, message, details } : { code, message });
+	details?: ErrorDetail[],
+): ErrorBody => ({
+	error: details ? { code, message, details } : { code, message },
+});
 
 export const errorHandler: ErrorHandler = (error, c) => {
 	if (error instanceof AppError) {

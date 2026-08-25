@@ -1,7 +1,7 @@
 import { validator as honoValidator } from 'hono/validator';
 import * as v from 'valibot';
 import type { ValidationTargets } from 'hono';
-import { ValidationError } from '../../errors/ValidationError';
+import { ValidationError } from '../../errors/validationError';
 
 type Schema = v.GenericSchema | v.GenericSchemaAsync;
 

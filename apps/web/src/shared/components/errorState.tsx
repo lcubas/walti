@@ -53,6 +53,14 @@ const describe = (error: unknown): ErrorCopy => {
 		};
 	}
 
+	if (error.status === 422) {
+		return {
+			title: 'Revisa los datos',
+			hint: 'Alguno no tiene el formato que esperábamos.',
+			canRetry: false,
+		};
+	}
+
 	if (error.status >= 500) {
 		return {
 			title: 'El servidor tuvo un problema',
