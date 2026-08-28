@@ -28,11 +28,11 @@ type RequestOptions = {
 	signal?: AbortSignal;
 };
 
-export const request = async <TSchema extends v.GenericSchema>(
+/** Reaches the API and turns any failure into an ApiError. Never returns a rejected response. */
+const send = async (
 	path: string,
-	schema: TSchema,
-	options: RequestOptions = {},
-): Promise<v.InferOutput<TSchema>> => {
+	options: RequestOptions,
+): Promise<Response> => {
 	let response: Response;
 
 	try {
@@ -53,23 +53,32 @@ export const request = async <TSchema extends v.GenericSchema>(
 		);
 	}
 
-	const payload: unknown = await response.json().catch(() => null);
-
-	if (!response.ok) {
-		const failure = v.safeParse(ErrorBody, payload);
-
-		if (!failure.success) {
-			throw new ApiError(
-				'unexpected_error',
-				'El servidor devolvió una respuesta inesperada.',
-				response.status,
-			);
-		}
-
-		const { code, message, details } = failure.output.error;
-		throw new ApiError(code, message, response.status, details ?? []);
+	if (response.ok) {
+		return response;
 	}
 
+	const payload: unknown = await response.json().catch(() => null);
+	const failure = v.safeParse(ErrorBody, payload);
+
+	if (!failure.success) {
+		throw new ApiError(
+			'unexpected_error',
+			'El servidor devolvió una respuesta inesperada.',
+			response.status,
+		);
+	}
+
+	const { code, message, details } = failure.output.error;
+	throw new ApiError(code, message, response.status, details ?? []);
+};
+
+export const request = async <TSchema extends v.GenericSchema>(
+	path: string,
+	schema: TSchema,
+	options: RequestOptions = {},
+): Promise<v.InferOutput<TSchema>> => {
+	const response = await send(path, options);
+	const payload: unknown = await response.json().catch(() => null);
 	const envelope = v.safeParse(SuccessBody, payload);
 
 	if (!envelope.success) {
@@ -92,4 +101,12 @@ export const request = async <TSchema extends v.GenericSchema>(
 	}
 
 	return result.output;
+};
+
+/** For endpoints that answer 204: there is no body to unwrap and no contract to check. */
+export const requestNoContent = async (
+	path: string,
+	options: RequestOptions = {},
+): Promise<void> => {
+	await send(path, options);
 };

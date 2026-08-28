@@ -8,10 +8,10 @@ import { paths } from '@/shared/routes';
 type NavItem = { to: string; label: string; icon: LucideIcon };
 
 const items: NavItem[] = [
-	{ to: paths.inicio, label: 'Inicio', icon: House },
-	{ to: paths.gastos, label: 'Gastos', icon: Receipt },
+	{ to: paths.home, label: 'Inicio', icon: House },
+	{ to: paths.expenses, label: 'Gastos', icon: Receipt },
 	{ to: paths.plan, label: 'Plan', icon: Target },
-	{ to: paths.analisis, label: 'Análisis', icon: ChartNoAxesColumn },
+	{ to: paths.analysis, label: 'Análisis', icon: ChartNoAxesColumn },
 ];
 
 const linkClasses = [
@@ -29,7 +29,7 @@ const NavItemLink = ({ item }: { item: NavItem }) => {
 		<li className="flex flex-1">
 			<NavLink
 				to={item.to}
-				end={item.to === paths.inicio}
+				end={item.to === paths.home}
 				className={linkClasses}
 			>
 				<Icon className="size-5" aria-hidden="true" />
@@ -54,7 +54,7 @@ export const BottomNav = () => {
 
 				<li className="flex items-center justify-center px-1">
 					<NavLink
-						to={paths.nuevoGasto}
+						to={paths.newExpense}
 						aria-label={`Registrar gasto en ${space.name}`}
 						className={`-mt-5 flex size-14 items-center justify-center rounded-full shadow-lg transition-transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${spaceTones[space.tone].action}`}
 					>

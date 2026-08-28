@@ -15,7 +15,7 @@ export const NewExpenseDrawer = () => {
 
 	const handleOpenChange = (open: boolean) => {
 		if (!open) {
-			navigate(paths.gastos);
+			navigate(paths.expenses);
 		}
 	};
 

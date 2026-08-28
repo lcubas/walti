@@ -40,7 +40,7 @@ export const SpaceSwitcher = () => {
 							activo.
 						</p>
 
-						<Link to={paths.espacio} onClick={close} className={menuRowClasses}>
+						<Link to={paths.space} onClick={close} className={menuRowClasses}>
 							<MenuRow
 								icon={<Settings2 className="size-4" aria-hidden="true" />}
 								label="Ajustes del espacio"

@@ -1,6 +1,6 @@
 import { Loader2 } from 'lucide-react';
-import { useGoogleButton } from '@/features/auth/useGoogleButton';
-import { useSignIn } from '@/features/auth/useSignIn';
+import { useGoogleButton } from '@/features/auth/hooks/useGoogleButton';
+import { useSignIn } from '@/features/auth/hooks/useSignIn';
 import { ApiError } from '@/shared/api/apiError';
 import { ErrorState } from '@/shared/components/errorState';
 

@@ -14,7 +14,7 @@ export const ExpensesScreen = () => (
 			description="Aquí verás todo lo que registres en este espacio, con sus categorías y filtros."
 			action={
 				<Button
-					render={<Link to={paths.nuevoGasto}>Registrar el primero</Link>}
+					render={<Link to={paths.newExpense}>Registrar el primero</Link>}
 				/>
 			}
 		/>
