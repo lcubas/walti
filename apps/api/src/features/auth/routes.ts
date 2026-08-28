@@ -9,4 +9,8 @@ app.post('/google', validatorHandler.json(GoogleSignInRequest), (c) =>
 	container.postGoogleSignInController.handle(c, c.req.valid('json')),
 );
 
+app.get('/me', (c) => container.getSessionController.handle(c));
+
+app.post('/logout', (c) => container.postSignOutController.handle(c));
+
 export default app;

@@ -9,6 +9,7 @@ export type User = {
 export type NewUser = Omit<User, 'id'>;
 
 export interface UserRepository {
+	findById(id: string): Promise<User | null>;
 	findByGoogleSub(googleSub: string): Promise<User | null>;
 	create(user: NewUser): Promise<User>;
 }

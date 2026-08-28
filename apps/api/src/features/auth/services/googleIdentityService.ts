@@ -3,10 +3,6 @@ import * as v from 'valibot';
 import { env } from '../../../config/env';
 import { UnauthorizedError } from '../../../shared/errors/unauthorizedError';
 
-const googleKeys = createRemoteJWKSet(
-	new URL('https://www.googleapis.com/oauth2/v3/certs'),
-);
-
 const GoogleClaims = v.object({
 	sub: v.pipe(v.string(), v.nonEmpty()),
 	email: v.pipe(v.string(), v.email()),
@@ -22,8 +18,12 @@ export type GoogleIdentity = {
 	avatarUrl: string | null;
 };
 
-export class GoogleTokenService {
-	async verify(idToken: string): Promise<GoogleIdentity> {
+export class GoogleIdentityService {
+	private readonly googleKeys = createRemoteJWKSet(
+		new URL('https://www.googleapis.com/oauth2/v3/certs'),
+	);
+
+	async verifyIdToken(idToken: string): Promise<GoogleIdentity> {
 		const claims = await this.readClaims(idToken);
 
 		return {
@@ -36,7 +36,7 @@ export class GoogleTokenService {
 
 	private async readClaims(idToken: string) {
 		try {
-			const { payload } = await jwtVerify(idToken, googleKeys, {
+			const { payload } = await jwtVerify(idToken, this.googleKeys, {
 				issuer: ['https://accounts.google.com', 'accounts.google.com'],
 				audience: env.GOOGLE_CLIENT_ID,
 			});

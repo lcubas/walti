@@ -1,34 +1,57 @@
 import type { SessionUser } from '@walti/shared';
 import { env } from '../../../config/env';
 import { ForbiddenError } from '../../../shared/errors/forbiddenError';
-import type { UserRepository } from '../../../shared/repositories/userRepository';
-import type { GoogleIdentity, GoogleTokenService } from './googleTokenService';
+import { UnauthorizedError } from '../../../shared/errors/unauthorizedError';
+import type {
+	User,
+	UserRepository,
+} from '../../../shared/repositories/userRepository';
+import type {
+	GoogleIdentity,
+	GoogleIdentityService,
+} from './googleIdentityService';
 import type { SessionService } from './sessionService';
-
-export type SignInResult = { user: SessionUser; sessionToken: string };
 
 export class AuthService {
 	constructor(
-		private readonly googleTokens: GoogleTokenService,
+		private readonly googleIdentityService: GoogleIdentityService,
 		private readonly sessionService: SessionService,
-		private readonly users: UserRepository,
+		private readonly userRepository: UserRepository,
 	) {}
 
-	async signInWithGoogle(idToken: string): Promise<SignInResult> {
-		const identity = await this.googleTokens.verify(idToken);
-		const existing = await this.users.findByGoogleSub(identity.googleSub);
+	async signInWithGoogle(
+		idToken: string,
+	): Promise<{ user: SessionUser; sessionToken: string }> {
+		const identity = await this.googleIdentityService.verifyIdToken(idToken);
+		const existing = await this.userRepository.findByGoogleSub(
+			identity.googleSub,
+		);
 		const user = existing ?? (await this.register(identity));
-		const sessionToken = await this.sessionService.issue(user.id);
+		const sessionToken = await this.sessionService.createToken(user.id);
 
-		return {
-			user: {
-				id: user.id,
-				email: user.email,
-				name: user.name,
-				avatarUrl: user.avatarUrl,
-			},
-			sessionToken,
-		};
+		return { user: this.toSessionUser(user), sessionToken };
+	}
+
+	/** Renews the token only when it was close enough to expiring. */
+	async resumeSession(
+		sessionToken: string,
+	): Promise<{ user: SessionUser; renewedToken: string | null }> {
+		const session = await this.sessionService.verifyToken(sessionToken);
+		const user = await this.userRepository.findById(session.userId);
+
+		// A signed token for a user that no longer exists is not a session.
+		if (!user) {
+			throw new UnauthorizedError(
+				'session_expired',
+				'Tu sesión caducó. Vuelve a entrar para continuar.',
+			);
+		}
+
+		const renewedToken = this.sessionService.needsRenewal(session)
+			? await this.sessionService.createToken(user.id)
+			: null;
+
+		return { user: this.toSessionUser(user), renewedToken };
 	}
 
 	private register(identity: GoogleIdentity) {
@@ -40,6 +63,10 @@ export class AuthService {
 			);
 		}
 
-		return this.users.create(identity);
+		return this.userRepository.create(identity);
+	}
+
+	private toSessionUser({ id, email, name, avatarUrl }: User): SessionUser {
+		return { id, email, name, avatarUrl };
 	}
 }

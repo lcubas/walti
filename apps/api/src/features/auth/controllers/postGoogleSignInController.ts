@@ -1,10 +1,11 @@
 import type { Context } from 'hono';
 import { setCookie } from 'hono/cookie';
-import { env } from '../../../config/env';
-import { ok } from '../../../shared/http/response';
-import type { AuthService } from '../services/authService';
 import type { InferOutput } from 'valibot';
 import type { GoogleSignInRequest } from '@walti/shared';
+import { env } from '../../../config/env';
+import { sessionCookieOptions } from '../../../config/sessionCookie';
+import { ok } from '../../../shared/http/response';
+import type { AuthService } from '../services/authService';
 
 type GoogleSignInInput = InferOutput<typeof GoogleSignInRequest>;
 
@@ -15,13 +16,7 @@ export class PostGoogleSignInController {
 		const { user, sessionToken } =
 			await this.authService.signInWithGoogle(idToken);
 
-		setCookie(c, env.SESSION_NAME, sessionToken, {
-			path: '/',
-			sameSite: 'Lax',
-			httpOnly: true,
-			maxAge: env.SESSION_MAX_AGE_IN_SECONDS,
-			secure: env.APP_ENV === 'production',
-		});
+		setCookie(c, env.SESSION_NAME, sessionToken, sessionCookieOptions);
 
 		return ok(c, user);
 	}
