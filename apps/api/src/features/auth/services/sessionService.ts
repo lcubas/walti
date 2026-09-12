@@ -19,7 +19,6 @@ export class SessionService {
 			.sign(this.secret);
 	}
 
-	/** Checks signature and expiry. Throws when the token is not a live session. */
 	async verifyToken(token: string): Promise<Session> {
 		try {
 			const { payload } = await jwtVerify(token, this.secret, {

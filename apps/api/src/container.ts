@@ -13,10 +13,11 @@ import { DrizzleUserRepository } from './shared/repositories/drizzle/drizzleUser
 const healthRepository = new DrizzleHealthRepository(db);
 const userRepository = new DrizzleUserRepository(db);
 const sessionService = new SessionService();
+const googleIdentityService = new GoogleIdentityService();
 const authService = new AuthService(
-	new GoogleIdentityService(),
-	sessionService,
 	userRepository,
+	sessionService,
+	googleIdentityService,
 );
 const healthService = new HealthService(healthRepository);
 

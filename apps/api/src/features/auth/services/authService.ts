@@ -14,9 +14,9 @@ import type { SessionService } from './sessionService';
 
 export class AuthService {
 	constructor(
-		private readonly googleIdentityService: GoogleIdentityService,
-		private readonly sessionService: SessionService,
 		private readonly userRepository: UserRepository,
+		private readonly sessionService: SessionService,
+		private readonly googleIdentityService: GoogleIdentityService,
 	) {}
 
 	async signInWithGoogle(
