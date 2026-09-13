@@ -1,6 +1,6 @@
 import { ErrorState } from '@/shared/components/errorState';
 import { LoadingState } from '@/shared/components/loadingState';
-import { useHealth } from '@/features/health/useHealth';
+import { useHealth } from '@/features/health/hooks/useHealth';
 
 export const ServiceSection = () => {
 	const { data, error, isPending, refetch } = useHealth();
