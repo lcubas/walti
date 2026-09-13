@@ -5,6 +5,7 @@ import {
 	DrawerContent,
 	DrawerTitle,
 } from '@/components/ui/drawer';
+import { cn } from '@/lib/utils';
 import { paths } from '@/shared/routes';
 import { isShared, useActiveSpace } from '@/shared/spaces/spacesContext';
 import { spaceTones } from '@/shared/spaces/spaceTones';
@@ -23,7 +24,7 @@ export const NewExpenseDrawer = () => {
 		<Drawer open onOpenChange={handleOpenChange} showSwipeHandle>
 			<DrawerContent className="[--drawer-height:92dvh]">
 				<div
-					className={`h-0.5 shrink-0 ${spaceTones[space.tone].accent}`}
+					className={cn('h-0.5 shrink-0', spaceTones[space.tone].accent)}
 					aria-hidden="true"
 				/>
 

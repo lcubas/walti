@@ -1,6 +1,7 @@
 import { ChartNoAxesColumn, House, Plus, Receipt, Target } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { NavLink } from 'react-router';
+import { cn } from '@/lib/utils';
 import { useActiveSpace } from '@/shared/spaces/spacesContext';
 import { spaceTones } from '@/shared/spaces/spaceTones';
 import { paths } from '@/shared/routes';
@@ -56,7 +57,10 @@ export const BottomNav = () => {
 					<NavLink
 						to={paths.newExpense}
 						aria-label={`Registrar gasto en ${space.name}`}
-						className={`-mt-5 flex size-14 items-center justify-center rounded-full shadow-lg transition-transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${spaceTones[space.tone].action}`}
+						className={cn(
+							'-mt-5 flex size-14 items-center justify-center rounded-full shadow-lg transition-transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
+							spaceTones[space.tone].action,
+						)}
 					>
 						<Plus className="size-6" aria-hidden="true" />
 					</NavLink>

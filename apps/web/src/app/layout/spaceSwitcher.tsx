@@ -1,6 +1,7 @@
 import { ChevronsUpDown, Plus, Settings2 } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router';
+import { cn } from '@/lib/utils';
 import { useSpaces } from '@/shared/spaces/spacesContext';
 import { spaceTones } from '@/shared/spaces/spaceTones';
 import { paths } from '@/shared/routes';
@@ -24,7 +25,7 @@ export const SpaceSwitcher = () => {
 						title="Espacios"
 						open={open}
 						onOpenChange={setOpen}
-						triggerClassName={`${pillClasses} ${spaceTones[space.tone].action}`}
+						triggerClassName={cn(pillClasses, spaceTones[space.tone].action)}
 						trigger={
 							<>
 								{space.name}
@@ -62,7 +63,7 @@ export const SpaceSwitcher = () => {
 						type="button"
 						aria-label={`Cambiar a ${space.name}`}
 						onClick={() => selectSpace(space.id)}
-						className={`${pillClasses} text-muted-foreground hover:bg-accent`}
+						className={cn(pillClasses, 'text-muted-foreground hover:bg-accent')}
 					>
 						{space.name}
 					</button>

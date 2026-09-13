@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils';
 import { useActiveSpace } from '@/shared/spaces/spacesContext';
 import { spaceTones } from '@/shared/spaces/spaceTones';
 import { AccountMenu } from '@/app/layout/accountMenu';
@@ -14,7 +15,7 @@ export const AppHeader = () => {
 			</div>
 
 			<div
-				className={`h-0.5 ${spaceTones[space.tone].accent}`}
+				className={cn('h-0.5', spaceTones[space.tone].accent)}
 				aria-hidden="true"
 			/>
 		</header>

@@ -1,6 +1,7 @@
 import { Monitor, Moon, Sun } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { useState } from 'react';
+import { cn } from '@/lib/utils';
 import type { ThemePreference } from '@/shared/theme/theme';
 import { readThemePreference, setThemePreference } from '@/shared/theme/theme';
 
@@ -44,11 +45,12 @@ export const ThemeSelector = () => {
 						/>
 
 						<span
-							className={`${optionClasses} ${
+							className={cn(
+								optionClasses,
 								isActive
 									? 'bg-background font-medium shadow-sm'
-									: 'text-muted-foreground'
-							}`}
+									: 'text-muted-foreground',
+							)}
 						>
 							<Icon className="size-4" aria-hidden="true" />
 							{option.label}
