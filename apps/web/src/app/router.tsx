@@ -1,11 +1,7 @@
 import { createBrowserRouter } from 'react-router';
 import { AppLayout } from '@/app/layout/appLayout';
 import { SessionBoundary } from '@/app/sessionBoundary';
-import { AccountScreen } from '@/features/account/accountScreen';
-import { LoginScreen } from '@/features/auth/loginScreen';
 import { paths } from '@/shared/routes';
-import { ExpensesScreen } from '@/features/expenses/expensesScreen';
-import { NewExpenseDrawer } from '@/features/expenses/newExpenseDrawer';
 import { PendingScreen } from '@/shared/components/pendingScreen';
 
 export const router = createBrowserRouter([
@@ -21,8 +17,19 @@ export const router = createBrowserRouter([
 					},
 					{
 						path: paths.expenses,
-						element: <ExpensesScreen />,
-						children: [{ path: 'nuevo', element: <NewExpenseDrawer /> }],
+						lazy: () =>
+							import('@/features/expenses/expensesScreen').then((m) => ({
+								Component: m.ExpensesScreen,
+							})),
+						children: [
+							{
+								path: 'nuevo',
+								lazy: () =>
+									import('@/features/expenses/newExpenseDrawer').then((m) => ({
+										Component: m.NewExpenseDrawer,
+									})),
+							},
+						],
 					},
 					{
 						path: paths.expense,
@@ -54,7 +61,10 @@ export const router = createBrowserRouter([
 					},
 					{
 						path: paths.account,
-						element: <AccountScreen />,
+						lazy: () =>
+							import('@/features/account/accountScreen').then((m) => ({
+								Component: m.AccountScreen,
+							})),
 					},
 					{
 						path: '*',
@@ -64,7 +74,10 @@ export const router = createBrowserRouter([
 			},
 			{
 				path: paths.signIn,
-				element: <LoginScreen />,
+				lazy: () =>
+					import('@/features/auth/loginScreen').then((m) => ({
+						Component: m.LoginScreen,
+					})),
 			},
 		],
 	},

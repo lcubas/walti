@@ -31,7 +31,9 @@ const NavItemLink = ({ item }: { item: NavItem }) => {
 			<NavLink
 				to={item.to}
 				end={item.to === paths.home}
-				className={linkClasses}
+				className={({ isPending }) =>
+					cn(linkClasses, isPending && 'pointer-events-none opacity-50')
+				}
 			>
 				<Icon className="size-5" aria-hidden="true" />
 				{item.label}
@@ -57,10 +59,13 @@ export const BottomNav = () => {
 					<NavLink
 						to={paths.newExpense}
 						aria-label={`Registrar gasto en ${space.name}`}
-						className={cn(
-							'-mt-5 flex size-14 items-center justify-center rounded-full shadow-lg transition-transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
-							spaceTones[space.tone].action,
-						)}
+						className={({ isPending }) =>
+							cn(
+								'-mt-5 flex size-14 items-center justify-center rounded-full shadow-lg transition-transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
+								spaceTones[space.tone].action,
+								isPending && 'pointer-events-none opacity-50',
+							)
+						}
 					>
 						<Plus className="size-6" aria-hidden="true" />
 					</NavLink>
