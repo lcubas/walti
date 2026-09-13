@@ -14,13 +14,7 @@ export const RequireSession = () => {
 	if (!user) {
 		const from = `${location.pathname}${location.search}`;
 
-		return (
-			<Navigate
-				to={paths.signIn}
-				replace
-				state={{ from }}
-			/>
-		);
+		return <Navigate to={paths.signIn} replace state={{ from }} />;
 	}
 
 	return <Outlet />;

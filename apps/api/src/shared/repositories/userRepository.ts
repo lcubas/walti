@@ -11,5 +11,8 @@ export type NewUser = Omit<User, 'id'>;
 export interface UserRepository {
 	findById(id: string): Promise<User | null>;
 	findByGoogleSub(googleSub: string): Promise<User | null>;
-	create(user: NewUser): Promise<User>;
+	/**
+	 * Creates the user and their settings, personal space and their membership, as one atomic act.
+	 */
+	createWithPersonalSpace(user: NewUser, spaceName: string): Promise<User>;
 }

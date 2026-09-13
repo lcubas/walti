@@ -13,6 +13,8 @@ import type {
 import type { SessionService } from './sessionService';
 
 export class AuthService {
+	private readonly defaultPersonalSpaceName = 'Personal';
+
 	constructor(
 		private readonly userRepository: UserRepository,
 		private readonly sessionService: SessionService,
@@ -26,7 +28,7 @@ export class AuthService {
 		const existing = await this.userRepository.findByGoogleSub(
 			identity.googleSub,
 		);
-		const user = existing ?? (await this.register(identity));
+		const user = existing ?? await this.register(identity);
 		const sessionToken = await this.sessionService.createToken(user.id);
 
 		return { user: this.toSessionUser(user), sessionToken };
@@ -55,7 +57,10 @@ export class AuthService {
 			);
 		}
 
-		return this.userRepository.create(identity);
+		return this.userRepository.createWithPersonalSpace(
+			identity,
+			this.defaultPersonalSpaceName,
+		);
 	}
 
 	private toSessionUser({ id, email, name, avatarUrl }: User): SessionUser {

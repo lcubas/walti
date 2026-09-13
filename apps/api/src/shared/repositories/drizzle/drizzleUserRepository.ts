@@ -1,6 +1,11 @@
 import { eq } from 'drizzle-orm';
 import type { Database } from '../../database/client';
-import { users } from '../../database/schema';
+import {
+	spaceMembers,
+	spaces,
+	userSettings,
+	users,
+} from '../../database/schema';
 import type { NewUser, User, UserRepository } from '../userRepository';
 
 export class DrizzleUserRepository implements UserRepository {
@@ -26,9 +31,35 @@ export class DrizzleUserRepository implements UserRepository {
 		return found ?? null;
 	}
 
-	async create(user: NewUser): Promise<User> {
-		const [created] = await this.db.insert(users).values(user).returning();
+	async createWithPersonalSpace(
+		user: NewUser,
+		spaceName: string,
+	): Promise<User> {
+		return this.db.transaction(async (tx) => {
+			const [created] = await tx.insert(users).values(user).returning();
 
-		return created;
+			// The currency has a single source: the column that carries the default.
+			const [settings] = await tx
+				.insert(userSettings)
+				.values({ userId: created.id })
+				.returning({ currency: userSettings.currency });
+
+			const [space] = await tx
+				.insert(spaces)
+				.values({
+					name: spaceName,
+					currency: settings.currency,
+					isDefault: true,
+				})
+				.returning({ id: spaces.id });
+
+			await tx.insert(spaceMembers).values({
+				spaceId: space.id,
+				userId: created.id,
+				role: 'owner',
+			});
+
+			return created;
+		});
 	}
 }
