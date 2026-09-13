@@ -5,12 +5,10 @@ import {
 	QueryClientProvider,
 } from '@tanstack/react-query';
 import type { ReactNode } from 'react';
-import { router } from '@/app/router';
 import { Toaster } from '@/components/ui/toast';
 import { sessionQueryKey } from '@/features/auth/sessionApi';
 import { ApiError } from '@/shared/api/apiError';
 import { notifyFailed } from '@/shared/notify';
-import { paths } from '@/shared/routes';
 import { SpacesProvider } from '@/shared/spaces/spacesContext';
 
 /**
@@ -33,7 +31,6 @@ const handleUnauthorized = (error: unknown) => {
 	queryClient.clear();
 	queryClient.setQueryData(sessionQueryKey, null);
 	notifyFailed('Tu sesión caducó');
-	void router.navigate(paths.signIn, { replace: true });
 };
 
 const queryClient = new QueryClient({

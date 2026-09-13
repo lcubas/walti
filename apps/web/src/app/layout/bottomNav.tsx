@@ -43,7 +43,10 @@ const NavItemLink = ({ item, iconClassName }: NavItemLinkProps) => {
 				{({ isActive }) => (
 					<>
 						<Icon
-							className={cn('size-5 transition-colors', isActive && iconClassName)}
+							className={cn(
+								'size-5 transition-colors',
+								isActive && iconClassName,
+							)}
 							aria-hidden="true"
 						/>
 						{item.label}
