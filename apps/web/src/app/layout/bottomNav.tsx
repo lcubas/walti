@@ -20,10 +20,11 @@ const linkClasses = [
 	'text-xs text-muted-foreground transition-colors',
 	'hover:text-foreground',
 	'focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring',
-	'aria-[current=page]:text-foreground aria-[current=page]:font-medium',
 ].join(' ');
 
-const NavItemLink = ({ item }: { item: NavItem }) => {
+type NavItemLinkProps = { item: NavItem; iconClassName: string };
+
+const NavItemLink = ({ item, iconClassName }: NavItemLinkProps) => {
 	const Icon = item.icon;
 
 	return (
@@ -31,12 +32,23 @@ const NavItemLink = ({ item }: { item: NavItem }) => {
 			<NavLink
 				to={item.to}
 				end={item.to === paths.home}
-				className={({ isPending }) =>
-					cn(linkClasses, isPending && 'pointer-events-none opacity-50')
+				className={({ isActive, isPending }) =>
+					cn(
+						linkClasses,
+						isActive && 'font-medium text-foreground',
+						isPending && 'pointer-events-none opacity-50',
+					)
 				}
 			>
-				<Icon className="size-5" aria-hidden="true" />
-				{item.label}
+				{({ isActive }) => (
+					<>
+						<Icon
+							className={cn('size-5 transition-colors', isActive && iconClassName)}
+							aria-hidden="true"
+						/>
+						{item.label}
+					</>
+				)}
 			</NavLink>
 		</li>
 	);
@@ -44,6 +56,7 @@ const NavItemLink = ({ item }: { item: NavItem }) => {
 
 export const BottomNav = () => {
 	const space = useActiveSpace();
+	const tone = spaceTones[space.tone];
 
 	return (
 		<nav
@@ -52,7 +65,7 @@ export const BottomNav = () => {
 		>
 			<ul className="mx-auto flex max-w-screen-sm items-stretch gap-1 px-2">
 				{items.slice(0, 2).map((item) => (
-					<NavItemLink key={item.to} item={item} />
+					<NavItemLink key={item.to} item={item} iconClassName={tone.icon} />
 				))}
 
 				<li className="flex items-center justify-center px-1">
@@ -62,7 +75,7 @@ export const BottomNav = () => {
 						className={({ isPending }) =>
 							cn(
 								'-mt-5 flex size-14 items-center justify-center rounded-full shadow-lg transition-transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
-								spaceTones[space.tone].action,
+								tone.action,
 								isPending && 'pointer-events-none opacity-50',
 							)
 						}
@@ -72,7 +85,7 @@ export const BottomNav = () => {
 				</li>
 
 				{items.slice(2).map((item) => (
-					<NavItemLink key={item.to} item={item} />
+					<NavItemLink key={item.to} item={item} iconClassName={tone.icon} />
 				))}
 			</ul>
 		</nav>

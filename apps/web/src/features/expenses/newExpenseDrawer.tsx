@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import {
 	Drawer,
@@ -13,15 +14,36 @@ import { spaceTones } from '@/shared/spaces/spaceTones';
 export const NewExpenseDrawer = () => {
 	const navigate = useNavigate();
 	const space = useActiveSpace();
+	const [open, setOpen] = useState(false);
 
-	const handleOpenChange = (open: boolean) => {
-		if (!open) {
-			navigate(paths.expenses);
+	/**
+	 * Base UI only animates a change it can observe: a popup that mounts already
+	 * open starts as mounted and never receives `data-starting-style`. Opening on
+	 * the first effect gives it the closed → open change it needs to slide up.
+	 */
+	useEffect(() => {
+		setOpen(true);
+	}, []);
+
+	/**
+	 * The route still owns this drawer, but it must not be what unmounts it:
+	 * navigating on close would tear the component down before the exit
+	 * transition runs. Closing only flips the state; the URL follows once the
+	 * animation has finished.
+	 */
+	const handleOpenChangeComplete = (isOpen: boolean) => {
+		if (!isOpen) {
+			navigate(paths.expenses, { replace: true });
 		}
 	};
 
 	return (
-		<Drawer open onOpenChange={handleOpenChange} showSwipeHandle>
+		<Drawer
+			open={open}
+			onOpenChange={setOpen}
+			onOpenChangeComplete={handleOpenChangeComplete}
+			showSwipeHandle
+		>
 			<DrawerContent className="[--drawer-height:92dvh]">
 				<div
 					className={cn('h-0.5 shrink-0', spaceTones[space.tone].accent)}
