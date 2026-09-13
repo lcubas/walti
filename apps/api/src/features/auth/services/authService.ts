@@ -32,12 +32,8 @@ export class AuthService {
 		return { user: this.toSessionUser(user), sessionToken };
 	}
 
-	/** Renews the token only when it was close enough to expiring. */
-	async resumeSession(
-		sessionToken: string,
-	): Promise<{ user: SessionUser; renewedToken: string | null }> {
-		const session = await this.sessionService.verifyToken(sessionToken);
-		const user = await this.userRepository.findById(session.userId);
+	async getSessionUser(userId: string): Promise<SessionUser> {
+		const user = await this.userRepository.findById(userId);
 
 		// A signed token for a user that no longer exists is not a session.
 		if (!user) {
@@ -47,11 +43,7 @@ export class AuthService {
 			);
 		}
 
-		const renewedToken = this.sessionService.needsRenewal(session)
-			? await this.sessionService.createToken(user.id)
-			: null;
-
-		return { user: this.toSessionUser(user), renewedToken };
+		return this.toSessionUser(user);
 	}
 
 	private register(identity: GoogleIdentity) {

@@ -12,6 +12,7 @@ import { DrizzleUserRepository } from './shared/repositories/drizzle/drizzleUser
 
 const healthRepository = new DrizzleHealthRepository(db);
 const userRepository = new DrizzleUserRepository(db);
+
 const sessionService = new SessionService();
 const googleIdentityService = new GoogleIdentityService();
 const authService = new AuthService(
@@ -21,11 +22,15 @@ const authService = new AuthService(
 );
 const healthService = new HealthService(healthRepository);
 
-export const container = {
-	getCheckHealthController: new GetCheckHealthController(healthService),
-	postGoogleSignInController: new PostGoogleSignInController(authService),
-	getSessionController: new GetSessionController(authService),
-	postSignOutController: new PostSignOutController(),
-};
+const getCheckHealthController = new GetCheckHealthController(healthService);
+const postGoogleSignInController = new PostGoogleSignInController(authService);
+const getSessionController = new GetSessionController(authService);
+const postSignOutController = new PostSignOutController();
 
-export type Container = typeof container;
+export {
+	sessionService,
+	getCheckHealthController,
+	postGoogleSignInController,
+	getSessionController,
+	postSignOutController,
+};

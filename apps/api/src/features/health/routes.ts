@@ -1,8 +1,9 @@
 import { Hono } from 'hono';
-import { container } from '../../container';
+import { getCheckHealthController } from '../../container';
+import type { RequestContext } from '../../shared/http/requestContext';
 
-const app = new Hono();
+const app = new Hono<RequestContext>();
 
-app.get('/', (c) => container.getCheckHealthController.handle(c));
+app.get('/', (c) => getCheckHealthController.handle(c));
 
 export default app;
