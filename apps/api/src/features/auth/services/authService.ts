@@ -28,7 +28,7 @@ export class AuthService {
 		const existing = await this.userRepository.findByGoogleSub(
 			identity.googleSub,
 		);
-		const user = existing ?? await this.register(identity);
+		const user = existing ?? (await this.register(identity));
 		const sessionToken = await this.sessionService.createToken(user.id);
 
 		return { user: this.toSessionUser(user), sessionToken };

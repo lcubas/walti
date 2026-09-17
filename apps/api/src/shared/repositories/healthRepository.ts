@@ -1,4 +1,8 @@
 export interface HealthRepository {
-	/** Throws if the database is unreachable. */
+	/**
+	 * Runs a trivial query to confirm the database answers.
+	 *
+	 * @throws If the database is unreachable or rejects the query.
+	 */
 	ping(): Promise<void>;
 }
