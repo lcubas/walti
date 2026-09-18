@@ -1,11 +1,13 @@
 import { Hono } from 'hono';
 import auth from './features/auth/routes';
 import health from './features/health/routes';
+import spaces from './features/spaces/routes';
 import type { RequestContext } from './shared/http/requestContext';
 
 const v1 = new Hono<RequestContext>();
 
 v1.route('/auth', auth);
+v1.route('/spaces', spaces);
 
 const app = new Hono<RequestContext>();
 

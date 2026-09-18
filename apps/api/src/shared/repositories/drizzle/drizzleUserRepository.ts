@@ -1,4 +1,5 @@
 import { eq } from 'drizzle-orm';
+import { spaceRoles } from '@walti/shared';
 import type { Database } from '../../database/client';
 import {
 	spaceMembers,
@@ -56,7 +57,7 @@ export class DrizzleUserRepository implements UserRepository {
 			await tx.insert(spaceMembers).values({
 				spaceId: space.id,
 				userId: created.id,
-				role: 'owner',
+				role: spaceRoles.owner,
 			});
 
 			return created;

@@ -7,6 +7,7 @@ import {
 	text,
 	uniqueIndex,
 } from 'drizzle-orm/sqlite-core';
+import { spaceRoles } from '@walti/shared';
 import { primaryId, timestamps } from './columns';
 import { currencies } from './enums';
 import { users } from './users';
@@ -31,9 +32,6 @@ export const spaces = sqliteTable(
 	],
 );
 
-export const spaceRoles = ['owner', 'member'] as const;
-export type SpaceRole = (typeof spaceRoles)[number];
-
 export const spaceMembers = sqliteTable(
 	'space_members',
 	{
@@ -44,7 +42,9 @@ export const spaceMembers = sqliteTable(
 		userId: text('user_id')
 			.notNull()
 			.references(() => users.id),
-		role: text('role', { enum: spaceRoles }).notNull(),
+		role: text('role', {
+			enum: [spaceRoles.owner, spaceRoles.member],
+		}).notNull(),
 		...timestamps(),
 	},
 	(t) => [
