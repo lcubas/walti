@@ -22,15 +22,13 @@ export class SpaceService {
 		spaceId: string,
 		userId: string,
 		name: string,
-	): Promise<Space> {
-		const { space } = await this.requireOwnedSpace(spaceId, userId);
+	): Promise<void> {
+		await this.requireOwnedSpace(spaceId, userId);
 
 		await this.spaceRepository.rename(spaceId, name);
-
-		return { ...space, name };
 	}
 
-	async archiveSpace(spaceId: string, userId: string): Promise<Space> {
+	async archiveSpace(spaceId: string, userId: string): Promise<void> {
 		const { space, spaces } = await this.requireOwnedSpace(spaceId, userId);
 
 		// The space born with the account is where the app falls back when
@@ -52,19 +50,16 @@ export class SpaceService {
 			);
 		}
 
-		const archivedAt = new Date().toISOString();
-
-		await this.spaceRepository.setArchivedAt(spaceId, archivedAt);
-
-		return { ...space, archivedAt };
+		await this.spaceRepository.setArchivedAt(
+			spaceId,
+			new Date().toISOString(),
+		);
 	}
 
-	async unarchiveSpace(spaceId: string, userId: string): Promise<Space> {
-		const { space } = await this.requireOwnedSpace(spaceId, userId);
+	async unarchiveSpace(spaceId: string, userId: string): Promise<void> {
+		await this.requireOwnedSpace(spaceId, userId);
 
 		await this.spaceRepository.setArchivedAt(spaceId, null);
-
-		return { ...space, archivedAt: null };
 	}
 
 	/**
