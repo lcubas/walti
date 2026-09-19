@@ -59,26 +59,46 @@ const NavItemLink = ({ item, iconClassName }: NavItemLinkProps) => {
 
 export const BottomNav = () => {
 	const space = useActiveSpace();
-	const tone = spaceTones[space.tone];
+	const tone = space ? spaceTones[space.tone] : null;
 
 	return (
 		<nav
 			aria-label="Navegación principal"
 			className="fixed inset-x-0 bottom-0 z-10 border-t border-border bg-muted/95 backdrop-blur pb-[env(safe-area-inset-bottom)]"
 		>
-			<ul className="mx-auto flex max-w-screen-sm items-stretch gap-1 px-2">
+			{/* The space owns the chrome at both ends of the screen, so a switch
+			    changes the frame around everything and not a single hairline. */}
+			{tone ? (
+				<span
+					className={cn(
+						'pointer-events-none absolute inset-0 transition-colors duration-300',
+						tone.wash,
+					)}
+					aria-hidden="true"
+				/>
+			) : null}
+
+			<ul className="relative mx-auto flex max-w-screen-sm items-stretch gap-1 px-2">
 				{items.slice(0, 2).map((item) => (
-					<NavItemLink key={item.to} item={item} iconClassName={tone.icon} />
+					<NavItemLink
+						key={item.to}
+						item={item}
+						iconClassName={tone?.icon ?? ''}
+					/>
 				))}
 
 				<li className="flex items-center justify-center px-1">
 					<NavLink
 						to={paths.newExpense}
-						aria-label={`Registrar gasto en ${space.name}`}
+						aria-label={
+							space ? `Registrar gasto en ${space.name}` : 'Registrar gasto'
+						}
 						className={({ isPending }) =>
 							cn(
 								'-mt-5 flex size-14 items-center justify-center rounded-full shadow-lg transition-transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
-								tone.action,
+								// Neutral for the instant before the spaces land, so the
+								// button is never invisible.
+								tone ? tone.action : 'bg-muted-foreground/30 text-background',
 								isPending && 'pointer-events-none opacity-50',
 							)
 						}
@@ -88,7 +108,11 @@ export const BottomNav = () => {
 				</li>
 
 				{items.slice(2).map((item) => (
-					<NavItemLink key={item.to} item={item} iconClassName={tone.icon} />
+					<NavItemLink
+						key={item.to}
+						item={item}
+						iconClassName={tone?.icon ?? ''}
+					/>
 				))}
 			</ul>
 		</nav>

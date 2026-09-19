@@ -5,7 +5,8 @@ import { ServiceStatus } from '@/features/health/serviceStatus';
 import { useSignOut } from '@/features/auth/hooks/useSignOut';
 import { paths } from '@/shared/routes';
 import { useSession } from '@/features/auth/hooks/useSession';
-import { MenuRow, MenuDrawer, menuRowClasses } from '@/app/layout/menuDrawer';
+import { MenuDrawer } from '@/app/layout/menuDrawer';
+import { MenuRow, menuRowClasses } from '@/shared/components/menuRow';
 
 export const AccountMenu = () => {
 	const [open, setOpen] = useState(false);
@@ -19,7 +20,7 @@ export const AccountMenu = () => {
 			title="Tu cuenta"
 			open={open}
 			onOpenChange={setOpen}
-			triggerClassName="rounded-full p-1 transition-colors hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+			triggerClassName="rounded-full p-1 text-white transition-colors hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
 			trigger={<CircleUser className="size-6" aria-hidden="true" />}
 		>
 			{user ? (

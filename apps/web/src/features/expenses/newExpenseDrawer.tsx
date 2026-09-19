@@ -37,6 +37,12 @@ export const NewExpenseDrawer = () => {
 		}
 	};
 
+	// Reached by navigation, so the layout has already loaded the spaces. The
+	// guard exists because a drawer that registers into no space is nonsense.
+	if (!space) {
+		return null;
+	}
+
 	return (
 		<Drawer
 			open={open}

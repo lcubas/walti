@@ -9,7 +9,6 @@ import { Toaster } from '@/components/ui/toast';
 import { sessionQueryKey } from '@/features/auth/sessionApi';
 import { ApiError } from '@/shared/api/apiError';
 import { notifyFailed } from '@/shared/notify';
-import { SpacesProvider } from '@/shared/spaces/spacesContext';
 
 /**
  * A 401 means the API stopped recognising us. Handled once here so no screen
@@ -53,9 +52,7 @@ const queryClient = new QueryClient({
 
 export const Providers = ({ children }: { children: ReactNode }) => (
 	<QueryClientProvider client={queryClient}>
-		<SpacesProvider>
-			{children}
-			<Toaster />
-		</SpacesProvider>
+		{children}
+		<Toaster />
 	</QueryClientProvider>
 );

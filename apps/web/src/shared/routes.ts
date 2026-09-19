@@ -9,6 +9,7 @@ export const paths = {
 	analysis: '/analisis',
 	myAnalysis: '/analisis/mios',
 	space: '/espacio',
+	spaces: '/espacios',
 	account: '/cuenta',
 	signIn: '/entrar',
 } as const;

@@ -5,6 +5,7 @@ import { RequireSession } from '@/app/requireSession';
 import { SessionBoundary } from '@/app/sessionBoundary';
 import { PendingScreen } from '@/shared/components/pendingScreen';
 import { paths } from '@/shared/routes';
+import { SpacesProvider } from '@/shared/spaces/spacesContext';
 
 export const router = createBrowserRouter([
 	{
@@ -16,7 +17,14 @@ export const router = createBrowserRouter([
 				element: <RequireSession />,
 				children: [
 					{
-						element: <AppLayout />,
+						// Inside the session on purpose: spaces belong to whoever is
+						// signed in, so asking for them on the sign-in screen would only
+						// earn a 401.
+						element: (
+							<SpacesProvider>
+								<AppLayout />
+							</SpacesProvider>
+						),
 						children: [
 							{
 								path: paths.home,
@@ -65,6 +73,13 @@ export const router = createBrowserRouter([
 							{
 								path: paths.space,
 								element: <PendingScreen title="Ajustes del espacio" />,
+							},
+							{
+								path: paths.spaces,
+								lazy: () =>
+									import('@/features/spaces/spacesScreen').then((m) => ({
+										Component: m.SpacesScreen,
+									})),
 							},
 							{
 								path: paths.account,

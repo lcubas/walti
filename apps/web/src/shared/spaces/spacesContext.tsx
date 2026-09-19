@@ -1,55 +1,45 @@
+import { useQuery } from '@tanstack/react-query';
 import { createContext, useContext, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
-import type { Currency } from '@walti/shared';
-import type { SpaceTone } from '@/shared/spaces/spaceTones';
-
-export type Space = {
-	id: string;
-	name: string;
-	currency: Currency;
-	members: number;
-	tone: SpaceTone;
-};
-
-const seed: Space[] = [
-	{
-		id: 'personal',
-		name: 'Personal',
-		currency: 'PEN',
-		members: 1,
-		tone: 'emerald',
-	},
-];
+import { type Space, spacesQuery } from '@/shared/spaces/spacesApi';
 
 type SpacesValue = {
+	/** Only the ones still in use: an archived space is out of every selector. */
 	spaces: Space[];
-	activeSpace: Space;
+	/** Undefined only while the list is on its way. Everyone has at least one. */
+	activeSpace: Space | undefined;
 	selectSpace: (id: string) => void;
 };
 
 const SpacesContext = createContext<SpacesValue | null>(null);
 
+/**
+ * The active space is the one piece of this that the API does not own: it is
+ * interface state, so two devices of the same person can sit in different
+ * spaces. The list itself comes from the server and lives in the query cache.
+ */
 export const SpacesProvider = ({ children }: { children: ReactNode }) => {
-	const [spaces] = useState<Space[]>(seed);
-	const [activeId, setActiveId] = useState<string>(seed[0].id);
+	const { data } = useQuery(spacesQuery);
+	const [selectedId, setSelectedId] = useState<string | null>(null);
 
-	const value = useMemo<SpacesValue>(
-		() => ({
+	const value = useMemo<SpacesValue>(() => {
+		const spaces = (data ?? []).filter((space) => !space.archivedAt);
+		// Falling back to the first one covers both the first render and a space
+		// that was archived while it was the one in use.
+		const selected = spaces.find((space) => space.id === selectedId);
+
+		return {
 			spaces,
-			activeSpace: spaces.find((space) => space.id === activeId) ?? spaces[0],
-			selectSpace: setActiveId,
-		}),
-		[spaces, activeId],
-	);
+			activeSpace: selected ?? spaces[0],
+			selectSpace: setSelectedId,
+		};
+	}, [data, selectedId]);
 
 	return (
 		<SpacesContext.Provider value={value}>{children}</SpacesContext.Provider>
 	);
 };
 
-/**
- * Scope every screen belongs to. E3 replaces the seed with the spaces the user belongs to.
- */
 export const useSpaces = () => {
 	const value = useContext(SpacesContext);
 
