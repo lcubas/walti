@@ -5,6 +5,10 @@ import { ApiError } from '@/shared/api/apiError';
 export const notifyDone = (title: string, description?: string) =>
 	toast.add({ type: 'success', title, description });
 
+/** States a fact the user did not cause but has to know. */
+export const notifyInfo = (title: string, description?: string) =>
+	toast.add({ type: 'info', title, description });
+
 /** Reports an action that failed. Never swallows the reason. */
 export const notifyFailed = (title: string, error?: unknown) =>
 	toast.add({
