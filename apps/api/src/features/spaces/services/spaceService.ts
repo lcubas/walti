@@ -14,7 +14,11 @@ export class SpaceService {
 		return this.spaceRepository.listForUser(userId);
 	}
 
-	createSpace(userId: string, name: string): Promise<Space> {
+	async createSpace(userId: string, name: string): Promise<Space> {
+		const spaces = await this.spaceRepository.listForUser(userId);
+
+		this.verifyFreeName(spaces, name);
+
 		return this.spaceRepository.createForOwner(userId, name);
 	}
 
@@ -50,10 +54,7 @@ export class SpaceService {
 			);
 		}
 
-		await this.spaceRepository.setArchivedAt(
-			spaceId,
-			new Date().toISOString(),
-		);
+		await this.spaceRepository.setArchivedAt(spaceId, new Date().toISOString());
 	}
 
 	async unarchiveSpace(spaceId: string, userId: string): Promise<void> {
@@ -62,15 +63,20 @@ export class SpaceService {
 		await this.spaceRepository.setArchivedAt(spaceId, null);
 	}
 
-	/**
-	 * Locates a space among the user's own and checks that they may change it.
-	 * Returns the rest of them too, because the rules that guard archiving are
-	 * about the whole set and this is the read that already has it.
-	 *
-	 * A space the user does not belong to is reported as missing rather than as
-	 * forbidden: telling somebody that a space exists but is not theirs is
-	 * already telling them something.
-	 */
+	private verifyFreeName(spaces: SpaceMembership[], name: string): void {
+		const wanted = name.trim().toLocaleLowerCase();
+		const taken = spaces.some(
+			(space) => space.name.trim().toLocaleLowerCase() === wanted,
+		);
+
+		if (taken) {
+			throw new ConflictError(
+				'space_name_taken',
+				'Ya tienes un espacio con ese nombre.',
+			);
+		}
+	}
+
 	private async requireOwnedSpace(
 		spaceId: string,
 		userId: string,
