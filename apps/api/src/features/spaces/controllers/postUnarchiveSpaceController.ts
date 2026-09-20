@@ -1,13 +1,13 @@
 import type { Context } from 'hono';
 import type { SpaceIdParam } from '@walti/shared';
 import type { RequestContext } from '../../../shared/http/requestContext';
-import type { SpaceService } from '../services/spaceService';
+import type { UnarchiveSpaceUseCase } from '../useCases/unarchiveSpaceUseCase';
 
 export class PostUnarchiveSpaceController {
-	constructor(private readonly spaceService: SpaceService) {}
+	constructor(private readonly unarchiveSpaceUseCase: UnarchiveSpaceUseCase) {}
 
 	async handle(c: Context<RequestContext>, { spaceId }: SpaceIdParam) {
-		await this.spaceService.unarchiveSpace(spaceId, c.get('userId'));
+		await this.unarchiveSpaceUseCase.execute(spaceId, c.get('userId'));
 
 		return c.body(null, 204);
 	}

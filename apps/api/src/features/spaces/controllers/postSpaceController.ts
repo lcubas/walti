@@ -2,13 +2,13 @@ import type { Context } from 'hono';
 import type { CreateSpaceRequest } from '@walti/shared';
 import { created } from '../../../shared/http/response';
 import type { RequestContext } from '../../../shared/http/requestContext';
-import type { SpaceService } from '../services/spaceService';
+import type { CreateSpaceUseCase } from '../useCases/createSpaceUseCase';
 
 export class PostSpaceController {
-	constructor(private readonly spaceService: SpaceService) {}
+	constructor(private readonly createSpaceUseCase: CreateSpaceUseCase) {}
 
 	async handle(c: Context<RequestContext>, { name }: CreateSpaceRequest) {
-		const space = await this.spaceService.createSpace(c.get('userId'), name);
+		const space = await this.createSpaceUseCase.execute(c.get('userId'), name);
 
 		return created(c, space);
 	}

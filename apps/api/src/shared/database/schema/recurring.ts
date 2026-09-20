@@ -9,7 +9,7 @@ import {
 } from 'drizzle-orm/sqlite-core';
 import { primaryId, timestamps } from './columns';
 import { isMonthPeriod } from './predicates';
-import { categories } from './categories';
+import { spaceCategories } from './spaceCategories';
 import { expenses } from './expenses';
 import { spaces } from './spaces';
 import { users } from './users';
@@ -29,7 +29,7 @@ export const recurringItems = sqliteTable(
 			.references(() => spaces.id),
 		categoryId: text('category_id')
 			.notNull()
-			.references(() => categories.id),
+			.references(() => spaceCategories.id),
 		name: text('name').notNull(),
 		kind: text('kind', { enum: recurringKinds }).notNull(),
 		frequency: text('frequency', { enum: recurringFrequencies })

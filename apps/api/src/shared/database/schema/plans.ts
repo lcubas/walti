@@ -9,7 +9,7 @@ import {
 } from 'drizzle-orm/sqlite-core';
 import { primaryId, timestamps } from './columns';
 import { isMonthPeriod } from './predicates';
-import { categories, categoryGroups } from './categories';
+import { spaceCategories, spaceCategoryGroups } from './spaceCategories';
 import { spaces } from './spaces';
 
 export const monthlyPlans = sqliteTable(
@@ -37,8 +37,8 @@ export const monthlyPlanAllocations = sqliteTable(
 		monthlyPlanId: text('monthly_plan_id')
 			.notNull()
 			.references(() => monthlyPlans.id),
-		groupId: text('group_id').references(() => categoryGroups.id),
-		categoryId: text('category_id').references(() => categories.id),
+		groupId: text('group_id').references(() => spaceCategoryGroups.id),
+		categoryId: text('category_id').references(() => spaceCategories.id),
 		amountCents: integer('amount_cents').notNull(),
 		...timestamps(),
 	},

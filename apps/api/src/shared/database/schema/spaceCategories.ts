@@ -1,9 +1,16 @@
-import { index, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import {
+	foreignKey,
+	index,
+	integer,
+	sqliteTable,
+	text,
+	uniqueIndex,
+} from 'drizzle-orm/sqlite-core';
 import { primaryId, timestamps } from './columns';
 import { spaces } from './spaces';
 
-export const categoryGroups = sqliteTable(
-	'category_groups',
+export const spaceCategoryGroups = sqliteTable(
+	'space_category_groups',
 	{
 		id: primaryId(),
 		spaceId: text('space_id')
@@ -14,28 +21,35 @@ export const categoryGroups = sqliteTable(
 		archivedAt: text('archived_at'),
 		...timestamps(),
 	},
-	(t) => [index('category_groups_space_idx').on(t.spaceId)],
+	(t) => [
+		index('space_category_groups_space_idx').on(t.spaceId),
+		uniqueIndex('space_category_groups_id_space_unique').on(t.id, t.spaceId),
+	],
 );
 
 export const categoryIntents = ['protect', 'maintain', 'reduce'] as const;
 export type CategoryIntent = (typeof categoryIntents)[number];
 
-export const categories = sqliteTable(
-	'categories',
+export const spaceCategories = sqliteTable(
+	'space_categories',
 	{
 		id: primaryId(),
 		spaceId: text('space_id')
 			.notNull()
 			.references(() => spaces.id),
-		groupId: text('group_id')
-			.notNull()
-			.references(() => categoryGroups.id),
+		groupId: text('group_id').notNull(),
 		name: text('name').notNull(),
 		sortOrder: integer('sort_order').notNull().default(0),
-		/** Null means the user has not decided; the engine's suggestion applies. */
 		intent: text('intent', { enum: categoryIntents }),
 		archivedAt: text('archived_at'),
 		...timestamps(),
 	},
-	(t) => [index('categories_space_group_idx').on(t.spaceId, t.groupId)],
+	(t) => [
+		index('space_categories_space_group_idx').on(t.spaceId, t.groupId),
+		foreignKey({
+			name: 'space_categories_group_fk',
+			columns: [t.groupId, t.spaceId],
+			foreignColumns: [spaceCategoryGroups.id, spaceCategoryGroups.spaceId],
+		}),
+	],
 );

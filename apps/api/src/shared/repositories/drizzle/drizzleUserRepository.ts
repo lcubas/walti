@@ -8,9 +8,13 @@ import {
 	users,
 } from '../../database/schema';
 import type { NewUser, User, UserRepository } from '../userRepository';
+import type { CategorySeeder } from './categorySeeder';
 
 export class DrizzleUserRepository implements UserRepository {
-	constructor(private readonly db: Database) {}
+	constructor(
+		private readonly db: Database,
+		private readonly categorySeeder: CategorySeeder,
+	) {}
 
 	async findById(id: string): Promise<User | null> {
 		const [found] = await this.db
@@ -59,6 +63,12 @@ export class DrizzleUserRepository implements UserRepository {
 				userId: created.id,
 				role: spaceRoles.owner,
 			});
+
+			// Nobody starts on an empty screen, and nobody should have to design a
+			// taxonomy before their first expense. The vocabulary is created once
+			// for the person, and the space is materialised from it.
+			await this.categorySeeder.seedUserCategories(tx, created.id);
+			await this.categorySeeder.seedSpaceCategories(tx, space.id, created.id);
 
 			return created;
 		});

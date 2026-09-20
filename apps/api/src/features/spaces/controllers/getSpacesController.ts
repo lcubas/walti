@@ -1,13 +1,13 @@
 import type { Context } from 'hono';
 import { ok } from '../../../shared/http/response';
 import type { RequestContext } from '../../../shared/http/requestContext';
-import type { SpaceService } from '../services/spaceService';
+import type { ListSpacesUseCase } from '../useCases/listSpacesUseCase';
 
 export class GetSpacesController {
-	constructor(private readonly spaceService: SpaceService) {}
+	constructor(private readonly listSpacesUseCase: ListSpacesUseCase) {}
 
 	async handle(c: Context<RequestContext>) {
-		const spaces = await this.spaceService.listSpaces(c.get('userId'));
+		const spaces = await this.listSpacesUseCase.execute(c.get('userId'));
 
 		return ok(c, spaces);
 	}

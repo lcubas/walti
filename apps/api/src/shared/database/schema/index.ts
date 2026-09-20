@@ -1,4 +1,4 @@
-export * from './categories';
+export * from './spaceCategories';
 export * from './columns';
 export * from './enums';
 export * from './expenses';
@@ -6,4 +6,5 @@ export * from './notifications';
 export * from './plans';
 export * from './recurring';
 export * from './spaces';
+export * from './userCategories';
 export * from './users';

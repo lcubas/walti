@@ -8,7 +8,7 @@ import {
 } from 'drizzle-orm/sqlite-core';
 import { primaryId, timestamps } from './columns';
 import { isCivilDate } from './predicates';
-import { categories } from './categories';
+import { spaceCategories } from './spaceCategories';
 import { paymentSources, spaces } from './spaces';
 import { users } from './users';
 
@@ -41,7 +41,7 @@ export const expenses = sqliteTable(
 			.references(() => spaces.id),
 		categoryId: text('category_id')
 			.notNull()
-			.references(() => categories.id),
+			.references(() => spaceCategories.id),
 		amountCents: integer('amount_cents').notNull(),
 		occurredOn: text('occurred_on').notNull(),
 		eventId: text('event_id').references(() => events.id),

@@ -1,8 +1,9 @@
-import { eq, sql } from 'drizzle-orm';
+import { and, eq, sql } from 'drizzle-orm';
 import { spaceRoles } from '@walti/shared';
 import type { Database } from '../../database/client';
 import { spaceMembers, spaces, userSettings } from '../../database/schema';
 import type { SpaceMembership, SpaceRepository } from '../spaceRepository';
+import type { CategorySeeder } from './categorySeeder';
 
 export class DrizzleSpaceRepository implements SpaceRepository {
 	private readonly membershipColumns = {
@@ -17,7 +18,10 @@ export class DrizzleSpaceRepository implements SpaceRepository {
 		)`,
 	};
 
-	constructor(private readonly db: Database) {}
+	constructor(
+		private readonly db: Database,
+		private readonly categorySeeder: CategorySeeder,
+	) {}
 
 	listForUser(userId: string): Promise<SpaceMembership[]> {
 		return this.db
@@ -26,6 +30,20 @@ export class DrizzleSpaceRepository implements SpaceRepository {
 			.innerJoin(spaceMembers, eq(spaceMembers.spaceId, spaces.id))
 			.where(eq(spaceMembers.userId, userId))
 			.orderBy(spaces.createdAt);
+	}
+
+	async findForUser(
+		spaceId: string,
+		userId: string,
+	): Promise<SpaceMembership | null> {
+		const [found] = await this.db
+			.select(this.membershipColumns)
+			.from(spaces)
+			.innerJoin(spaceMembers, eq(spaceMembers.spaceId, spaces.id))
+			.where(and(eq(spaces.id, spaceId), eq(spaceMembers.userId, userId)))
+			.limit(1);
+
+		return found ?? null;
 	}
 
 	createForOwner(userId: string, name: string): Promise<SpaceMembership> {
@@ -46,6 +64,10 @@ export class DrizzleSpaceRepository implements SpaceRepository {
 			await tx
 				.insert(spaceMembers)
 				.values({ spaceId: space.id, userId, role: spaceRoles.owner });
+
+			// Every space is materialised from the same place: the person's own
+			// taxonomy. There is no copying between spaces.
+			await this.categorySeeder.seedSpaceCategories(tx, space.id, userId);
 
 			return {
 				id: space.id,

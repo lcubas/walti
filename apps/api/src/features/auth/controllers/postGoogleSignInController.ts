@@ -5,16 +5,18 @@ import type { GoogleSignInRequest } from '@walti/shared';
 import { env } from '../../../config/env';
 import { sessionCookieOptions } from '../../../config/sessionCookie';
 import { ok } from '../../../shared/http/response';
-import type { AuthService } from '../services/authService';
+import type { SignInWithGoogleUseCase } from '../useCases/signInWithGoogleUseCase';
 
 type GoogleSignInInput = InferOutput<typeof GoogleSignInRequest>;
 
 export class PostGoogleSignInController {
-	constructor(private readonly authService: AuthService) {}
+	constructor(
+		private readonly signInWithGoogleUseCase: SignInWithGoogleUseCase,
+	) {}
 
 	async handle(c: Context, { idToken }: GoogleSignInInput) {
 		const { user, sessionToken } =
-			await this.authService.signInWithGoogle(idToken);
+			await this.signInWithGoogleUseCase.execute(idToken);
 
 		setCookie(c, env.SESSION_NAME, sessionToken, sessionCookieOptions);
 

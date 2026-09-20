@@ -1,7 +1,6 @@
 import type { SessionUser } from '@walti/shared';
 import { env } from '../../../config/env';
 import { ForbiddenError } from '../../../shared/errors/forbiddenError';
-import { UnauthorizedError } from '../../../shared/errors/unauthorizedError';
 import type {
 	User,
 	UserRepository,
@@ -9,10 +8,11 @@ import type {
 import type {
 	GoogleIdentity,
 	GoogleIdentityService,
-} from './googleIdentityService';
-import type { SessionService } from './sessionService';
+} from '../services/googleIdentityService';
+import type { SessionService } from '../services/sessionService';
+import { toSessionUser } from '../helpers/toSessionUser';
 
-export class AuthService {
+export class SignInWithGoogleUseCase {
 	private readonly defaultPersonalSpaceName = 'Personal';
 
 	constructor(
@@ -21,34 +21,20 @@ export class AuthService {
 		private readonly googleIdentityService: GoogleIdentityService,
 	) {}
 
-	async signInWithGoogle(
+	async execute(
 		idToken: string,
 	): Promise<{ user: SessionUser; sessionToken: string }> {
 		const identity = await this.googleIdentityService.verifyIdToken(idToken);
 		const existing = await this.userRepository.findByGoogleSub(
 			identity.googleSub,
 		);
-		const user = existing ?? (await this.register(identity));
+		const user = existing ?? (await this.registerUser(identity));
 		const sessionToken = await this.sessionService.createToken(user.id);
 
-		return { user: this.toSessionUser(user), sessionToken };
+		return { user: toSessionUser(user), sessionToken };
 	}
 
-	async getSessionUser(userId: string): Promise<SessionUser> {
-		const user = await this.userRepository.findById(userId);
-
-		// A signed token for a user that no longer exists is not a session.
-		if (!user) {
-			throw new UnauthorizedError(
-				'session_expired',
-				'Tu sesión caducó. Vuelve a entrar para continuar.',
-			);
-		}
-
-		return this.toSessionUser(user);
-	}
-
-	private register(identity: GoogleIdentity) {
+	private registerUser(identity: GoogleIdentity): Promise<User> {
 		// only invited emails may register
 		if (!env.ALLOWED_EMAILS.includes(identity.email)) {
 			throw new ForbiddenError(
@@ -61,9 +47,5 @@ export class AuthService {
 			identity,
 			this.defaultPersonalSpaceName,
 		);
-	}
-
-	private toSessionUser({ id, email, name, avatarUrl }: User): SessionUser {
-		return { id, email, name, avatarUrl };
 	}
 }

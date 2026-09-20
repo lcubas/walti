@@ -15,8 +15,7 @@ export type SpaceMembership = {
 export interface SpaceRepository {
 	/**
 	 * Lists the spaces the user belongs to, archived ones included, oldest
-	 * first. Scoping by membership is not optional: it is the only read in this
-	 * interface, so no caller can reach a space that is not theirs.
+	 * first.
 	 *
 	 * @param userId - User whose memberships are read.
 	 * @returns One entry per membership, empty when the user has none.
@@ -24,9 +23,18 @@ export interface SpaceRepository {
 	listForUser(userId: string): Promise<SpaceMembership[]>;
 
 	/**
-	 * Inserts a space and the membership that makes the user its owner, in a
-	 * single transaction. The currency is copied from the user's settings, which
-	 * is where the application keeps it.
+	 * Reads a single space the user belongs to.
+	 *
+	 * @param spaceId - Space to read.
+	 * @param userId - User whose membership scopes the read.
+	 * @returns The space with this user's role, or `null`.
+	 */
+	findForUser(spaceId: string, userId: string): Promise<SpaceMembership | null>;
+
+	/**
+	 * Inserts a space, the membership that makes the user its owner, and the
+	 * catalogue materialised from their taxonomy, in a single transaction. The
+	 * currency is copied from the user's settings.
 	 *
 	 * @param userId - User who creates the space and becomes its owner.
 	 * @param name - Name given to the space.
