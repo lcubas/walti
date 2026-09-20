@@ -25,14 +25,14 @@ import { DrizzleCategoryRepository } from './shared/repositories/drizzle/drizzle
 import { DrizzleHealthRepository } from './shared/repositories/drizzle/drizzleHealthRepository';
 import { DrizzleSpaceRepository } from './shared/repositories/drizzle/drizzleSpaceRepository';
 import { DrizzleUserRepository } from './shared/repositories/drizzle/drizzleUserRepository';
-import { TaxonomySeeder } from './shared/repositories/drizzle/categorySeeder';
+import { CategorySeeder } from './shared/repositories/drizzle/categorySeeder';
 
-const taxonomySeeder = new TaxonomySeeder();
+const categorySeeder = new CategorySeeder();
 
 const categoryRepository = new DrizzleCategoryRepository(db);
 const healthRepository = new DrizzleHealthRepository(db);
-const spaceRepository = new DrizzleSpaceRepository(db, taxonomySeeder);
-const userRepository = new DrizzleUserRepository(db, taxonomySeeder);
+const spaceRepository = new DrizzleSpaceRepository(db, categorySeeder);
+const userRepository = new DrizzleUserRepository(db, categorySeeder);
 
 const sessionService = new SessionService();
 const googleIdentityService = new GoogleIdentityService();
