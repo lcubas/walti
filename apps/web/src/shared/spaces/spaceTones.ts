@@ -10,19 +10,6 @@ type ToneClasses = {
 	wash: string;
 };
 
-/**
- * Four things worth money, because a space is where a person keeps theirs: the
- * stone, the metal, the bank and the purple that used to cost a fortune to dye.
- *
- * Red is deliberately absent. In an app about spending, red means over budget,
- * and a space that is permanently red would be a permanent false alarm.
- *
- * Hue matters before meaning, though: the tone's job is to tell one space from
- * another, so the four sit far apart on the wheel. Shades are pinned by
- * contrast, not by taste — white on -700 clears AA in the four, and -700 on
- * light chrome and -300 on dark clear 3:1, which is what WCAG 1.4.11 asks of a
- * graphic that carries meaning.
- */
 export const spaceTones: Record<SpaceTone, ToneClasses> = {
 	/** Esmeralda: the green of money. */
 	emerald: {
