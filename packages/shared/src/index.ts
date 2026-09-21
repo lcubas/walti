@@ -1,3 +1,4 @@
+export * from './contracts/archive';
 export * from './contracts/category';
 export * from './contracts/currency';
 export * from './contracts/health';
