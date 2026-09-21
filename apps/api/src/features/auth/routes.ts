@@ -5,17 +5,13 @@ import {
 	postGoogleSignInController,
 	postSignOutController,
 } from '../../container';
-import type { RequestContext } from '../../shared/http/requestContext';
 import { validatorHandler } from '../../shared/http/middlewares/validatorHandler';
+import type { SessionContext } from '../../shared/http/requestContext';
 
-const app = new Hono<RequestContext>();
+export const authRoutes = new Hono<SessionContext>();
 
-app.post('/google', validatorHandler.json(GoogleSignInRequest), (c) =>
+authRoutes.post('/google', validatorHandler.json(GoogleSignInRequest), (c) =>
 	postGoogleSignInController.handle(c, c.req.valid('json')),
 );
-
-app.get('/me', (c) => getSessionController.handle(c));
-
-app.post('/logout', (c) => postSignOutController.handle(c));
-
-export default app;
+authRoutes.get('/me', (c) => getSessionController.handle(c));
+authRoutes.post('/logout', (c) => postSignOutController.handle(c));

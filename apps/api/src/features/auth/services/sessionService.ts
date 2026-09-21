@@ -38,11 +38,6 @@ export class SessionService {
 		}
 	}
 
-	/**
-	 * Half the lifetime left is where renewing starts to pay for itself: often
-	 * enough that a daily user never meets the login screen, rare enough that a
-	 * single visit does not rewrite the cookie on every request.
-	 */
 	needsRenewal({ expiresAt }: Session): boolean {
 		return expiresAt.getTime() - Date.now() < this.maxAgeInMilliseconds / 2;
 	}

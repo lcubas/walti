@@ -43,7 +43,6 @@ export class DrizzleUserRepository implements UserRepository {
 		return this.db.transaction(async (tx) => {
 			const [created] = await tx.insert(users).values(user).returning();
 
-			// The currency has a single source: the column that carries the default.
 			const [settings] = await tx
 				.insert(userSettings)
 				.values({ userId: created.id })
@@ -64,9 +63,6 @@ export class DrizzleUserRepository implements UserRepository {
 				role: spaceRoles.owner,
 			});
 
-			// Nobody starts on an empty screen, and nobody should have to design a
-			// taxonomy before their first expense. The vocabulary is created once
-			// for the person, and the space is materialised from it.
 			await this.categorySeeder.seedUserCategories(tx, created.id);
 			await this.categorySeeder.seedSpaceCategories(tx, space.id, created.id);
 

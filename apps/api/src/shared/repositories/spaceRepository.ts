@@ -33,7 +33,7 @@ export interface SpaceRepository {
 
 	/**
 	 * Inserts a space, the membership that makes the user its owner, and the
-	 * catalogue materialised from their taxonomy, in a single transaction. The
+	 * list of groups materialised from their taxonomy, in a single transaction. The
 	 * currency is copied from the user's settings.
 	 *
 	 * @param userId - User who creates the space and becomes its owner.

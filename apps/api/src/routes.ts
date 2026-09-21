@@ -1,25 +1,19 @@
 import { Hono } from 'hono';
-import auth from './features/auth/routes';
-import categories from './features/categories/routes';
-import health from './features/health/routes';
-import spaces from './features/spaces/routes';
-import { spaceHandler } from './shared/http/middlewares/spaceHandler';
-import type { RequestContext } from './shared/http/requestContext';
+import { authRoutes } from './features/auth/routes';
+import { categoryRoutes } from './features/categories/routes';
+import { healthRoutes } from './features/health/routes';
+import { spaceRoutes } from './features/spaces/routes';
+import type { SessionContext } from './shared/http/requestContext';
 
-const v1 = new Hono<RequestContext>();
+const v1 = new Hono<SessionContext>();
 
-const spaceScoped = new Hono<RequestContext>();
+v1.route('/auth', authRoutes);
+v1.route('/spaces', spaceRoutes);
+v1.route('/spaces/:spaceId/categories', categoryRoutes);
 
-spaceScoped.use('/*', spaceHandler);
-spaceScoped.route('/categories', categories);
+const app = new Hono<SessionContext>();
 
-v1.route('/auth', auth);
-v1.route('/spaces', spaces);
-v1.route('/spaces/:spaceId', spaceScoped);
-
-const app = new Hono<RequestContext>();
-
-app.route('/health', health);
+app.route('/health', healthRoutes);
 app.route('/v1', v1);
 
 export default app;

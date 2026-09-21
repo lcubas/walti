@@ -48,8 +48,7 @@ export class DrizzleSpaceRepository implements SpaceRepository {
 
 	createForOwner(userId: string, name: string): Promise<SpaceMembership> {
 		return this.db.transaction(async (tx) => {
-			// The currency has a single source: the user's settings. A space never
-			// carries one of its own choosing.
+			// The currency has a single source: the user's settings.
 			const [settings] = await tx
 				.select({ currency: userSettings.currency })
 				.from(userSettings)
@@ -65,8 +64,6 @@ export class DrizzleSpaceRepository implements SpaceRepository {
 				.insert(spaceMembers)
 				.values({ spaceId: space.id, userId, role: spaceRoles.owner });
 
-			// Every space is materialised from the same place: the person's own
-			// taxonomy. There is no copying between spaces.
 			await this.categorySeeder.seedSpaceCategories(tx, space.id, userId);
 
 			return {

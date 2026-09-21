@@ -10,12 +10,6 @@ import {
 } from '../../database/schema';
 
 export class CategorySeeder {
-	/**
-	 * Inserts the factory template as the person's own groups and categories.
-	 *
-	 * @param tx - Transaction to run in.
-	 * @param userId - Owner of the rows.
-	 */
 	async seedUserCategories(tx: Transaction, userId: string): Promise<void> {
 		for (const [groupIndex, group] of categoryTemplate.entries()) {
 			const [created] = await tx
@@ -34,14 +28,6 @@ export class CategorySeeder {
 		}
 	}
 
-	/**
-	 * Copies the person's categories into a space and records, for each copy, the
-	 * personal category it came from.
-	 *
-	 * @param tx - Transaction to run in.
-	 * @param spaceId - Space that receives the copy.
-	 * @param userId - Person whose categories is copied and who owns the mappings.
-	 */
 	async seedSpaceCategories(
 		tx: Transaction,
 		spaceId: string,

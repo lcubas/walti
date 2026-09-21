@@ -1,23 +1,14 @@
-import type { MiddlewareHandler } from 'hono';
-import { NotFoundError } from '../../errors/notFoundError';
-import type { RequestContext } from '../requestContext';
+import { createMiddleware } from 'hono/factory';
+import { spaceService } from '../../../container';
+import type { SpaceContext } from '../requestContext';
 
-export const spaceHandler: MiddlewareHandler<RequestContext> = async (
-	c,
-	next,
-) => {
-	const spaceId = c.req.param('spaceId');
-
-	if (!spaceId) {
-		throw new NotFoundError(
-			'space_not_found',
-			'Ese espacio no existe o no es tuyo.',
+export const spaceHandler = createMiddleware<SpaceContext, '/:spaceId'>(
+	async (c, next) => {
+		c.set(
+			'space',
+			await spaceService.requireAccess(c.req.param('spaceId'), c.get('userId')),
 		);
-	}
 
-	// TODO: Implements validation for existings space in db
-
-	c.set('spaceId', spaceId);
-
-	return next();
-};
+		return next();
+	},
+);

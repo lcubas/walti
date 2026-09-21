@@ -6,20 +6,29 @@ import { SessionService } from './features/auth/services/sessionService';
 import { GetSessionUseCase } from './features/auth/useCases/getSessionUseCase';
 import { SignInWithGoogleUseCase } from './features/auth/useCases/signInWithGoogleUseCase';
 import { GetCategoriesController } from './features/categories/controllers/getCategoriesController';
+import { PatchCategoryArchiveController } from './features/categories/controllers/patchCategoryArchiveController';
+import { PatchCategoryController } from './features/categories/controllers/patchCategoryController';
+import { PatchCategoryGroupController } from './features/categories/controllers/patchCategoryGroupController';
+import { PostCategoryController } from './features/categories/controllers/postCategoryController';
+import { PostCategoryGroupController } from './features/categories/controllers/postCategoryGroupController';
+import { CategoryService } from './features/categories/services/categoryService';
+import { CreateCategoryGroupUseCase } from './features/categories/useCases/createCategoryGroupUseCase';
+import { CreateCategoryUseCase } from './features/categories/useCases/createCategoryUseCase';
+import { RenameCategoryGroupUseCase } from './features/categories/useCases/renameCategoryGroupUseCase';
+import { SetCategoryArchivedUseCase } from './features/categories/useCases/setCategoryArchivedUseCase';
+import { UpdateCategoryUseCase } from './features/categories/useCases/updateCategoryUseCase';
+import { RenameSpaceUseCase } from './features/spaces/useCases/renameSpaceUseCase';
+import { SetSpaceArchivedUseCase } from './features/spaces/useCases/setSpaceArchivedUseCase';
 import { ListCategoriesUseCase } from './features/categories/useCases/listCategoriesUseCase';
 import { GetCheckHealthController } from './features/health/controllers/getCheckHealthController';
 import { CheckHealthUseCase } from './features/health/useCases/checkHealthUseCase';
 import { GetSpacesController } from './features/spaces/controllers/getSpacesController';
+import { PatchSpaceArchiveController } from './features/spaces/controllers/patchSpaceArchiveController';
 import { PatchSpaceController } from './features/spaces/controllers/patchSpaceController';
-import { PostArchiveSpaceController } from './features/spaces/controllers/postArchiveSpaceController';
 import { PostSpaceController } from './features/spaces/controllers/postSpaceController';
-import { PostUnarchiveSpaceController } from './features/spaces/controllers/postUnarchiveSpaceController';
 import { SpaceService } from './features/spaces/services/spaceService';
-import { ArchiveSpaceUseCase } from './features/spaces/useCases/archiveSpaceUseCase';
 import { CreateSpaceUseCase } from './features/spaces/useCases/createSpaceUseCase';
 import { ListSpacesUseCase } from './features/spaces/useCases/listSpacesUseCase';
-import { RenameSpaceUseCase } from './features/spaces/useCases/renameSpaceUseCase';
-import { UnarchiveSpaceUseCase } from './features/spaces/useCases/unarchiveSpaceUseCase';
 import { db } from './shared/database/client';
 import { DrizzleCategoryRepository } from './shared/repositories/drizzle/drizzleCategoryRepository';
 import { DrizzleHealthRepository } from './shared/repositories/drizzle/drizzleHealthRepository';
@@ -36,7 +45,8 @@ const userRepository = new DrizzleUserRepository(db, categorySeeder);
 
 const sessionService = new SessionService();
 const googleIdentityService = new GoogleIdentityService();
-const spaceService = new SpaceService();
+const spaceService = new SpaceService(spaceRepository);
+const categoryService = new CategoryService();
 
 const signInWithGoogleUseCase = new SignInWithGoogleUseCase(
 	userRepository,
@@ -46,14 +56,33 @@ const signInWithGoogleUseCase = new SignInWithGoogleUseCase(
 const getSessionUseCase = new GetSessionUseCase(userRepository);
 const checkHealthUseCase = new CheckHealthUseCase(healthRepository);
 const listCategoriesUseCase = new ListCategoriesUseCase(categoryRepository);
+const createCategoryGroupUseCase = new CreateCategoryGroupUseCase(
+	categoryRepository,
+	categoryService,
+);
+const renameCategoryGroupUseCase = new RenameCategoryGroupUseCase(
+	categoryRepository,
+	categoryService,
+);
+const createCategoryUseCase = new CreateCategoryUseCase(
+	categoryRepository,
+	categoryService,
+);
+const updateCategoryUseCase = new UpdateCategoryUseCase(
+	categoryRepository,
+	categoryService,
+);
+const setCategoryArchivedUseCase = new SetCategoryArchivedUseCase(
+	categoryRepository,
+	categoryService,
+);
 const listSpacesUseCase = new ListSpacesUseCase(spaceRepository);
 const createSpaceUseCase = new CreateSpaceUseCase(spaceRepository);
 const renameSpaceUseCase = new RenameSpaceUseCase(spaceRepository);
-const archiveSpaceUseCase = new ArchiveSpaceUseCase(
+const setSpaceArchivedUseCase = new SetSpaceArchivedUseCase(
 	spaceRepository,
 	spaceService,
 );
-const unarchiveSpaceUseCase = new UnarchiveSpaceUseCase(spaceRepository);
 
 const getCheckHealthController = new GetCheckHealthController(
 	checkHealthUseCase,
@@ -66,19 +95,37 @@ const postSignOutController = new PostSignOutController();
 const getCategoriesController = new GetCategoriesController(
 	listCategoriesUseCase,
 );
+const postCategoryGroupController = new PostCategoryGroupController(
+	createCategoryGroupUseCase,
+);
+const patchCategoryGroupController = new PatchCategoryGroupController(
+	renameCategoryGroupUseCase,
+);
+const postCategoryController = new PostCategoryController(
+	createCategoryUseCase,
+);
+const patchCategoryController = new PatchCategoryController(
+	updateCategoryUseCase,
+);
+const patchCategoryArchiveController = new PatchCategoryArchiveController(
+	setCategoryArchivedUseCase,
+);
 const getSpacesController = new GetSpacesController(listSpacesUseCase);
 const postSpaceController = new PostSpaceController(createSpaceUseCase);
 const patchSpaceController = new PatchSpaceController(renameSpaceUseCase);
-const postArchiveSpaceController = new PostArchiveSpaceController(
-	archiveSpaceUseCase,
-);
-const postUnarchiveSpaceController = new PostUnarchiveSpaceController(
-	unarchiveSpaceUseCase,
+const patchSpaceArchiveController = new PatchSpaceArchiveController(
+	setSpaceArchivedUseCase,
 );
 
 export {
 	sessionService,
+	spaceService,
 	getCategoriesController,
+	postCategoryController,
+	patchCategoryController,
+	patchCategoryArchiveController,
+	postCategoryGroupController,
+	patchCategoryGroupController,
 	getCheckHealthController,
 	postGoogleSignInController,
 	getSessionController,
@@ -86,6 +133,5 @@ export {
 	getSpacesController,
 	postSpaceController,
 	patchSpaceController,
-	postArchiveSpaceController,
-	postUnarchiveSpaceController,
+	patchSpaceArchiveController,
 };

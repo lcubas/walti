@@ -1,9 +1,6 @@
 import { Hono } from 'hono';
 import { getCheckHealthController } from '../../container';
-import type { RequestContext } from '../../shared/http/requestContext';
 
-const app = new Hono<RequestContext>();
+export const healthRoutes = new Hono();
 
-app.get('/', (c) => getCheckHealthController.handle(c));
-
-export default app;
+healthRoutes.get('/', (c) => getCheckHealthController.handle(c));

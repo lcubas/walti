@@ -9,7 +9,6 @@ export class GetSessionUseCase {
 	async execute(userId: string): Promise<SessionUser> {
 		const user = await this.userRepository.findById(userId);
 
-		// A signed token for a user that no longer exists is not a session.
 		if (!user) {
 			throw new UnauthorizedError(
 				'session_expired',
