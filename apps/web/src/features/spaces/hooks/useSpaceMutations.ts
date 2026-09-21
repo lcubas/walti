@@ -1,11 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { Space as SpaceContract } from '@walti/shared';
 import {
-	archiveSpace,
 	createSpace,
-	renameSpace,
 	spacesQueryKey,
-	unarchiveSpace,
+	renameSpace,
+	setSpaceArchived,
 } from '@/shared/spaces/spacesApi';
 import { notifyDone, notifyFailed } from '@/shared/notify';
 
@@ -92,7 +91,7 @@ export const useRenameSpace = () =>
 
 export const useArchiveSpace = () =>
 	useSpaceMutation({
-		mutationFn: (spaceId: string) => archiveSpace(spaceId),
+		mutationFn: (spaceId: string) => setSpaceArchived(spaceId, true),
 		done: 'Espacio archivado',
 		failed: 'No pudimos archivar el espacio',
 		optimistic: (rows, spaceId) =>
@@ -101,7 +100,7 @@ export const useArchiveSpace = () =>
 
 export const useUnarchiveSpace = () =>
 	useSpaceMutation({
-		mutationFn: (spaceId: string) => unarchiveSpace(spaceId),
+		mutationFn: (spaceId: string) => setSpaceArchived(spaceId, false),
 		done: 'Espacio recuperado',
 		failed: 'No pudimos recuperar el espacio',
 		optimistic: (rows, spaceId) => setArchivedAt(rows, spaceId, null),
