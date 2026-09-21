@@ -14,7 +14,6 @@ export class SpaceService {
 	async requireAccess(spaceId: string, userId: string): Promise<SpaceAccess> {
 		const space = await this.spaceRepository.findForUser(spaceId, userId);
 
-		// Not 403: confirming it exists already tells the asker something.
 		if (!space) {
 			throw new NotFoundError(
 				'space_not_found',
@@ -49,7 +48,6 @@ export class SpaceService {
 	}
 
 	verifyCanArchive(space: SpaceMembership, spaces: SpaceMembership[]): void {
-		// The app falls back to it when anything else becomes unavailable.
 		if (space.isDefault) {
 			throw new ConflictError(
 				'space_is_default',
