@@ -17,11 +17,18 @@ import { CreateCategoryUseCase } from './features/categories/useCases/createCate
 import { RenameCategoryGroupUseCase } from './features/categories/useCases/renameCategoryGroupUseCase';
 import { SetCategoryArchivedUseCase } from './features/categories/useCases/setCategoryArchivedUseCase';
 import { UpdateCategoryUseCase } from './features/categories/useCases/updateCategoryUseCase';
-import { RenameSpaceUseCase } from './features/spaces/useCases/renameSpaceUseCase';
-import { SetSpaceArchivedUseCase } from './features/spaces/useCases/setSpaceArchivedUseCase';
 import { ListCategoriesUseCase } from './features/categories/useCases/listCategoriesUseCase';
 import { GetCheckHealthController } from './features/health/controllers/getCheckHealthController';
 import { CheckHealthUseCase } from './features/health/useCases/checkHealthUseCase';
+import { GetPaymentSourcesController } from './features/paymentSources/controllers/getPaymentSourcesController';
+import { PatchPaymentSourceArchiveController } from './features/paymentSources/controllers/patchPaymentSourceArchiveController';
+import { PatchPaymentSourceController } from './features/paymentSources/controllers/patchPaymentSourceController';
+import { PostPaymentSourceController } from './features/paymentSources/controllers/postPaymentSourceController';
+import { PaymentSourceService } from './features/paymentSources/services/paymentSourceService';
+import { CreatePaymentSourceUseCase } from './features/paymentSources/useCases/createPaymentSourceUseCase';
+import { ListPaymentSourcesUseCase } from './features/paymentSources/useCases/listPaymentSourcesUseCase';
+import { RenamePaymentSourceUseCase } from './features/paymentSources/useCases/renamePaymentSourceUseCase';
+import { SetPaymentSourceArchivedUseCase } from './features/paymentSources/useCases/setPaymentSourceArchivedUseCase';
 import { GetSpacesController } from './features/spaces/controllers/getSpacesController';
 import { PatchSpaceArchiveController } from './features/spaces/controllers/patchSpaceArchiveController';
 import { PatchSpaceController } from './features/spaces/controllers/patchSpaceController';
@@ -29,9 +36,12 @@ import { PostSpaceController } from './features/spaces/controllers/postSpaceCont
 import { SpaceService } from './features/spaces/services/spaceService';
 import { CreateSpaceUseCase } from './features/spaces/useCases/createSpaceUseCase';
 import { ListSpacesUseCase } from './features/spaces/useCases/listSpacesUseCase';
+import { RenameSpaceUseCase } from './features/spaces/useCases/renameSpaceUseCase';
+import { SetSpaceArchivedUseCase } from './features/spaces/useCases/setSpaceArchivedUseCase';
 import { db } from './shared/database/client';
 import { DrizzleCategoryRepository } from './shared/repositories/drizzle/drizzleCategoryRepository';
 import { DrizzleHealthRepository } from './shared/repositories/drizzle/drizzleHealthRepository';
+import { DrizzlePaymentSourceRepository } from './shared/repositories/drizzle/drizzlePaymentSourceRepository';
 import { DrizzleSpaceRepository } from './shared/repositories/drizzle/drizzleSpaceRepository';
 import { DrizzleUserRepository } from './shared/repositories/drizzle/drizzleUserRepository';
 import { CategorySeeder } from './shared/repositories/drizzle/categorySeeder';
@@ -40,6 +50,7 @@ const categorySeeder = new CategorySeeder();
 
 const categoryRepository = new DrizzleCategoryRepository(db);
 const healthRepository = new DrizzleHealthRepository(db);
+const paymentSourceRepository = new DrizzlePaymentSourceRepository(db);
 const spaceRepository = new DrizzleSpaceRepository(db, categorySeeder);
 const userRepository = new DrizzleUserRepository(db, categorySeeder);
 
@@ -47,6 +58,7 @@ const sessionService = new SessionService();
 const googleIdentityService = new GoogleIdentityService();
 const spaceService = new SpaceService(spaceRepository);
 const categoryService = new CategoryService();
+const paymentSourceService = new PaymentSourceService();
 
 const signInWithGoogleUseCase = new SignInWithGoogleUseCase(
 	userRepository,
@@ -83,6 +95,21 @@ const setSpaceArchivedUseCase = new SetSpaceArchivedUseCase(
 	spaceRepository,
 	spaceService,
 );
+const listPaymentSourcesUseCase = new ListPaymentSourcesUseCase(
+	paymentSourceRepository,
+);
+const createPaymentSourceUseCase = new CreatePaymentSourceUseCase(
+	paymentSourceRepository,
+	paymentSourceService,
+);
+const renamePaymentSourceUseCase = new RenamePaymentSourceUseCase(
+	paymentSourceRepository,
+	paymentSourceService,
+);
+const setPaymentSourceArchivedUseCase = new SetPaymentSourceArchivedUseCase(
+	paymentSourceRepository,
+	paymentSourceService,
+);
 
 const getCheckHealthController = new GetCheckHealthController(
 	checkHealthUseCase,
@@ -116,6 +143,17 @@ const patchSpaceController = new PatchSpaceController(renameSpaceUseCase);
 const patchSpaceArchiveController = new PatchSpaceArchiveController(
 	setSpaceArchivedUseCase,
 );
+const getPaymentSourcesController = new GetPaymentSourcesController(
+	listPaymentSourcesUseCase,
+);
+const postPaymentSourceController = new PostPaymentSourceController(
+	createPaymentSourceUseCase,
+);
+const patchPaymentSourceController = new PatchPaymentSourceController(
+	renamePaymentSourceUseCase,
+);
+const patchPaymentSourceArchiveController =
+	new PatchPaymentSourceArchiveController(setPaymentSourceArchivedUseCase);
 
 export {
 	sessionService,
@@ -134,4 +172,8 @@ export {
 	postSpaceController,
 	patchSpaceController,
 	patchSpaceArchiveController,
+	getPaymentSourcesController,
+	postPaymentSourceController,
+	patchPaymentSourceController,
+	patchPaymentSourceArchiveController,
 };
