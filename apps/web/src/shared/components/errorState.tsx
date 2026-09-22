@@ -1,4 +1,5 @@
 import { TriangleAlert } from 'lucide-react';
+import type { ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
 import { ApiError } from '@/shared/api/apiError';
 
@@ -76,9 +77,14 @@ const describe = (error: unknown): ErrorCopy => {
 	};
 };
 
-type ErrorStateProps = { error: unknown; onRetry?: () => void };
+type ErrorStateProps = {
+	error: unknown;
+	onRetry?: () => void;
+	/** Replaces the retry button when the caller has a better way out. */
+	action?: ReactNode;
+};
 
-export const ErrorState = ({ error, onRetry }: ErrorStateProps) => {
+export const ErrorState = ({ error, onRetry, action }: ErrorStateProps) => {
 	const { title, hint, canRetry } = describe(error);
 	const details = error instanceof ApiError ? error.details : [];
 
@@ -109,7 +115,9 @@ export const ErrorState = ({ error, onRetry }: ErrorStateProps) => {
 				</ul>
 			) : null}
 
-			{canRetry && onRetry ? (
+			{action ? (
+				<div className="mt-5">{action}</div>
+			) : canRetry && onRetry ? (
 				<Button variant="outline" onClick={onRetry} className="mt-5">
 					Reintentar
 				</Button>

@@ -4,12 +4,95 @@ import { RedirectSignedIn } from '@/app/redirectSignedIn';
 import { RequireSession } from '@/app/requireSession';
 import { SessionBoundary } from '@/app/sessionBoundary';
 import { PendingScreen } from '@/shared/components/pendingScreen';
+import { RouteErrorBoundary } from '@/shared/components/routeErrorBoundary';
 import { paths } from '@/shared/routes';
 import { SpacesProvider } from '@/shared/spaces/spacesContext';
+
+const screens = {
+	errorElement: <RouteErrorBoundary />,
+	children: [
+		{
+			path: paths.home,
+			element: <PendingScreen title="Inicio" />,
+		},
+		{
+			path: paths.expenses,
+			lazy: () =>
+				import('@/features/expenses/expensesScreen').then((m) => ({
+					Component: m.ExpensesScreen,
+				})),
+			children: [
+				{
+					path: 'nuevo',
+					lazy: () =>
+						import('@/features/expenses/newExpenseDrawer').then((m) => ({
+							Component: m.NewExpenseDrawer,
+						})),
+				},
+			],
+		},
+		{
+			path: paths.expense,
+			element: <PendingScreen title="Detalle del gasto" />,
+		},
+		{
+			path: paths.event,
+			element: <PendingScreen title="Detalle del evento" />,
+		},
+		{
+			path: paths.plan,
+			element: <PendingScreen title="Plan del mes" />,
+		},
+		{
+			path: paths.recurring,
+			element: <PendingScreen title="Gastos recurrentes" />,
+		},
+		{
+			path: paths.analysis,
+			element: <PendingScreen title="Análisis" />,
+		},
+		{
+			path: paths.myAnalysis,
+			element: <PendingScreen title="Análisis · Míos" />,
+		},
+		{
+			path: paths.space,
+			element: <PendingScreen title="Ajustes del espacio" />,
+		},
+		{
+			path: paths.categories,
+			lazy: () =>
+				import('@/features/categories/categoriesScreen').then((m) => ({
+					Component: m.CategoriesScreen,
+				})),
+		},
+		{
+			path: paths.spaces,
+			lazy: () =>
+				import('@/features/spaces/spacesScreen').then((m) => ({
+					Component: m.SpacesScreen,
+				})),
+		},
+		{
+			path: paths.account,
+			lazy: () =>
+				import('@/features/account/accountScreen').then((m) => ({
+					Component: m.AccountScreen,
+				})),
+		},
+		{
+			path: '*',
+			element: <PendingScreen title="Página no encontrada" />,
+		},
+	],
+};
 
 export const router = createBrowserRouter([
 	{
 		element: <SessionBoundary />,
+		// Nothing below rendered yet: there is no chrome to keep, so this one
+		// takes the whole page.
+		errorElement: <RouteErrorBoundary />,
 		children: [
 			{
 				// Everything under here is behind the session by construction: a
@@ -25,74 +108,7 @@ export const router = createBrowserRouter([
 								<AppLayout />
 							</SpacesProvider>
 						),
-						children: [
-							{
-								path: paths.home,
-								element: <PendingScreen title="Inicio" />,
-							},
-							{
-								path: paths.expenses,
-								lazy: () =>
-									import('@/features/expenses/expensesScreen').then((m) => ({
-										Component: m.ExpensesScreen,
-									})),
-								children: [
-									{
-										path: 'nuevo',
-										lazy: () =>
-											import('@/features/expenses/newExpenseDrawer').then(
-												(m) => ({ Component: m.NewExpenseDrawer }),
-											),
-									},
-								],
-							},
-							{
-								path: paths.expense,
-								element: <PendingScreen title="Detalle del gasto" />,
-							},
-							{
-								path: paths.event,
-								element: <PendingScreen title="Detalle del evento" />,
-							},
-							{
-								path: paths.plan,
-								element: <PendingScreen title="Plan del mes" />,
-							},
-							{
-								path: paths.recurring,
-								element: <PendingScreen title="Gastos recurrentes" />,
-							},
-							{
-								path: paths.analysis,
-								element: <PendingScreen title="Análisis" />,
-							},
-							{
-								path: paths.myAnalysis,
-								element: <PendingScreen title="Análisis · Míos" />,
-							},
-							{
-								path: paths.space,
-								element: <PendingScreen title="Ajustes del espacio" />,
-							},
-							{
-								path: paths.spaces,
-								lazy: () =>
-									import('@/features/spaces/spacesScreen').then((m) => ({
-										Component: m.SpacesScreen,
-									})),
-							},
-							{
-								path: paths.account,
-								lazy: () =>
-									import('@/features/account/accountScreen').then((m) => ({
-										Component: m.AccountScreen,
-									})),
-							},
-							{
-								path: '*',
-								element: <PendingScreen title="Página no encontrada" />,
-							},
-						],
+						children: [screens],
 					},
 				],
 			},

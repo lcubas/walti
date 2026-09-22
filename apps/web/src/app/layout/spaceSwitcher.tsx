@@ -1,6 +1,7 @@
 import { ChevronsUpDown } from 'lucide-react';
 import { useState } from 'react';
 import { MenuDrawer } from '@/app/layout/menuDrawer';
+import { SpaceAvatar } from '@/features/spaces/components/spaceAvatar';
 import { SpacesMenu } from '@/features/spaces/components/spacesMenu';
 import { useSpaces } from '@/shared/spaces/spacesContext';
 
@@ -10,12 +11,15 @@ import { useSpaces } from '@/shared/spaces/spacesContext';
  * without needing one class per tone.
  */
 const pillClasses =
-	'flex min-h-9 max-w-[60vw] shrink items-center gap-1 rounded-full bg-white/15 px-3 text-sm font-medium text-white transition-colors hover:bg-white/25 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white';
+	'flex min-h-9 max-w-[60vw] shrink items-center gap-2 rounded-full bg-white/15 py-1 pr-3 pl-1 text-sm font-medium text-white transition-colors hover:bg-white/25 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white';
 
 /**
- * One pill, always. Which space you are in is the only thing the header says
- * about scope; everything you can do with spaces is one tap away inside.
+ * The avatar carries the tone everywhere else, but here the tone is already the
+ * header: its own fill would be the same colour on the same colour. It takes
+ * the pill's language instead and keeps only the initial.
  */
+const avatarClasses = 'size-7 rounded-full bg-white/20 text-white';
+
 export const SpaceSwitcher = () => {
 	const { spaces, activeSpace } = useSpaces();
 	const [open, setOpen] = useState(false);
@@ -40,6 +44,8 @@ export const SpaceSwitcher = () => {
 			triggerClassName={pillClasses}
 			trigger={
 				<>
+					<SpaceAvatar space={activeSpace} className={avatarClasses} />
+
 					<span className="truncate">{activeSpace.name}</span>
 
 					{canSwitch ? (

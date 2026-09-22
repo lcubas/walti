@@ -76,6 +76,11 @@ export const CreateCategoryRequest = v.object({
 
 export type CreateCategoryRequest = v.InferOutput<typeof CreateCategoryRequest>;
 
+/** Just the name. What a category form validates before it submits. */
+export const CategoryNameRequest = v.object({ name: categoryName });
+
+export type CategoryNameRequest = v.InferOutput<typeof CategoryNameRequest>;
+
 /** Renaming and moving are the same edit; archiving has its own endpoint. */
 export const UpdateCategoryRequest = v.pipe(
 	v.object({

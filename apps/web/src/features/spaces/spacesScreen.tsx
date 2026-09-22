@@ -4,7 +4,7 @@ import { CreateSpaceRequest } from '@walti/shared';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useCreateSpace } from '@/features/spaces/hooks/useSpaceMutations';
-import { SpaceForm } from '@/features/spaces/components/spaceForm';
+import { NameForm } from '@/shared/components/nameForm';
 import { ErrorState } from '@/shared/components/errorState';
 import { LoadingState } from '@/shared/components/loadingState';
 import { spacesQuery } from '@/shared/spaces/spacesApi';
@@ -44,8 +44,10 @@ export const SpacesScreen = () => {
 
 			{creating ? (
 				<div className="rounded-xl border border-border p-3">
-					<SpaceForm
+					<NameForm
 						schema={CreateSpaceRequest}
+						placeholder="Hogar"
+						duplicateMessage="Ya tienes un espacio con ese nombre."
 						label="Nombre del espacio"
 						submitLabel="Crear espacio"
 						takenNames={spaces.data.map((space) => space.name)}

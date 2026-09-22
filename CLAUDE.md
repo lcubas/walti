@@ -28,9 +28,11 @@ El **Brief del producto** vive en Plane y solo define producto: visión, princip
 
 | | |
 |---|---|
-| `npx tsc --noEmit` en `apps/api` o `apps/web` | **Verificación obligatoria.** Es lo único automatizado |
+| `pnpm typecheck` en la raíz | **Verificación obligatoria.** Es lo único automatizado |
 | `pnpm lint:fix` | Lo ejecuta el usuario, no Claude |
 | `pnpm db:migrate` | **Solo el usuario.** Claude no genera ni aplica migraciones |
+
+`apps/web` usa referencias de proyecto: su `tsconfig.json` no tiene archivos propios, así que **`tsc --noEmit` ahí compila cero archivos y siempre pasa**. Usa `tsc -b`, o `pnpm typecheck`, que es lo que ejecuta Turbo.
 
 No hay pruebas automatizadas. La build y la validación en navegador las hace el usuario.
 
@@ -39,6 +41,8 @@ No hay pruebas automatizadas. La build y la validación en navegador las hace el
 El backlog vive en el proyecto **WALTI** de Plane. Se trabaja **una HU a la vez** y nunca se empieza la siguiente sin que el usuario lo pida.
 
 Antes de escribir código, Claude presenta qué va a construir y qué queda fuera, y espera confirmación. Durante la implementación se hace **solo el alcance aprobado**: nada de refactors no relacionados, features añadidas ni generalizaciones. Si aparece una mejora, se propone; no se incorpora sola.
+
+Una HU es una **rebanada vertical**: se cierra con API y web terminadas. Si por tamaño conviene partirla, Claude **pide permiso explícito** para hacerlo y para crear la HU que recoge el resto; sin ese permiso, no se cierra a medias.
 
 Estados de Plane: `Backlog` → `Todo` → `In Progress` → `En revisión` → `Done`.
 Claude mueve los estados y avisa. **`Done` nunca sin aceptación explícita del usuario.**

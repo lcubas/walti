@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { CreateSpaceRequest } from '@walti/shared';
-import { Check, LayoutGrid, Plus, Settings2, Users } from 'lucide-react';
+import { Check, LayoutGrid, Plus, Settings2, Tags, Users } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { MenuRow, menuRowClasses } from '@/shared/components/menuRow';
 import { SpaceAvatar } from '@/features/spaces/components/spaceAvatar';
-import { SpaceForm } from '@/features/spaces/components/spaceForm';
+import { NameForm } from '@/shared/components/nameForm';
 import { useCreateSpace } from '@/features/spaces/hooks/useSpaceMutations';
 import { cn } from '@/lib/utils';
 import { notifyDone } from '@/shared/notify';
@@ -14,11 +14,6 @@ import { spacesQuery } from '@/shared/spaces/spacesApi';
 import { spaceTones } from '@/shared/spaces/spaceTones';
 import { useSpaces } from '@/shared/spaces/spacesContext';
 
-/**
- * What the space switcher opens. Switching, creating and reaching the two
- * settings screens all live here, so the header never grows past one pill no
- * matter how many spaces the user keeps.
- */
 export const SpacesMenu = ({ onClose }: { onClose: () => void }) => {
 	const { spaces, activeSpace, selectSpace } = useSpaces();
 	// The context only carries the active ones, and an archived space still owns
@@ -31,8 +26,10 @@ export const SpacesMenu = ({ onClose }: { onClose: () => void }) => {
 	// it: one panel, two moments.
 	if (creating) {
 		return (
-			<SpaceForm
+			<NameForm
 				schema={CreateSpaceRequest}
+				placeholder="Hogar"
+				duplicateMessage="Ya tienes un espacio con ese nombre."
 				label="Nombre del espacio"
 				submitLabel="Crear espacio"
 				takenNames={(allSpaces ?? []).map((space) => space.name)}
@@ -58,8 +55,7 @@ export const SpacesMenu = ({ onClose }: { onClose: () => void }) => {
 				Todo lo que ves y todo lo que registres pertenece al espacio activo.
 			</p>
 
-			{/* With a single space there is nothing to choose between, so the list
-			    does not appear at all. */}
+			{/* With a single space the list does not appear at all. */}
 			{spaces.length > 1 ? (
 				<ul className="pb-2">
 					{spaces.map((space) => {
@@ -142,6 +138,14 @@ export const SpacesMenu = ({ onClose }: { onClose: () => void }) => {
 					icon={<Settings2 className="size-4" aria-hidden="true" />}
 					label="Ajustes del espacio"
 					description="Miembros, categorías y notificaciones"
+				/>
+			</Link>
+
+			<Link to={paths.categories} onClick={onClose} className={menuRowClasses}>
+				<MenuRow
+					icon={<Tags className="size-4" aria-hidden="true" />}
+					label="Categorías"
+					description="Crear, renombrar, mover y archivar"
 				/>
 			</Link>
 

@@ -1,38 +1,43 @@
-import { type FormEvent, useId, useState } from 'react';
+import { type SubmitEvent, useId, useState } from 'react';
 import * as v from 'valibot';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-/** Both contracts carry the same single field; the caller passes its own. */
 type NameSchema = v.GenericSchema<unknown, { name: string }>;
 
-type SpaceFormProps = {
+type NameFormProps = {
 	schema: NameSchema;
 	label: string;
 	submitLabel: string;
+	placeholder?: string;
 	initialName?: string;
-	/** Names already in use by this user. Two spaces cannot share one. */
+	maxLength?: number;
+	/** Names already in use among its siblings. */
 	takenNames?: string[];
+	duplicateMessage?: string;
 	pending: boolean;
 	onSubmit: (name: string) => void;
 	onCancel?: () => void;
 };
 
 /**
- * The single field that creating and renaming a space share. It validates with
- * the same contract the API uses, so the message the user reads on submit is
- * the one the server would have sent back.
+ * The single field that creating and renaming share. It validates with the same
+ * contract the API uses, so the message read on submit is the one the server
+ * would have sent back.
  */
-export const SpaceForm = ({
+export const NameForm = ({
 	schema,
 	label,
 	submitLabel,
+	placeholder,
 	initialName = '',
+	maxLength = 50,
 	takenNames = [],
+	duplicateMessage = 'Ya existe uno con ese nombre.',
 	pending,
 	onSubmit,
 	onCancel,
-}: SpaceFormProps) => {
+}: NameFormProps) => {
 	const fieldId = useId();
 	const errorId = useId();
 	const [name, setName] = useState(initialName);
@@ -46,7 +51,7 @@ export const SpaceForm = ({
 			(taken) => taken.toLocaleLowerCase() === trimmed.toLocaleLowerCase(),
 		);
 
-	const submit = (event: FormEvent) => {
+	const submit = (event: SubmitEvent) => {
 		event.preventDefault();
 
 		const result = v.safeParse(schema, { name });
@@ -57,13 +62,15 @@ export const SpaceForm = ({
 		}
 
 		if (isDuplicate) {
-			setError('Ya tienes un espacio con ese nombre.');
+			setError(duplicateMessage);
 			return;
 		}
 
 		setError(null);
 		onSubmit(result.output.name);
 	};
+
+	const message = error ?? (isDuplicate ? duplicateMessage : null);
 
 	return (
 		<form onSubmit={submit} className="space-y-3" noValidate>
@@ -76,24 +83,18 @@ export const SpaceForm = ({
 					id={fieldId}
 					value={name}
 					onChange={(event) => setName(event.target.value)}
-					placeholder="Hogar"
-					maxLength={50}
+					placeholder={placeholder}
+					maxLength={maxLength}
 					autoComplete="off"
-					aria-invalid={error || isDuplicate ? true : undefined}
-					aria-describedby={error || isDuplicate ? errorId : undefined}
+					aria-invalid={message ? true : undefined}
+					aria-describedby={message ? errorId : undefined}
 				/>
 
-				{error ? (
+				{/* Said before submitting, not after: the API refuses it too, but the
+				    user should not have to press to find out. */}
+				{message ? (
 					<p id={errorId} role="alert" className="text-sm text-destructive">
-						{error}
-					</p>
-				) : null}
-
-				{/* Said before submitting, not after: the API refuses it too, but
-				    the user should not have to press to find out. */}
-				{!error && isDuplicate ? (
-					<p id={errorId} role="alert" className="text-sm text-destructive">
-						Ya tienes un espacio con ese nombre.
+						{message}
 					</p>
 				) : null}
 			</div>

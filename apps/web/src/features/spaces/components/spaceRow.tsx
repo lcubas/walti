@@ -7,7 +7,7 @@ import {
 	useUnarchiveSpace,
 } from '@/features/spaces/hooks/useSpaceMutations';
 import { SpaceAvatar } from '@/features/spaces/components/spaceAvatar';
-import { SpaceForm } from '@/features/spaces/components/spaceForm';
+import { NameForm } from '@/shared/components/nameForm';
 import { cn } from '@/lib/utils';
 import { ConfirmDialog } from '@/shared/components/confirmDialog';
 import type { Space } from '@/shared/spaces/spacesApi';
@@ -31,8 +31,10 @@ export const SpaceRow = ({ space, canArchive, takenNames }: SpaceRowProps) => {
 	if (renaming) {
 		return (
 			<li className="rounded-xl border border-border p-3">
-				<SpaceForm
+				<NameForm
 					schema={RenameSpaceRequest}
+					placeholder="Hogar"
+					duplicateMessage="Ya tienes un espacio con ese nombre."
 					label={`Nuevo nombre para ${space.name}`}
 					submitLabel="Guardar"
 					initialName={space.name}
