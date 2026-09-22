@@ -66,8 +66,9 @@ const useCategoryMutation = <TVariables, TData>(
 const mapCategory = (
 	groups: CategoryGroupList,
 	categoryId: string,
-	change: (category: CategoryGroupList[number]['categories'][number]) =>
-		CategoryGroupList[number]['categories'][number],
+	change: (
+		category: CategoryGroupList[number]['categories'][number],
+	) => CategoryGroupList[number]['categories'][number],
 ): CategoryGroupList =>
 	groups.map((group) => ({
 		...group,
@@ -105,13 +106,8 @@ export const useCreateCategory = (spaceId: string) =>
 
 export const useRenameCategory = (spaceId: string) =>
 	useCategoryMutation(spaceId, {
-		mutationFn: ({
-			categoryId,
-			name,
-		}: {
-			categoryId: string;
-			name: string;
-		}) => updateCategory(spaceId, categoryId, { name }),
+		mutationFn: ({ categoryId, name }: { categoryId: string; name: string }) =>
+			updateCategory(spaceId, categoryId, { name }),
 		done: 'Categoría renombrada',
 		failed: 'No pudimos cambiar el nombre',
 		optimistic: (groups, { categoryId, name }) =>

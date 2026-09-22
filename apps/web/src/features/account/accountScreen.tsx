@@ -1,5 +1,6 @@
 import { ServiceSection } from '@/features/health/serviceSection';
 import { ThemeSelector } from '@/features/account/themeSelector';
+import { PaymentSourcesSection } from '@/features/paymentSources/paymentSourcesSection';
 
 export const AccountScreen = () => (
 	<section>
@@ -18,17 +19,22 @@ export const AccountScreen = () => (
 		</div>
 
 		<div className="mt-8 border-t border-border pt-6">
+			<h2 className="text-sm font-medium">Fuentes de pago</h2>
+			<p className="mt-1 text-xs text-muted-foreground">
+				Tarjetas, cuentas o efectivo.
+			</p>
+
+			<div className="mt-3">
+				<PaymentSourcesSection />
+			</div>
+		</div>
+
+		<div className="mt-8 border-t border-border pt-6">
 			<h2 className="text-sm font-medium">Servicio</h2>
 
 			<div className="mt-3">
 				<ServiceSection />
 			</div>
-		</div>
-
-		<div className="mt-8 border-t border-border pt-6">
-			<p className="text-sm text-muted-foreground">
-				Perfil y fuentes de pago, en construcción.
-			</p>
 		</div>
 	</section>
 );

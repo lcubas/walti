@@ -45,7 +45,7 @@ export const CategoryRow = ({
 			<li className="rounded-lg bg-background p-3">
 				<NameForm
 					schema={CategoryNameRequest}
-					label={`Nuevo nombre para ${category.name}`}
+					label="Nuevo nombre"
 					submitLabel="Guardar"
 					placeholder="Supermercado"
 					initialName={category.name}
@@ -106,7 +106,9 @@ export const CategoryRow = ({
 						categoryName={category.name}
 						currentGroupId={group.id}
 						groups={groups}
-						onMove={(groupId) => move.mutate({ categoryId: category.id, groupId })}
+						onMove={(groupId) =>
+							move.mutate({ categoryId: category.id, groupId })
+						}
 						trigger={
 							<button
 								type="button"

@@ -1,53 +1,16 @@
-import { useQuery } from '@tanstack/react-query';
-import { CreateSpaceRequest } from '@walti/shared';
-import { Check, LayoutGrid, Plus, Settings2, Tags, Users } from 'lucide-react';
-import { useState } from 'react';
+import { Check, LayoutGrid, Settings2, Tags, Users } from 'lucide-react';
 import { Link } from 'react-router';
 import { MenuRow, menuRowClasses } from '@/shared/components/menuRow';
 import { SpaceAvatar } from '@/features/spaces/components/spaceAvatar';
-import { NameForm } from '@/shared/components/nameForm';
-import { useCreateSpace } from '@/features/spaces/hooks/useSpaceMutations';
+import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import { notifyDone } from '@/shared/notify';
 import { paths } from '@/shared/routes';
-import { spacesQuery } from '@/shared/spaces/spacesApi';
 import { spaceTones } from '@/shared/spaces/spaceTones';
 import { useSpaces } from '@/shared/spaces/spacesContext';
 
 export const SpacesMenu = ({ onClose }: { onClose: () => void }) => {
 	const { spaces, activeSpace, selectSpace } = useSpaces();
-	// The context only carries the active ones, and an archived space still owns
-	// its name. The form needs the whole list to catch the clash before sending.
-	const { data: allSpaces } = useQuery(spacesQuery);
-	const [creating, setCreating] = useState(false);
-	const create = useCreateSpace();
-
-	// Creating replaces the menu instead of stacking a second overlay on top of
-	// it: one panel, two moments.
-	if (creating) {
-		return (
-			<NameForm
-				schema={CreateSpaceRequest}
-				placeholder="Hogar"
-				duplicateMessage="Ya tienes un espacio con ese nombre."
-				label="Nombre del espacio"
-				submitLabel="Crear espacio"
-				takenNames={(allSpaces ?? []).map((space) => space.name)}
-				pending={create.isPending}
-				onCancel={() => setCreating(false)}
-				onSubmit={(name) =>
-					create.mutate(name, {
-						// The 201 carries the id, which is what lets us leave the user
-						// inside the space they just made.
-						onSuccess: (created) => {
-							selectSpace(created.id);
-							onClose();
-						},
-					})
-				}
-			/>
-		);
-	}
 
 	return (
 		<>
@@ -121,17 +84,7 @@ export const SpacesMenu = ({ onClose }: { onClose: () => void }) => {
 				</ul>
 			) : null}
 
-			<button
-				type="button"
-				onClick={() => setCreating(true)}
-				className={cn(menuRowClasses, 'border-t border-border')}
-			>
-				<MenuRow
-					icon={<Plus className="size-4" aria-hidden="true" />}
-					label="Crear espacio"
-					description="Para separar, por ejemplo, tus gastos de los de casa"
-				/>
-			</button>
+			<Separator className="mb-2" />
 
 			<Link to={paths.space} onClick={onClose} className={menuRowClasses}>
 				<MenuRow
@@ -153,7 +106,7 @@ export const SpacesMenu = ({ onClose }: { onClose: () => void }) => {
 				<MenuRow
 					icon={<LayoutGrid className="size-4" aria-hidden="true" />}
 					label="Gestionar espacios"
-					description="Renombrar y archivar"
+					description="Crear, renombrar y archivar"
 				/>
 			</Link>
 		</>

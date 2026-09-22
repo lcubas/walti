@@ -1,12 +1,15 @@
-import { CircleUser, CreditCard, LogIn, LogOut } from 'lucide-react';
+import { CircleUser, LogIn, LogOut } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router';
-import { ServiceStatus } from '@/features/health/serviceStatus';
 import { useSignOut } from '@/features/auth/hooks/useSignOut';
 import { paths } from '@/shared/routes';
 import { useSession } from '@/features/auth/hooks/useSession';
 import { MenuDrawer } from '@/app/layout/menuDrawer';
 import { MenuRow, menuRowClasses } from '@/shared/components/menuRow';
+import { cn } from '@/lib/utils';
+
+const triggerBaseClasses =
+	'flex size-8 items-center justify-center rounded-full transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white';
 
 export const AccountMenu = () => {
 	const [open, setOpen] = useState(false);
@@ -20,8 +23,24 @@ export const AccountMenu = () => {
 			title="Tu cuenta"
 			open={open}
 			onOpenChange={setOpen}
-			triggerClassName="rounded-full p-1 text-white transition-colors hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-			trigger={<CircleUser className="size-6" aria-hidden="true" />}
+			triggerClassName={cn(
+				triggerBaseClasses,
+				user?.avatarUrl
+					? 'overflow-hidden ring-2 ring-white/60 hover:ring-white/85'
+					: 'bg-white/15 text-white hover:bg-white/25',
+			)}
+			trigger={
+				user?.avatarUrl ? (
+					<img
+						src={user.avatarUrl}
+						alt=""
+						referrerPolicy="no-referrer"
+						className="size-full object-cover"
+					/>
+				) : (
+					<CircleUser className="size-5" aria-hidden="true" />
+				)
+			}
 		>
 			{user ? (
 				<div className="flex items-center gap-3 px-2 pb-3">
@@ -49,15 +68,8 @@ export const AccountMenu = () => {
 			<Link to={paths.account} onClick={close} className={menuRowClasses}>
 				<MenuRow
 					icon={<CircleUser className="size-4" aria-hidden="true" />}
-					label="Perfil"
-				/>
-			</Link>
-
-			<Link to={paths.account} onClick={close} className={menuRowClasses}>
-				<MenuRow
-					icon={<CreditCard className="size-4" aria-hidden="true" />}
-					label="Fuentes de pago"
-					description="Tarjetas y efectivo"
+					label="Cuenta"
+					description="Apariencia y fuentes de pago"
 				/>
 			</Link>
 
@@ -83,10 +95,6 @@ export const AccountMenu = () => {
 					/>
 				</Link>
 			)}
-
-			<div className="border-t border-border px-2 pt-3">
-				<ServiceStatus />
-			</div>
 		</MenuDrawer>
 	);
 };

@@ -35,7 +35,7 @@ export const SpaceRow = ({ space, canArchive, takenNames }: SpaceRowProps) => {
 					schema={RenameSpaceRequest}
 					placeholder="Hogar"
 					duplicateMessage="Ya tienes un espacio con ese nombre."
-					label={`Nuevo nombre para ${space.name}`}
+					label="Nuevo nombre"
 					submitLabel="Guardar"
 					initialName={space.name}
 					takenNames={takenNames}

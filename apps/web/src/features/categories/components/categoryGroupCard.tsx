@@ -1,7 +1,4 @@
-import {
-	CategoryNameRequest,
-	RenameCategoryGroupRequest,
-} from '@walti/shared';
+import { CategoryNameRequest, RenameCategoryGroupRequest } from '@walti/shared';
 import type { CategoryGroup } from '@walti/shared';
 import { ChevronsUpDown, Pencil, Plus, Tag } from 'lucide-react';
 import { useState } from 'react';
@@ -57,7 +54,7 @@ export const CategoryGroupCard = ({
 			<section className="rounded-xl bg-muted p-3">
 				<NameForm
 					schema={RenameCategoryGroupRequest}
-					label={`Nuevo nombre para ${group.name}`}
+					label="Nuevo nombre"
 					submitLabel="Guardar"
 					placeholder="Alimentación"
 					initialName={group.name}
