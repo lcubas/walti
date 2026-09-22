@@ -45,7 +45,7 @@ export const CategoryRow = ({
 			<li className="rounded-lg bg-background p-3">
 				<NameForm
 					schema={CategoryNameRequest}
-					label="Nuevo nombre"
+					label="Nombre de la categoria"
 					submitLabel="Guardar"
 					placeholder="Supermercado"
 					initialName={category.name}

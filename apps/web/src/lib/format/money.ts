@@ -22,3 +22,45 @@ const formatterFor = (currency: Currency) => {
 
 export const formatMoney = (amountCents: number, currency: Currency) =>
 	formatterFor(currency).format(amountCents / 100);
+
+/** Keeps only what a money amount can contain while typing: digits, and at
+ * most one decimal separator (either "." or ",", whichever comes first)
+ * followed by at most two digits. Applied on every change, so pasting or
+ * autofilling garbage is stripped the same as typing it would be. */
+export const sanitizeAmountInput = (raw: string): string => {
+	let sawSeparator = false;
+	let decimalDigits = 0;
+	let result = '';
+
+	for (const char of raw) {
+		if (char >= '0' && char <= '9') {
+			if (sawSeparator) {
+				if (decimalDigits >= 2) {
+					continue;
+				}
+				decimalDigits += 1;
+			}
+			result += char;
+			continue;
+		}
+
+		if ((char === '.' || char === ',') && !sawSeparator) {
+			sawSeparator = true;
+			result += char;
+		}
+	}
+
+	return result;
+};
+
+export const parseMoneyInput = (raw: string): number | null => {
+	const normalized = raw.trim().replace(',', '.');
+
+	if (!/^\d+(\.\d{1,2})?$/.test(normalized)) {
+		return null;
+	}
+
+	const cents = Math.round(Number.parseFloat(normalized) * 100);
+
+	return cents > 0 ? cents : null;
+};

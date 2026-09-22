@@ -1,7 +1,6 @@
 export const paths = {
 	home: '/',
 	expenses: '/gastos',
-	newExpense: '/gastos/nuevo',
 	expense: '/gastos/:expenseId',
 	event: '/eventos/:eventId',
 	plan: '/plan',

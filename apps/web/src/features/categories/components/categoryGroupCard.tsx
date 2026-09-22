@@ -54,7 +54,7 @@ export const CategoryGroupCard = ({
 			<section className="rounded-xl bg-muted p-3">
 				<NameForm
 					schema={RenameCategoryGroupRequest}
-					label="Nuevo nombre"
+					label="Nombre del grupo"
 					submitLabel="Guardar"
 					placeholder="Alimentación"
 					initialName={group.name}
@@ -141,7 +141,7 @@ export const CategoryGroupCard = ({
 						<div className="rounded-lg bg-background p-3">
 							<NameForm
 								schema={CategoryNameRequest}
-								label={`Nueva categoría en ${group.name}`}
+								label="Nombre de la categoria"
 								submitLabel="Añadir"
 								placeholder="Supermercado"
 								maxLength={40}

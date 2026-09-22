@@ -21,15 +21,6 @@ const screens = {
 				import('@/features/expenses/expensesScreen').then((m) => ({
 					Component: m.ExpensesScreen,
 				})),
-			children: [
-				{
-					path: 'nuevo',
-					lazy: () =>
-						import('@/features/expenses/newExpenseDrawer').then((m) => ({
-							Component: m.NewExpenseDrawer,
-						})),
-				},
-			],
 		},
 		{
 			path: paths.expense,

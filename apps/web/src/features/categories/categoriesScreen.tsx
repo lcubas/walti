@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { CreateCategoryGroupRequest, spaceRoles } from '@walti/shared';
 import { ChevronsDownUp, ChevronsUpDown, FolderPlus, Plus } from 'lucide-react';
 import { useState } from 'react';
@@ -7,41 +7,40 @@ import { categoriesQuery } from '@/features/categories/categoriesApi';
 import { CategoryGroupCard } from '@/features/categories/components/categoryGroupCard';
 import { useCreateCategoryGroup } from '@/features/categories/hooks/useCategoryMutations';
 import { EmptyState } from '@/shared/components/emptyState';
-import { ErrorState } from '@/shared/components/errorState';
 import { LoadingState } from '@/shared/components/loadingState';
 import { NameForm } from '@/shared/components/nameForm';
+import { QuerySuspense } from '@/shared/components/querySuspense';
+import type { Space } from '@/shared/spaces/spacesApi';
 import { useActiveSpace } from '@/shared/spaces/spacesContext';
 
 export const CategoriesScreen = () => {
 	const space = useActiveSpace();
-	const [creating, setCreating] = useState(false);
-	// Which groups are unfolded. Lifted here so one control can fold them all.
-	const [openGroups, setOpenGroups] = useState<ReadonlySet<string>>(new Set());
-	// Safe on a reload straight into this URL: the id is only read once the
-	// space is there, and until then the hooks run against an empty one.
-	const spaceId = space?.id ?? '';
-	const groups = useQuery({
-		...categoriesQuery(spaceId),
-		enabled: Boolean(space),
-	});
-	const create = useCreateCategoryGroup(spaceId);
 
 	if (!space) {
 		return <LoadingState rows={3} label="Cargando tu espacio" />;
 	}
 
+	return (
+		<QuerySuspense
+			resetKeys={[space.id]}
+			loading={<LoadingState rows={3} label="Cargando tus categorías" />}
+		>
+			<CategoriesScreenContent space={space} />
+		</QuerySuspense>
+	);
+};
+
+const CategoriesScreenContent = ({ space }: { space: Space }) => {
+	const [creating, setCreating] = useState(false);
+	// Which groups are unfolded. Lifted here so one control can fold them all.
+	const [openGroups, setOpenGroups] = useState<ReadonlySet<string>>(new Set());
+	const { data: groups } = useSuspenseQuery(categoriesQuery(space.id));
+	const create = useCreateCategoryGroup(space.id);
+
 	const canEdit = space.role === spaceRoles.owner;
 
-	if (groups.isPending) {
-		return <LoadingState rows={3} label="Cargando tus categorías" />;
-	}
-
-	if (groups.isError) {
-		return <ErrorState error={groups.error} onRetry={() => groups.refetch()} />;
-	}
-
-	const groupNames = groups.data.map((group) => group.name);
-	const activeGroups = groups.data.filter((group) => !group.archivedAt);
+	const groupNames = groups.map((group) => group.name);
+	const activeGroups = groups.filter((group) => !group.archivedAt);
 	const anyOpen = openGroups.size > 0;
 
 	const toggleGroup = (groupId: string) =>
@@ -58,9 +57,7 @@ export const CategoriesScreen = () => {
 	// One tap always lands somewhere clean: everything closed, or everything
 	// open.
 	const toggleAll = () =>
-		setOpenGroups(
-			anyOpen ? new Set() : new Set(groups.data.map((group) => group.id)),
-		);
+		setOpenGroups(anyOpen ? new Set() : new Set(groups.map((group) => group.id)));
 
 	return (
 		<section className="space-y-4 py-2">
@@ -99,7 +96,7 @@ export const CategoriesScreen = () => {
 						</Button>
 					) : null}
 
-					{groups.data.length > 0 ? (
+					{groups.length > 0 ? (
 						<Button variant="ghost" onClick={toggleAll}>
 							{anyOpen ? (
 								<ChevronsDownUp className="size-4" aria-hidden="true" />
@@ -112,9 +109,9 @@ export const CategoriesScreen = () => {
 				</div>
 			)}
 
-			{groups.data.length > 0 ? (
+			{groups.length > 0 ? (
 				<div className="space-y-3">
-					{groups.data.map((group) => (
+					{groups.map((group) => (
 						<CategoryGroupCard
 							key={group.id}
 							spaceId={space.id}

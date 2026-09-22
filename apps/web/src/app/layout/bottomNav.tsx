@@ -2,9 +2,10 @@ import { ChartNoAxesColumn, House, Plus, Receipt, Target } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { NavLink } from 'react-router';
 import { cn } from '@/lib/utils';
+import { paths } from '@/shared/routes';
+import { useNewExpenseDrawer } from '@/shared/expenses/newExpenseDrawerContext';
 import { useActiveSpace } from '@/shared/spaces/spacesContext';
 import { spaceTones } from '@/shared/spaces/spaceTones';
-import { paths } from '@/shared/routes';
 
 type NavItem = { to: string; label: string; icon: LucideIcon };
 
@@ -60,6 +61,7 @@ const NavItemLink = ({ item, iconClassName }: NavItemLinkProps) => {
 export const BottomNav = () => {
 	const space = useActiveSpace();
 	const tone = space ? spaceTones[space.tone] : null;
+	const { openDrawer } = useNewExpenseDrawer();
 
 	return (
 		<nav
@@ -88,23 +90,24 @@ export const BottomNav = () => {
 				))}
 
 				<li className="flex items-center justify-center px-1">
-					<NavLink
-						to={paths.newExpense}
+					{/* Not a route: opening the sheet is not going anywhere, so a
+					    plain button that flips shared state, not a link, is what
+					    belongs here. */}
+					<button
+						type="button"
+						onClick={openDrawer}
 						aria-label={
 							space ? `Registrar gasto en ${space.name}` : 'Registrar gasto'
 						}
-						className={({ isPending }) =>
-							cn(
-								'-mt-5 flex size-14 items-center justify-center rounded-full shadow-lg transition-transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
-								// Neutral for the instant before the spaces land, so the
-								// button is never invisible.
-								tone ? tone.action : 'bg-muted-foreground/30 text-background',
-								isPending && 'pointer-events-none opacity-50',
-							)
-						}
+						className={cn(
+							'-mt-5 flex size-14 items-center justify-center rounded-full shadow-lg transition-transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
+							// Neutral for the instant before the spaces land, so the
+							// button is never invisible.
+							tone ? tone.action : 'bg-muted-foreground/30 text-background',
+						)}
 					>
 						<Plus className="size-6" aria-hidden="true" />
-					</NavLink>
+					</button>
 				</li>
 
 				{items.slice(2).map((item) => (
