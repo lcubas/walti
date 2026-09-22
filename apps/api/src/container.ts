@@ -18,6 +18,9 @@ import { RenameCategoryGroupUseCase } from './features/categories/useCases/renam
 import { SetCategoryArchivedUseCase } from './features/categories/useCases/setCategoryArchivedUseCase';
 import { UpdateCategoryUseCase } from './features/categories/useCases/updateCategoryUseCase';
 import { ListCategoriesUseCase } from './features/categories/useCases/listCategoriesUseCase';
+import { PostExpenseController } from './features/expenses/controllers/postExpenseController';
+import { ExpenseService } from './features/expenses/services/expenseService';
+import { CreateExpenseUseCase } from './features/expenses/useCases/createExpenseUseCase';
 import { GetCheckHealthController } from './features/health/controllers/getCheckHealthController';
 import { CheckHealthUseCase } from './features/health/useCases/checkHealthUseCase';
 import { GetPaymentSourcesController } from './features/paymentSources/controllers/getPaymentSourcesController';
@@ -40,6 +43,7 @@ import { RenameSpaceUseCase } from './features/spaces/useCases/renameSpaceUseCas
 import { SetSpaceArchivedUseCase } from './features/spaces/useCases/setSpaceArchivedUseCase';
 import { db } from './shared/database/client';
 import { DrizzleCategoryRepository } from './shared/repositories/drizzle/drizzleCategoryRepository';
+import { DrizzleExpenseRepository } from './shared/repositories/drizzle/drizzleExpenseRepository';
 import { DrizzleHealthRepository } from './shared/repositories/drizzle/drizzleHealthRepository';
 import { DrizzlePaymentSourceRepository } from './shared/repositories/drizzle/drizzlePaymentSourceRepository';
 import { DrizzleSpaceRepository } from './shared/repositories/drizzle/drizzleSpaceRepository';
@@ -49,6 +53,7 @@ import { CategorySeeder } from './shared/repositories/drizzle/categorySeeder';
 const categorySeeder = new CategorySeeder();
 
 const categoryRepository = new DrizzleCategoryRepository(db);
+const expenseRepository = new DrizzleExpenseRepository(db);
 const healthRepository = new DrizzleHealthRepository(db);
 const paymentSourceRepository = new DrizzlePaymentSourceRepository(db);
 const spaceRepository = new DrizzleSpaceRepository(db, categorySeeder);
@@ -58,6 +63,7 @@ const sessionService = new SessionService();
 const googleIdentityService = new GoogleIdentityService();
 const spaceService = new SpaceService(spaceRepository);
 const categoryService = new CategoryService();
+const expenseService = new ExpenseService();
 const paymentSourceService = new PaymentSourceService();
 
 const signInWithGoogleUseCase = new SignInWithGoogleUseCase(
@@ -87,6 +93,11 @@ const updateCategoryUseCase = new UpdateCategoryUseCase(
 const setCategoryArchivedUseCase = new SetCategoryArchivedUseCase(
 	categoryRepository,
 	categoryService,
+);
+const createExpenseUseCase = new CreateExpenseUseCase(
+	expenseRepository,
+	categoryRepository,
+	expenseService,
 );
 const listSpacesUseCase = new ListSpacesUseCase(spaceRepository);
 const createSpaceUseCase = new CreateSpaceUseCase(spaceRepository);
@@ -137,6 +148,7 @@ const patchCategoryController = new PatchCategoryController(
 const patchCategoryArchiveController = new PatchCategoryArchiveController(
 	setCategoryArchivedUseCase,
 );
+const postExpenseController = new PostExpenseController(createExpenseUseCase);
 const getSpacesController = new GetSpacesController(listSpacesUseCase);
 const postSpaceController = new PostSpaceController(createSpaceUseCase);
 const patchSpaceController = new PatchSpaceController(renameSpaceUseCase);
@@ -164,6 +176,7 @@ export {
 	patchCategoryArchiveController,
 	postCategoryGroupController,
 	patchCategoryGroupController,
+	postExpenseController,
 	getCheckHealthController,
 	postGoogleSignInController,
 	getSessionController,
