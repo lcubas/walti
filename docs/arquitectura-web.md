@@ -78,7 +78,7 @@ Los errores de formulario se muestran en el campo, no en un toast.
 |---|---|
 | `components/ui/` | Primitivas de shadcn. Se añaden con su CLI y no se editan a mano |
 | `shared/components/` | Piezas propias usadas por dos o más features, o por el layout |
-| `features/<x>/components/` | Piezas de una sola pantalla, a partir de tres |
+| `features/<x>/components/` | Piezas de una sola pantalla |
 
 Estados vacíos, de error y de carga tienen su componente en `shared/components/`: `EmptyState`, `ErrorState`, `LoadingState`. No se improvisan por pantalla.
 
