@@ -1,4 +1,4 @@
-import { Users, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
 	Drawer,
@@ -6,36 +6,10 @@ import {
 	DrawerContent,
 	DrawerTitle,
 } from '@/components/ui/drawer';
-import { SpaceAvatar } from '@/features/spaces/components/spaceAvatar';
 import { NewExpenseForm } from '@/features/expenses/components/newExpenseForm';
+import { SpacePill } from '@/features/expenses/components/spacePill';
 import { useNewExpenseDrawer } from '@/shared/expenses/newExpenseDrawerContext';
-import { isShared, useActiveSpace } from '@/shared/spaces/spacesContext';
-import type { Space } from '@/shared/spaces/spacesApi';
-
-/**
- * Same shape and language as the header's own space pill (`SpaceSwitcher`):
- * avatar, name, and — only when the space is shared — a member-count badge,
- * the same icon+count pattern used in `SpaceRow`. No framing sentence: the
- * pill alone says where this expense lands, and it says it whether the
- * space is personal or shared, closing the gap the header's pill leaves
- * once its own screen is behind the drawer's backdrop. It never opens
- * anything — switching spaces mid-form would drop an already-picked
- * category, which belongs to the space you were in.
- */
-const SpacePill = ({ space }: { space: Space }) => (
-	<span className="flex min-h-9 max-w-full shrink items-center gap-2 rounded-full bg-muted py-1 pr-3 pl-1 text-sm font-medium">
-		<SpaceAvatar space={space} className="size-7 rounded-full" />
-
-		<span className="truncate">{space.name}</span>
-
-		{isShared(space) ? (
-			<span className="flex items-center gap-1 rounded-full bg-background px-1.5 py-0.5 text-xs text-muted-foreground">
-				<Users className="size-3" aria-hidden="true" />
-				{space.members}
-			</span>
-		) : null}
-	</span>
-);
+import { useActiveSpace } from '@/shared/spaces/spacesContext';
 
 export const NewExpenseDrawer = () => {
 	const space = useActiveSpace();

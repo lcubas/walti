@@ -1,6 +1,8 @@
 import { ServiceSection } from '@/features/health/serviceSection';
 import { ThemeSelector } from '@/features/account/themeSelector';
 import { PaymentSourcesSection } from '@/features/paymentSources/paymentSourcesSection';
+import { LoadingState } from '@/shared/components/loadingState';
+import { QuerySuspense } from '@/shared/components/querySuspense';
 
 export const AccountScreen = () => (
 	<section>
@@ -25,7 +27,13 @@ export const AccountScreen = () => (
 			</p>
 
 			<div className="mt-3">
-				<PaymentSourcesSection />
+				<QuerySuspense
+					loading={
+						<LoadingState rows={2} label="Cargando tus fuentes de pago" />
+					}
+				>
+					<PaymentSourcesSection />
+				</QuerySuspense>
 			</div>
 		</div>
 
@@ -33,7 +41,11 @@ export const AccountScreen = () => (
 			<h2 className="text-sm font-medium">Servicio</h2>
 
 			<div className="mt-3">
-				<ServiceSection />
+				<QuerySuspense
+					loading={<LoadingState rows={1} label="Comprobando el servicio" />}
+				>
+					<ServiceSection />
+				</QuerySuspense>
 			</div>
 		</div>
 	</section>

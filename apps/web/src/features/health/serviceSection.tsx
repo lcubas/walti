@@ -1,17 +1,7 @@
-import { ErrorState } from '@/shared/components/errorState';
-import { LoadingState } from '@/shared/components/loadingState';
 import { useHealth } from '@/features/health/hooks/useHealth';
 
 export const ServiceSection = () => {
-	const { data, error, isPending, refetch } = useHealth();
-
-	if (isPending) {
-		return <LoadingState rows={1} label="Comprobando el servicio" />;
-	}
-
-	if (error) {
-		return <ErrorState error={error} onRetry={() => refetch()} />;
-	}
+	const { data } = useHealth();
 
 	const healthy = data.status === 'ok';
 

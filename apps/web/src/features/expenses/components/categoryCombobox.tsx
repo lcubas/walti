@@ -12,7 +12,11 @@ import {
 } from '@/components/ui/combobox';
 
 type CategoryOption = { value: string; label: string };
-type CategoryGroupOption = { id: string; name: string; items: CategoryOption[] };
+type CategoryGroupOption = {
+	id: string;
+	name: string;
+	items: CategoryOption[];
+};
 
 const buildGroupedCategories = (
 	groups: CategoryGroupList | undefined,

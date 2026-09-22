@@ -1,6 +1,12 @@
 import { type SubmitEvent, useId, useState } from 'react';
 import * as v from 'valibot';
 import { Button } from '@/components/ui/button';
+import {
+	Field,
+	FieldContent,
+	FieldError,
+	FieldLabel,
+} from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 
 type NameSchema = v.GenericSchema<unknown, { name: string }>;
@@ -74,30 +80,26 @@ export const NameForm = ({
 
 	return (
 		<form onSubmit={submit} className="space-y-3" noValidate>
-			<div className="space-y-1.5">
-				<label htmlFor={fieldId} className="text-sm font-medium">
-					{label}
-				</label>
+			<Field>
+				<FieldLabel htmlFor={fieldId}>{label}</FieldLabel>
 
-				<Input
-					id={fieldId}
-					value={name}
-					onChange={(event) => setName(event.target.value)}
-					placeholder={placeholder}
-					maxLength={maxLength}
-					autoComplete="off"
-					aria-invalid={message ? true : undefined}
-					aria-describedby={message ? errorId : undefined}
-				/>
+				<FieldContent>
+					<Input
+						id={fieldId}
+						value={name}
+						onChange={(event) => setName(event.target.value)}
+						placeholder={placeholder}
+						maxLength={maxLength}
+						autoComplete="off"
+						aria-invalid={message ? true : undefined}
+						aria-describedby={message ? errorId : undefined}
+					/>
 
-				{/* Said before submitting, not after: the API refuses it too, but the
-				    user should not have to press to find out. */}
-				{message ? (
-					<p id={errorId} role="alert" className="text-sm text-destructive">
-						{message}
-					</p>
-				) : null}
-			</div>
+					{/* Said before submitting, not after: the API refuses it too, but the
+					    user should not have to press to find out. */}
+					<FieldError id={errorId}>{message}</FieldError>
+				</FieldContent>
+			</Field>
 
 			<div className="flex gap-2">
 				<Button

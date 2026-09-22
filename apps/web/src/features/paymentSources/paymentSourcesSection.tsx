@@ -1,12 +1,10 @@
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
 import { CreatePaymentSourceRequest } from '@walti/shared';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useCreatePaymentSource } from '@/features/paymentSources/hooks/usePaymentSourceMutations';
 import { NameForm } from '@/shared/components/nameForm';
-import { ErrorState } from '@/shared/components/errorState';
-import { LoadingState } from '@/shared/components/loadingState';
 import { paymentSourcesQuery } from '@/features/paymentSources/paymentSourcesApi';
 import { PaymentSourceRow } from '@/features/paymentSources/paymentSourceRow';
 
@@ -16,32 +14,19 @@ import { PaymentSourceRow } from '@/features/paymentSources/paymentSourceRow';
  * already where "Perfil y fuentes de pago" lives.
  */
 export const PaymentSourcesSection = () => {
-	const paymentSources = useQuery(paymentSourcesQuery);
+	const { data: paymentSources } = useSuspenseQuery(paymentSourcesQuery);
 	const [creating, setCreating] = useState(false);
 	const create = useCreatePaymentSource();
-
-	if (paymentSources.isPending) {
-		return <LoadingState rows={2} label="Cargando tus fuentes de pago" />;
-	}
-
-	if (paymentSources.isError) {
-		return (
-			<ErrorState
-				error={paymentSources.error}
-				onRetry={() => paymentSources.refetch()}
-			/>
-		);
-	}
 
 	// Archived ones count too: freeing the name would only move the clash to
 	// the moment the source comes back.
 	const otherNames = (paymentSourceId: string) =>
-		paymentSources.data
+		paymentSources
 			.filter((source) => source.id !== paymentSourceId)
 			.map((source) => source.name);
 
-	const active = paymentSources.data.filter((source) => !source.archivedAt);
-	const archived = paymentSources.data.filter((source) => source.archivedAt);
+	const active = paymentSources.filter((source) => !source.archivedAt);
+	const archived = paymentSources.filter((source) => source.archivedAt);
 
 	return (
 		<div className="space-y-4">
@@ -53,7 +38,7 @@ export const PaymentSourcesSection = () => {
 						duplicateMessage="Ya tienes una fuente de pago con ese nombre."
 						label="Nombre de la fuente de pago"
 						submitLabel="Crear fuente de pago"
-						takenNames={paymentSources.data.map((source) => source.name)}
+						takenNames={paymentSources.map((source) => source.name)}
 						pending={create.isPending}
 						onCancel={() => setCreating(false)}
 						onSubmit={(name) =>
