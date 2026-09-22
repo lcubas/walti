@@ -97,7 +97,9 @@ const setCategoryArchivedUseCase = new SetCategoryArchivedUseCase(
 const createExpenseUseCase = new CreateExpenseUseCase(
 	expenseRepository,
 	categoryRepository,
+	paymentSourceRepository,
 	expenseService,
+	paymentSourceService,
 );
 const listSpacesUseCase = new ListSpacesUseCase(spaceRepository);
 const createSpaceUseCase = new CreateSpaceUseCase(spaceRepository);

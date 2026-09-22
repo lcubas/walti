@@ -1,4 +1,4 @@
-import type { CategoryGroupList } from '@walti/shared';
+import type { CategoryGroupList, PaymentSource } from '@walti/shared';
 import { ConflictError } from '../../../shared/errors/conflictError';
 import { NotFoundError } from '../../../shared/errors/notFoundError';
 
@@ -35,5 +35,20 @@ export class ExpenseService {
 			'category_not_found',
 			'Esa categoría no existe en este espacio.',
 		);
+	}
+
+	/**
+	 * Confirms a payment source can still be picked for a new expense.
+	 *
+	 * @param source - The payment source, already resolved as the user's own.
+	 * @throws {ConflictError} If the payment source is archived.
+	 */
+	requireActivePaymentSource(source: PaymentSource): void {
+		if (source.archivedAt) {
+			throw new ConflictError(
+				'payment_source_archived',
+				'Esa fuente de pago está archivada. Elige otra o recupérala antes de usarla.',
+			);
+		}
 	}
 }

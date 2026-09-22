@@ -1,10 +1,5 @@
 import type { Category, CategoryGroup, CategoryGroupList } from '@walti/shared';
 
-/**
- * The categories of a space, grouped. Every write is unscoped: the caller has already
- * established that it may write to this space, and the reads it did to decide
- * came from `listForSpace`, which is scoped.
- */
 export interface CategoryRepository {
 	/**
 	 * The list of groups of a space, groups with their categories nested, in the

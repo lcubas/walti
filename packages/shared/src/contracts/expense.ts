@@ -5,6 +5,12 @@ export const Expense = v.object({
 	categoryId: v.string(),
 	amountCents: v.number(),
 	occurredOn: v.string(),
+	/** Null when the expense carries no payment source. */
+	paymentSourceId: v.nullable(v.string()),
+	/** Null when the expense carries no merchant or concept. */
+	merchant: v.nullable(v.string()),
+	/** Null when the expense carries no note. */
+	note: v.nullable(v.string()),
 });
 
 export type Expense = v.InferOutput<typeof Expense>;
@@ -22,10 +28,29 @@ const occurredOn = v.pipe(
 
 const categoryId = v.pipe(v.string(), v.uuid());
 
+const paymentSourceId = v.pipe(v.string(), v.uuid());
+
+const merchant = v.pipe(
+	v.string(),
+	v.trim(),
+	v.nonEmpty('El comercio o concepto no puede estar vacío.'),
+	v.maxLength(60, 'El comercio o concepto no puede pasar de 60 caracteres.'),
+);
+
+const note = v.pipe(
+	v.string(),
+	v.trim(),
+	v.nonEmpty('La nota no puede estar vacía.'),
+	v.maxLength(200, 'La nota no puede pasar de 200 caracteres.'),
+);
+
 export const CreateExpenseRequest = v.object({
 	categoryId,
 	amountCents,
 	occurredOn,
+	paymentSourceId: v.optional(paymentSourceId),
+	merchant: v.optional(merchant),
+	note: v.optional(note),
 });
 
 export type CreateExpenseRequest = v.InferOutput<typeof CreateExpenseRequest>;
