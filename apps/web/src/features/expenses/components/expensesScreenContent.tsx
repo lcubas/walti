@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { categoriesQuery } from '@/features/categories/categoriesApi';
 import { ExpenseDayGroup } from '@/features/expenses/components/expenseDayGroup';
 import { expensesQuery } from '@/features/expenses/expensesApi';
+import { eventsQuery } from '@/features/events/eventsApi';
 import { paymentSourcesQuery } from '@/features/paymentSources/paymentSourcesApi';
 import { formatMoney } from '@/lib/format/money';
 import { EmptyState } from '@/shared/components/emptyState';
@@ -15,6 +16,7 @@ import type { Space } from '@/shared/spaces/spacesApi';
 export type DisplayExpense = Expense & {
 	categoryName: string;
 	paymentSourceName: string | null;
+	eventName: string | null;
 };
 
 type ExpensesScreenContentProps = { space: Space; period: string };
@@ -26,6 +28,7 @@ export const ExpensesScreenContent = ({
 	const { data: expenses } = useSuspenseQuery(expensesQuery(space.id, period));
 	const { data: groups } = useSuspenseQuery(categoriesQuery(space.id));
 	const { data: paymentSources } = useSuspenseQuery(paymentSourcesQuery);
+	const { data: events } = useSuspenseQuery(eventsQuery(space.id));
 	const { openDrawer } = useNewExpenseDrawer();
 	const [expandedExpenseId, setExpandedExpenseId] = useState<string | null>(
 		null,
@@ -56,12 +59,20 @@ export const ExpensesScreenContent = ({
 	const paymentSourceNames = new Map(
 		paymentSources.map((source) => [source.id, source.name] as const),
 	);
+	// Events are archived, never deleted, so a past expense's eventId still
+	// resolves here even after its event is archived.
+	const eventNames = new Map(
+		events.map((event) => [event.id, event.name] as const),
+	);
 
 	const displayExpenses: DisplayExpense[] = expenses.map((expense) => ({
 		...expense,
 		categoryName: categoryNames.get(expense.categoryId) ?? 'Categoría',
 		paymentSourceName: expense.paymentSourceId
 			? (paymentSourceNames.get(expense.paymentSourceId) ?? null)
+			: null,
+		eventName: expense.eventId
+			? (eventNames.get(expense.eventId) ?? null)
 			: null,
 	}));
 

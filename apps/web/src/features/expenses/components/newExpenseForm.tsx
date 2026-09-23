@@ -18,6 +18,7 @@ export const NewExpenseForm = ({ spaceId, currency }: NewExpenseFormProps) => {
 	const [categoryId, setCategoryId] = useState<string | null>(null);
 	const [occurredOn, setOccurredOn] = useState(todayCivilDate);
 	const [detailsOpen, setDetailsOpen] = useState(false);
+	const [eventId, setEventId] = useState<string | null>(null);
 	const [merchant, setMerchant] = useState('');
 	const [paymentSourceId, setPaymentSourceId] = useState<string | null>(null);
 	const [note, setNote] = useState('');
@@ -51,6 +52,7 @@ export const NewExpenseForm = ({ spaceId, currency }: NewExpenseFormProps) => {
 				amountCents,
 				occurredOn,
 				paymentSourceId: paymentSourceId ?? undefined,
+				eventId: eventId ?? undefined,
 				merchant: trimmedMerchant.length > 0 ? trimmedMerchant : undefined,
 				note: trimmedNote.length > 0 ? trimmedNote : undefined,
 			},
@@ -61,6 +63,7 @@ export const NewExpenseForm = ({ spaceId, currency }: NewExpenseFormProps) => {
 					setAmount('');
 					setCategoryId(null);
 					setOccurredOn(todayCivilDate());
+					setEventId(null);
 					setDetailsOpen(false);
 					setMerchant('');
 					setPaymentSourceId(null);
@@ -92,6 +95,9 @@ export const NewExpenseForm = ({ spaceId, currency }: NewExpenseFormProps) => {
 				onCategoryChange={setCategoryId}
 				occurredOn={occurredOn}
 				onOccurredOnChange={setOccurredOn}
+				eventId={eventId}
+				onEventChange={setEventId}
+				suggestEvent
 				detailsOpen={detailsOpen}
 				onDetailsOpenChange={setDetailsOpen}
 				merchant={merchant}

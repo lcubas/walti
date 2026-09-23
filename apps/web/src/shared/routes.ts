@@ -2,6 +2,7 @@ export const paths = {
 	home: '/',
 	expenses: '/gastos',
 	expense: '/gastos/:expenseId',
+	events: '/eventos',
 	event: '/eventos/:eventId',
 	plan: '/plan',
 	recurring: '/plan/recurrentes',

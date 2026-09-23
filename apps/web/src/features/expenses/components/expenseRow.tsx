@@ -25,11 +25,6 @@ type ExpenseRowProps = {
 	onToggle: () => void;
 };
 
-/** Tapping a row expands its detail inline, right below it, instead of
- * opening a bottom drawer: a handful of fields is a quick glance, not an
- * action, so there's no reason to pull the person's eyes away from the
- * list they're scanning. Editing and deleting (WALTI-36) grow inside the
- * same expanded panel, in place of the read-only fields. */
 export const ExpenseRow = ({
 	spaceId,
 	expense,
@@ -89,7 +84,11 @@ export const ExpenseRow = ({
 			</button>
 
 			{expanded ? (
-				<div id={detailId} role="region" className="border-t border-border p-3">
+				<section
+					id={detailId}
+					role="region"
+					className="border-t border-border p-3"
+				>
 					{editing ? (
 						<EditExpenseForm
 							spaceId={spaceId}
@@ -111,6 +110,10 @@ export const ExpenseRow = ({
 										label="Fuente de pago"
 										value={expense.paymentSourceName}
 									/>
+								) : null}
+
+								{expense.eventName ? (
+									<DetailField label="Evento" value={expense.eventName} />
 								) : null}
 							</div>
 
@@ -151,7 +154,7 @@ export const ExpenseRow = ({
 							</div>
 						</div>
 					)}
-				</div>
+				</section>
 			) : null}
 		</div>
 	);

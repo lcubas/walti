@@ -1,4 +1,11 @@
-import { Check, LayoutGrid, Settings2, Tags, Users } from 'lucide-react';
+import {
+	CalendarRange,
+	Check,
+	LayoutGrid,
+	Settings2,
+	Tags,
+	Users,
+} from 'lucide-react';
 import { Link } from 'react-router';
 import { MenuRow, menuRowClasses } from '@/shared/components/menuRow';
 import { SpaceAvatar } from '@/features/spaces/components/spaceAvatar';
@@ -99,6 +106,14 @@ export const SpacesMenu = ({ onClose }: { onClose: () => void }) => {
 					icon={<Tags className="size-4" aria-hidden="true" />}
 					label="Categorías"
 					description="Crear, renombrar, mover y archivar"
+				/>
+			</Link>
+
+			<Link to={paths.events} onClick={onClose} className={menuRowClasses}>
+				<MenuRow
+					icon={<CalendarRange className="size-4" aria-hidden="true" />}
+					label="Eventos"
+					description="Agrupa los gastos de una ocasión con fecha propia"
 				/>
 			</Link>
 

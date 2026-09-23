@@ -27,8 +27,18 @@ const screens = {
 			element: <PendingScreen title="Detalle del gasto" />,
 		},
 		{
+			path: paths.events,
+			lazy: () =>
+				import('@/features/events/eventsScreen').then((m) => ({
+					Component: m.EventsScreen,
+				})),
+		},
+		{
 			path: paths.event,
-			element: <PendingScreen title="Detalle del evento" />,
+			lazy: () =>
+				import('@/features/events/eventScreen').then((m) => ({
+					Component: m.EventScreen,
+				})),
 		},
 		{
 			path: paths.plan,

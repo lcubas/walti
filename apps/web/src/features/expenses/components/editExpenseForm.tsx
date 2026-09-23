@@ -42,6 +42,7 @@ export const EditExpenseForm = ({
 			Boolean(expense.paymentSourceId) ||
 			Boolean(expense.note),
 	);
+	const [eventId, setEventId] = useState<string | null>(expense.eventId);
 	const [merchant, setMerchant] = useState(expense.merchant ?? '');
 	const [paymentSourceId, setPaymentSourceId] = useState<string | null>(
 		expense.paymentSourceId,
@@ -79,6 +80,7 @@ export const EditExpenseForm = ({
 					amountCents,
 					occurredOn,
 					paymentSourceId: paymentSourceId ?? undefined,
+					eventId: eventId ?? undefined,
 					merchant: trimmedMerchant.length > 0 ? trimmedMerchant : undefined,
 					note: trimmedNote.length > 0 ? trimmedNote : undefined,
 				},
@@ -106,6 +108,9 @@ export const EditExpenseForm = ({
 				onCategoryChange={setCategoryId}
 				occurredOn={occurredOn}
 				onOccurredOnChange={setOccurredOn}
+				eventId={eventId}
+				onEventChange={setEventId}
+				suggestEvent={false}
 				detailsOpen={detailsOpen}
 				onDetailsOpenChange={setDetailsOpen}
 				merchant={merchant}

@@ -24,6 +24,7 @@ import {
 import { Skeleton } from '@/components/ui/skeleton';
 import { Textarea } from '@/components/ui/textarea';
 import { CategoryField } from '@/features/expenses/components/categoryField';
+import { EventField } from '@/features/expenses/components/eventField';
 import { PaymentSourceField } from '@/features/expenses/components/paymentSourceField';
 import {
 	civilDateToDate,
@@ -47,6 +48,9 @@ type ExpenseFormFieldsProps = {
 	onCategoryChange: (value: string | null) => void;
 	occurredOn: string;
 	onOccurredOnChange: (value: string) => void;
+	eventId: string | null;
+	onEventChange: (value: string | null) => void;
+	suggestEvent: boolean;
 	detailsOpen: boolean;
 	onDetailsOpenChange: (open: boolean) => void;
 	merchant: string;
@@ -57,9 +61,6 @@ type ExpenseFormFieldsProps = {
 	onNoteChange: (value: string) => void;
 };
 
-/** The fields shared by creating and editing a gasto — everything except the
- * submit action, which each caller owns since "guardar" and "guardar
- * cambios" behave differently (reset-and-stay vs. exit edit mode). */
 export const ExpenseFormFields = ({
 	spaceId,
 	currency,
@@ -71,6 +72,9 @@ export const ExpenseFormFields = ({
 	onCategoryChange,
 	occurredOn,
 	onOccurredOnChange,
+	eventId,
+	onEventChange,
+	suggestEvent,
 	detailsOpen,
 	onDetailsOpenChange,
 	merchant,
@@ -178,6 +182,25 @@ export const ExpenseFormFields = ({
 							/>
 						</PopoverContent>
 					</Popover>
+				</FieldContent>
+			</Field>
+
+			<Field>
+				<FieldLabel>Evento</FieldLabel>
+
+				<FieldContent>
+					<QuerySuspense
+						resetKeys={[spaceId]}
+						loading={<Skeleton className="h-11 w-full" />}
+					>
+						<EventField
+							spaceId={spaceId}
+							value={eventId}
+							onChange={onEventChange}
+							occurredOn={occurredOn}
+							suggest={suggestEvent}
+						/>
+					</QuerySuspense>
 				</FieldContent>
 			</Field>
 

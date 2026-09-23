@@ -7,6 +7,7 @@ import {
 	useUnarchiveSpace,
 } from '@/features/spaces/hooks/useSpaceMutations';
 import { SpaceAvatar } from '@/features/spaces/components/spaceAvatar';
+import { ArchivedBadge } from '@/shared/components/archivedBadge';
 import { NameForm } from '@/shared/components/nameForm';
 import { cn } from '@/lib/utils';
 import { ConfirmDialog } from '@/shared/components/confirmDialog';
@@ -57,7 +58,14 @@ export const SpaceRow = ({ space, canArchive, takenNames }: SpaceRowProps) => {
 			<SpaceAvatar space={space} />
 
 			<span className="flex min-w-0 flex-1 flex-col">
-				<span className="truncate text-sm font-medium">{space.name}</span>
+				<span
+					className={cn(
+						'truncate text-sm font-medium',
+						space.archivedAt && 'text-muted-foreground',
+					)}
+				>
+					{space.name}
+				</span>
 
 				<span className="flex items-center gap-2 text-xs text-muted-foreground">
 					{space.isDefault ? <span>Personal</span> : null}
@@ -70,19 +78,10 @@ export const SpaceRow = ({ space, canArchive, takenNames }: SpaceRowProps) => {
 					) : (
 						<span>Privado</span>
 					)}
-
-					{space.archivedAt ? <span>· Archivado</span> : null}
 				</span>
 			</span>
 
-			<button
-				type="button"
-				onClick={() => setRenaming(true)}
-				aria-label={`Renombrar ${space.name}`}
-				className={actionClasses}
-			>
-				<Pencil className="size-4" aria-hidden="true" />
-			</button>
+			{space.archivedAt ? <ArchivedBadge /> : null}
 
 			{space.archivedAt ? (
 				<button
@@ -95,27 +94,38 @@ export const SpaceRow = ({ space, canArchive, takenNames }: SpaceRowProps) => {
 					<ArchiveRestore className="size-4" aria-hidden="true" />
 				</button>
 			) : (
-				<ConfirmDialog
-					title={`¿Archivar ${space.name}?`}
-					description="Desaparece del conmutador, pero su histórico se conserva y puedes recuperarlo desde aquí."
-					confirmLabel="Archivar"
-					onConfirm={() => archive.mutate(space.id)}
-					trigger={
-						<button
-							type="button"
-							disabled={!canArchive || archive.isPending}
-							aria-label={`Archivar ${space.name}`}
-							title={
-								canArchive
-									? undefined
-									: 'No puedes archivar tu único espacio activo'
-							}
-							className={cn(actionClasses, 'disabled:opacity-40')}
-						>
-							<Archive className="size-4" aria-hidden="true" />
-						</button>
-					}
-				/>
+				<>
+					<button
+						type="button"
+						onClick={() => setRenaming(true)}
+						aria-label={`Renombrar ${space.name}`}
+						className={actionClasses}
+					>
+						<Pencil className="size-4" aria-hidden="true" />
+					</button>
+
+					<ConfirmDialog
+						title={`¿Archivar ${space.name}?`}
+						description="Desaparece del conmutador, pero su histórico se conserva y puedes recuperarlo desde aquí."
+						confirmLabel="Archivar"
+						onConfirm={() => archive.mutate(space.id)}
+						trigger={
+							<button
+								type="button"
+								disabled={!canArchive || archive.isPending}
+								aria-label={`Archivar ${space.name}`}
+								title={
+									canArchive
+										? undefined
+										: 'No puedes archivar tu único espacio activo'
+								}
+								className={cn(actionClasses, 'disabled:opacity-40')}
+							>
+								<Archive className="size-4" aria-hidden="true" />
+							</button>
+						}
+					/>
+				</>
 			)}
 		</li>
 	);

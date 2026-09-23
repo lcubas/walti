@@ -6,7 +6,9 @@ import {
 	useRenamePaymentSource,
 	useUnarchivePaymentSource,
 } from '@/features/paymentSources/hooks/usePaymentSourceMutations';
+import { ArchivedBadge } from '@/shared/components/archivedBadge';
 import { NameForm } from '@/shared/components/nameForm';
+import { cn } from '@/lib/utils';
 import { ConfirmDialog } from '@/shared/components/confirmDialog';
 
 const actionClasses =
@@ -59,23 +61,17 @@ export const PaymentSourceRow = ({
 			/>
 
 			<span className="flex min-w-0 flex-1 flex-col">
-				<span className="truncate text-sm font-medium">
+				<span
+					className={cn(
+						'truncate text-sm font-medium',
+						paymentSource.archivedAt && 'text-muted-foreground',
+					)}
+				>
 					{paymentSource.name}
 				</span>
-
-				{paymentSource.archivedAt ? (
-					<span className="text-xs text-muted-foreground">Archivada</span>
-				) : null}
 			</span>
 
-			<button
-				type="button"
-				onClick={() => setRenaming(true)}
-				aria-label={`Renombrar ${paymentSource.name}`}
-				className={actionClasses}
-			>
-				<Pencil className="size-4" aria-hidden="true" />
-			</button>
+			{paymentSource.archivedAt ? <ArchivedBadge label="Archivada" /> : null}
 
 			{paymentSource.archivedAt ? (
 				<button
@@ -88,22 +84,33 @@ export const PaymentSourceRow = ({
 					<ArchiveRestore className="size-4" aria-hidden="true" />
 				</button>
 			) : (
-				<ConfirmDialog
-					title={`¿Archivar ${paymentSource.name}?`}
-					description="Desaparece del selector al registrar un gasto, pero su histórico se conserva y puedes recuperarla desde aquí."
-					confirmLabel="Archivar"
-					onConfirm={() => archive.mutate(paymentSource.id)}
-					trigger={
-						<button
-							type="button"
-							disabled={archive.isPending}
-							aria-label={`Archivar ${paymentSource.name}`}
-							className={actionClasses}
-						>
-							<Archive className="size-4" aria-hidden="true" />
-						</button>
-					}
-				/>
+				<>
+					<button
+						type="button"
+						onClick={() => setRenaming(true)}
+						aria-label={`Renombrar ${paymentSource.name}`}
+						className={actionClasses}
+					>
+						<Pencil className="size-4" aria-hidden="true" />
+					</button>
+
+					<ConfirmDialog
+						title={`¿Archivar ${paymentSource.name}?`}
+						description="Desaparece del selector al registrar un gasto, pero su histórico se conserva y puedes recuperarla desde aquí."
+						confirmLabel="Archivar"
+						onConfirm={() => archive.mutate(paymentSource.id)}
+						trigger={
+							<button
+								type="button"
+								disabled={archive.isPending}
+								aria-label={`Archivar ${paymentSource.name}`}
+								className={actionClasses}
+							>
+								<Archive className="size-4" aria-hidden="true" />
+							</button>
+						}
+					/>
+				</>
 			)}
 		</li>
 	);

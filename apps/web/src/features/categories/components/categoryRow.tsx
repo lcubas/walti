@@ -10,6 +10,7 @@ import {
 } from '@/features/categories/hooks/useCategoryMutations';
 import { cn } from '@/lib/utils';
 import { ConfirmDialog } from '@/shared/components/confirmDialog';
+import { ArchivedBadge } from '@/shared/components/archivedBadge';
 import { NameForm } from '@/shared/components/nameForm';
 
 const actionClasses =
@@ -74,10 +75,9 @@ export const CategoryRow = ({
 				)}
 			>
 				{category.name}
-				{category.archivedAt ? (
-					<span className="ml-2 text-xs text-muted-foreground">Archivada</span>
-				) : null}
 			</span>
+
+			{category.archivedAt ? <ArchivedBadge label="Archivada" /> : null}
 
 			{!canEdit ? null : category.archivedAt ? (
 				<button

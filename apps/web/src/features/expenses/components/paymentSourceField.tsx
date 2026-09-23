@@ -30,8 +30,13 @@ export const PaymentSourceField = ({
 		);
 	}
 
+	// Same exclusion as the category picker (categoryCombobox.tsx): an
+	// archived source shouldn't be a choice for a *new* selection. This was
+	// previously computing `active` only for the empty-state check above and
+	// then rendering the unfiltered `sources` here, so an archived source
+	// still showed up as a normal, selectable option.
 	const items = Object.fromEntries(
-		sources.map((source) => [source.id, source.name]),
+		active.map((source) => [source.id, source.name]),
 	);
 
 	return (
@@ -43,7 +48,7 @@ export const PaymentSourceField = ({
 			<SelectContent>
 				<SelectItem value={null}>Ninguna</SelectItem>
 
-				{sources.map((source) => (
+				{active.map((source) => (
 					<SelectItem key={source.id} value={source.id}>
 						{source.name}
 					</SelectItem>
