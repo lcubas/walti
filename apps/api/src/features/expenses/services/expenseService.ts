@@ -1,4 +1,4 @@
-import type { CategoryGroupList, PaymentSource } from '@walti/shared';
+import type { CategoryGroupList, Event, PaymentSource } from '@walti/shared';
 import { ConflictError } from '../../../shared/errors/conflictError';
 import { NotFoundError } from '../../../shared/errors/notFoundError';
 
@@ -48,6 +48,29 @@ export class ExpenseService {
 			throw new ConflictError(
 				'payment_source_archived',
 				'Esa fuente de pago está archivada. Elige otra o recupérala antes de usarla.',
+			);
+		}
+	}
+
+	/**
+	 * Confirms an event can still receive a new link to an expense.
+	 *
+	 * @param event - The event, already scoped to the space.
+	 * @throws {NotFoundError} If `event` is null (it doesn't exist in this space).
+	 * @throws {ConflictError} If the event is archived.
+	 */
+	requireActiveEvent(event: Event | null): void {
+		if (!event) {
+			throw new NotFoundError(
+				'event_not_found',
+				'Ese evento no existe en este espacio.',
+			);
+		}
+
+		if (event.archivedAt) {
+			throw new ConflictError(
+				'event_archived',
+				'Ese evento está archivado. Elige otro o recupéralo antes de usarlo.',
 			);
 		}
 	}

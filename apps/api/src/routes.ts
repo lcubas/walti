@@ -1,6 +1,7 @@
 import { Hono } from 'hono';
 import { authRoutes } from './features/auth/routes';
 import { categoryRoutes } from './features/categories/routes';
+import { eventRoutes } from './features/events/routes';
 import { expenseRoutes } from './features/expenses/routes';
 import { healthRoutes } from './features/health/routes';
 import { paymentSourceRoutes } from './features/paymentSources/routes';
@@ -13,6 +14,7 @@ v1.route('/auth', authRoutes);
 v1.route('/spaces', spaceRoutes);
 v1.route('/spaces/:spaceId/categories', categoryRoutes);
 v1.route('/spaces/:spaceId/expenses', expenseRoutes);
+v1.route('/spaces/:spaceId/events', eventRoutes);
 v1.route('/payment-sources', paymentSourceRoutes);
 
 const app = new Hono<SessionContext>();

@@ -1,4 +1,4 @@
-import { and, desc, eq, gte, lt } from 'drizzle-orm';
+import { and, desc, eq, gte, inArray, isNull, lt, lte } from 'drizzle-orm';
 import type { Database } from '../../database/client';
 import { expenses } from '../../database/schema';
 import type { ExpenseRepository } from '../expenseRepository';
@@ -10,6 +10,7 @@ export class DrizzleExpenseRepository implements ExpenseRepository {
 		amountCents: expenses.amountCents,
 		occurredOn: expenses.occurredOn,
 		paymentSourceId: expenses.paymentSourceId,
+		eventId: expenses.eventId,
 		merchant: expenses.merchant,
 		note: expenses.note,
 	};
@@ -24,6 +25,7 @@ export class DrizzleExpenseRepository implements ExpenseRepository {
 			amountCents: number;
 			occurredOn: string;
 			paymentSourceId?: string;
+			eventId?: string;
 			merchant?: string;
 			note?: string;
 		},
@@ -36,6 +38,7 @@ export class DrizzleExpenseRepository implements ExpenseRepository {
 				amountCents: input.amountCents,
 				occurredOn: input.occurredOn,
 				paymentSourceId: input.paymentSourceId,
+				eventId: input.eventId,
 				merchant: input.merchant,
 				note: input.note,
 				createdByUserId: userId,
@@ -78,6 +81,7 @@ export class DrizzleExpenseRepository implements ExpenseRepository {
 			amountCents: number;
 			occurredOn: string;
 			paymentSourceId?: string;
+			eventId?: string;
 			merchant?: string;
 			note?: string;
 		},
@@ -93,6 +97,7 @@ export class DrizzleExpenseRepository implements ExpenseRepository {
 				// Drizzle would otherwise skip an undefined key in `.set()`
 				// and leave the old value in place.
 				paymentSourceId: input.paymentSourceId ?? null,
+				eventId: input.eventId ?? null,
 				merchant: input.merchant ?? null,
 				note: input.note ?? null,
 			})
@@ -104,6 +109,51 @@ export class DrizzleExpenseRepository implements ExpenseRepository {
 
 	async delete(expenseId: string) {
 		await this.db.delete(expenses).where(eq(expenses.id, expenseId));
+	}
+
+	listForEvent(spaceId: string, eventId: string) {
+		return this.db
+			.select(this.columns)
+			.from(expenses)
+			.where(and(eq(expenses.spaceId, spaceId), eq(expenses.eventId, eventId)))
+			.orderBy(desc(expenses.occurredOn), desc(expenses.createdAt));
+	}
+
+	listUnassignedInRange(spaceId: string, startsOn: string, endsOn: string) {
+		return this.db
+			.select(this.columns)
+			.from(expenses)
+			.where(
+				and(
+					eq(expenses.spaceId, spaceId),
+					isNull(expenses.eventId),
+					gte(expenses.occurredOn, startsOn),
+					lte(expenses.occurredOn, endsOn),
+				),
+			)
+			.orderBy(desc(expenses.occurredOn), desc(expenses.createdAt));
+	}
+
+	async assignEvent(spaceId: string, eventId: string, expenseIds: string[]) {
+		await this.db
+			.update(expenses)
+			.set({ eventId })
+			.where(
+				and(eq(expenses.spaceId, spaceId), inArray(expenses.id, expenseIds)),
+			);
+	}
+
+	async unassignEvent(spaceId: string, eventId: string, expenseIds: string[]) {
+		await this.db
+			.update(expenses)
+			.set({ eventId: null })
+			.where(
+				and(
+					eq(expenses.spaceId, spaceId),
+					eq(expenses.eventId, eventId),
+					inArray(expenses.id, expenseIds),
+				),
+			);
 	}
 
 	private nextPeriod(period: string): string {

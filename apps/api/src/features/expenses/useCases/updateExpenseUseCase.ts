@@ -2,6 +2,7 @@ import type { UpdateExpenseRequest } from '@walti/shared';
 import { NotFoundError } from '../../../shared/errors/notFoundError';
 import type { SpaceAccess } from '../../../shared/http/requestContext';
 import type { CategoryRepository } from '../../../shared/repositories/categoryRepository';
+import type { EventRepository } from '../../../shared/repositories/eventRepository';
 import type { ExpenseRepository } from '../../../shared/repositories/expenseRepository';
 import type { PaymentSourceRepository } from '../../../shared/repositories/paymentSourceRepository';
 import type { PaymentSourceService } from '../../paymentSources/services/paymentSourceService';
@@ -12,6 +13,7 @@ export class UpdateExpenseUseCase {
 		private readonly expenseRepository: ExpenseRepository,
 		private readonly categoryRepository: CategoryRepository,
 		private readonly paymentSourceRepository: PaymentSourceRepository,
+		private readonly eventRepository: EventRepository,
 		private readonly expenseService: ExpenseService,
 		private readonly paymentSourceService: PaymentSourceService,
 	) {}
@@ -45,6 +47,14 @@ export class UpdateExpenseUseCase {
 				input.paymentSourceId,
 			);
 			this.expenseService.requireActivePaymentSource(source);
+		}
+
+		if (input.eventId) {
+			const event = await this.eventRepository.findForSpace(
+				space.id,
+				input.eventId,
+			);
+			this.expenseService.requireActiveEvent(event);
 		}
 
 		await this.expenseRepository.update(expenseId, input);

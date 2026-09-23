@@ -7,6 +7,8 @@ export const Expense = v.object({
 	occurredOn: v.string(),
 	/** Null when the expense carries no payment source. */
 	paymentSourceId: v.nullable(v.string()),
+	/** Null when the expense isn't linked to an event. */
+	eventId: v.nullable(v.string()),
 	/** Null when the expense carries no merchant or concept. */
 	merchant: v.nullable(v.string()),
 	/** Null when the expense carries no note. */
@@ -35,6 +37,8 @@ const categoryId = v.pipe(v.string(), v.uuid());
 
 const paymentSourceId = v.pipe(v.string(), v.uuid());
 
+const eventId = v.pipe(v.string(), v.uuid());
+
 const merchant = v.pipe(
 	v.string(),
 	v.trim(),
@@ -54,6 +58,7 @@ export const CreateExpenseRequest = v.object({
 	amountCents,
 	occurredOn,
 	paymentSourceId: v.optional(paymentSourceId),
+	eventId: v.optional(eventId),
 	merchant: v.optional(merchant),
 	note: v.optional(note),
 });

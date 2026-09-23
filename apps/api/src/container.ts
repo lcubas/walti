@@ -27,6 +27,23 @@ import { CreateExpenseUseCase } from './features/expenses/useCases/createExpense
 import { DeleteExpenseUseCase } from './features/expenses/useCases/deleteExpenseUseCase';
 import { ListExpensesUseCase } from './features/expenses/useCases/listExpensesUseCase';
 import { UpdateExpenseUseCase } from './features/expenses/useCases/updateExpenseUseCase';
+import { DeleteEventExpensesController } from './features/events/controllers/deleteEventExpensesController';
+import { GetEventExpenseCandidatesController } from './features/events/controllers/getEventExpenseCandidatesController';
+import { GetEventExpensesController } from './features/events/controllers/getEventExpensesController';
+import { GetEventsController } from './features/events/controllers/getEventsController';
+import { PatchEventArchiveController } from './features/events/controllers/patchEventArchiveController';
+import { PatchEventController } from './features/events/controllers/patchEventController';
+import { PostEventController } from './features/events/controllers/postEventController';
+import { PostEventExpensesController } from './features/events/controllers/postEventExpensesController';
+import { EventService } from './features/events/services/eventService';
+import { AssignExpensesToEventUseCase } from './features/events/useCases/assignExpensesToEventUseCase';
+import { CreateEventUseCase } from './features/events/useCases/createEventUseCase';
+import { ListEventExpenseCandidatesUseCase } from './features/events/useCases/listEventExpenseCandidatesUseCase';
+import { ListEventExpensesUseCase } from './features/events/useCases/listEventExpensesUseCase';
+import { ListEventsUseCase } from './features/events/useCases/listEventsUseCase';
+import { SetEventArchivedUseCase } from './features/events/useCases/setEventArchivedUseCase';
+import { UnassignExpensesFromEventUseCase } from './features/events/useCases/unassignExpensesFromEventUseCase';
+import { UpdateEventUseCase } from './features/events/useCases/updateEventUseCase';
 import { GetCheckHealthController } from './features/health/controllers/getCheckHealthController';
 import { CheckHealthUseCase } from './features/health/useCases/checkHealthUseCase';
 import { GetPaymentSourcesController } from './features/paymentSources/controllers/getPaymentSourcesController';
@@ -49,6 +66,7 @@ import { RenameSpaceUseCase } from './features/spaces/useCases/renameSpaceUseCas
 import { SetSpaceArchivedUseCase } from './features/spaces/useCases/setSpaceArchivedUseCase';
 import { db } from './shared/database/client';
 import { DrizzleCategoryRepository } from './shared/repositories/drizzle/drizzleCategoryRepository';
+import { DrizzleEventRepository } from './shared/repositories/drizzle/drizzleEventRepository';
 import { DrizzleExpenseRepository } from './shared/repositories/drizzle/drizzleExpenseRepository';
 import { DrizzleHealthRepository } from './shared/repositories/drizzle/drizzleHealthRepository';
 import { DrizzlePaymentSourceRepository } from './shared/repositories/drizzle/drizzlePaymentSourceRepository';
@@ -59,6 +77,7 @@ import { CategorySeeder } from './shared/repositories/drizzle/categorySeeder';
 const categorySeeder = new CategorySeeder();
 
 const categoryRepository = new DrizzleCategoryRepository(db);
+const eventRepository = new DrizzleEventRepository(db);
 const expenseRepository = new DrizzleExpenseRepository(db);
 const healthRepository = new DrizzleHealthRepository(db);
 const paymentSourceRepository = new DrizzlePaymentSourceRepository(db);
@@ -70,6 +89,7 @@ const googleIdentityService = new GoogleIdentityService();
 const spaceService = new SpaceService(spaceRepository);
 const categoryService = new CategoryService();
 const expenseService = new ExpenseService();
+const eventService = new EventService();
 const paymentSourceService = new PaymentSourceService();
 
 const signInWithGoogleUseCase = new SignInWithGoogleUseCase(
@@ -104,6 +124,7 @@ const createExpenseUseCase = new CreateExpenseUseCase(
 	expenseRepository,
 	categoryRepository,
 	paymentSourceRepository,
+	eventRepository,
 	expenseService,
 	paymentSourceService,
 );
@@ -112,10 +133,32 @@ const updateExpenseUseCase = new UpdateExpenseUseCase(
 	expenseRepository,
 	categoryRepository,
 	paymentSourceRepository,
+	eventRepository,
 	expenseService,
 	paymentSourceService,
 );
 const deleteExpenseUseCase = new DeleteExpenseUseCase(expenseRepository);
+const listEventsUseCase = new ListEventsUseCase(eventRepository);
+const createEventUseCase = new CreateEventUseCase(eventRepository);
+const updateEventUseCase = new UpdateEventUseCase(eventRepository, eventService);
+const setEventArchivedUseCase = new SetEventArchivedUseCase(eventRepository);
+const listEventExpensesUseCase = new ListEventExpensesUseCase(
+	eventRepository,
+	expenseRepository,
+);
+const listEventExpenseCandidatesUseCase = new ListEventExpenseCandidatesUseCase(
+	eventRepository,
+	expenseRepository,
+);
+const assignExpensesToEventUseCase = new AssignExpensesToEventUseCase(
+	eventRepository,
+	expenseRepository,
+	expenseService,
+);
+const unassignExpensesFromEventUseCase = new UnassignExpensesFromEventUseCase(
+	eventRepository,
+	expenseRepository,
+);
 const listSpacesUseCase = new ListSpacesUseCase(spaceRepository);
 const createSpaceUseCase = new CreateSpaceUseCase(spaceRepository);
 const renameSpaceUseCase = new RenameSpaceUseCase(spaceRepository);
@@ -173,6 +216,23 @@ const patchExpenseController = new PatchExpenseController(
 const deleteExpenseController = new DeleteExpenseController(
 	deleteExpenseUseCase,
 );
+const getEventsController = new GetEventsController(listEventsUseCase);
+const postEventController = new PostEventController(createEventUseCase);
+const patchEventController = new PatchEventController(updateEventUseCase);
+const patchEventArchiveController = new PatchEventArchiveController(
+	setEventArchivedUseCase,
+);
+const getEventExpensesController = new GetEventExpensesController(
+	listEventExpensesUseCase,
+);
+const getEventExpenseCandidatesController =
+	new GetEventExpenseCandidatesController(listEventExpenseCandidatesUseCase);
+const postEventExpensesController = new PostEventExpensesController(
+	assignExpensesToEventUseCase,
+);
+const deleteEventExpensesController = new DeleteEventExpensesController(
+	unassignExpensesFromEventUseCase,
+);
 const getSpacesController = new GetSpacesController(listSpacesUseCase);
 const postSpaceController = new PostSpaceController(createSpaceUseCase);
 const patchSpaceController = new PatchSpaceController(renameSpaceUseCase);
@@ -204,6 +264,14 @@ export {
 	getExpensesController,
 	patchExpenseController,
 	deleteExpenseController,
+	getEventsController,
+	postEventController,
+	patchEventController,
+	patchEventArchiveController,
+	getEventExpensesController,
+	getEventExpenseCandidatesController,
+	postEventExpensesController,
+	deleteEventExpensesController,
 	getCheckHealthController,
 	postGoogleSignInController,
 	getSessionController,
