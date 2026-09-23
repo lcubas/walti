@@ -1,21 +1,29 @@
-import { Receipt } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { EmptyState } from '@/shared/components/emptyState';
-import { useNewExpenseDrawer } from '@/shared/expenses/newExpenseDrawerContext';
+import { useState } from 'react';
+import { ExpensesScreenContent } from '@/features/expenses/components/expensesScreenContent';
+import { MonthNav } from '@/features/expenses/components/monthNav';
+import { currentPeriod } from '@/lib/format/date';
+import { LoadingState } from '@/shared/components/loadingState';
+import { QuerySuspense } from '@/shared/components/querySuspense';
+import { useActiveSpace } from '@/shared/spaces/spacesContext';
 
 export const ExpensesScreen = () => {
-	const { openDrawer } = useNewExpenseDrawer();
+	const space = useActiveSpace();
+	const [period, setPeriod] = useState(currentPeriod);
+
+	if (!space) {
+		return <LoadingState rows={3} label="Cargando tu espacio" />;
+	}
 
 	return (
-		<>
-			<h1 className="text-2xl font-semibold tracking-tight">Gastos</h1>
+		<div className="space-y-4 py-2">
+			<MonthNav period={period} onChange={setPeriod} />
 
-			<EmptyState
-				icon={Receipt}
-				title="Todavía no hay gastos"
-				description="Aquí verás todo lo que registres en este espacio, con sus categorías y filtros."
-				action={<Button onClick={openDrawer}>Registrar el primero</Button>}
-			/>
-		</>
+			<QuerySuspense
+				resetKeys={[space.id, period]}
+				loading={<LoadingState rows={4} label="Cargando tus gastos" />}
+			>
+				<ExpensesScreenContent space={space} period={period} />
+			</QuerySuspense>
+		</div>
 	);
 };
