@@ -76,7 +76,7 @@ Los errores de formulario se muestran en el campo, no en un toast.
 
 | Carpeta | Qué va ahí |
 |---|---|
-| `components/ui/` | Primitivas de shadcn. Se añaden con su CLI y no se editan a mano |
+| `components/ui/` | Primitivas de shadcn. Se añaden con su CLI y no se editan |
 | `shared/components/` | Piezas propias usadas por dos o más features, o por el layout |
 | `features/<x>/components/` | Piezas de una sola pantalla |
 
