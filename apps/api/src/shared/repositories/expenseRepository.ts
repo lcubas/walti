@@ -30,4 +30,41 @@ export interface ExpenseRepository {
 	 * @returns The expenses, most recent first.
 	 */
 	listForSpacePeriod(spaceId: string, period: string): Promise<Expense[]>;
+
+	/**
+	 * Finds one expense, scoped to a space.
+	 *
+	 * @param spaceId - Space it must belong to.
+	 * @param expenseId - Expense to find.
+	 * @returns The expense, or null if it does not exist in that space.
+	 */
+	findForSpace(spaceId: string, expenseId: string): Promise<Expense | null>;
+
+	/**
+	 * Replaces every editable field of an expense. There is no partial-patch
+	 * optional fields no send-it replace with null
+	 *
+	 * @param expenseId - Expense to update.
+	 * @param input - The full, new state of the expense's editable fields.
+	 * @returns The expense as persisted.
+	 */
+	update(
+		expenseId: string,
+		input: {
+			categoryId: string;
+			amountCents: number;
+			occurredOn: string;
+			paymentSourceId?: string;
+			merchant?: string;
+			note?: string;
+		},
+	): Promise<Expense>;
+
+	/**
+	 * Permanently deletes an expense.
+	 *
+	 * @param expenseId - Expense to delete. Callers verify it belongs to the
+	 * acting space first, with {@link findForSpace}.
+	 */
+	delete(expenseId: string): Promise<void>;
 }

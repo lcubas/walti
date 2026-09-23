@@ -62,6 +62,50 @@ export class DrizzleExpenseRepository implements ExpenseRepository {
 			.orderBy(desc(expenses.occurredOn), desc(expenses.createdAt));
 	}
 
+	async findForSpace(spaceId: string, expenseId: string) {
+		const [expense] = await this.db
+			.select(this.columns)
+			.from(expenses)
+			.where(and(eq(expenses.id, expenseId), eq(expenses.spaceId, spaceId)));
+
+		return expense ?? null;
+	}
+
+	async update(
+		expenseId: string,
+		input: {
+			categoryId: string;
+			amountCents: number;
+			occurredOn: string;
+			paymentSourceId?: string;
+			merchant?: string;
+			note?: string;
+		},
+	) {
+		const [expense] = await this.db
+			.update(expenses)
+			.set({
+				categoryId: input.categoryId,
+				amountCents: input.amountCents,
+				occurredOn: input.occurredOn,
+				// Explicit null, not undefined: the edit form resends every
+				// field, so an absent optional one means "cleared", and
+				// Drizzle would otherwise skip an undefined key in `.set()`
+				// and leave the old value in place.
+				paymentSourceId: input.paymentSourceId ?? null,
+				merchant: input.merchant ?? null,
+				note: input.note ?? null,
+			})
+			.where(eq(expenses.id, expenseId))
+			.returning(this.columns);
+
+		return expense;
+	}
+
+	async delete(expenseId: string) {
+		await this.db.delete(expenses).where(eq(expenses.id, expenseId));
+	}
+
 	private nextPeriod(period: string): string {
 		const [year, month] = period.split('-').map(Number);
 		const next = new Date(Date.UTC(year, month, 1));

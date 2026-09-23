@@ -18,11 +18,15 @@ import { RenameCategoryGroupUseCase } from './features/categories/useCases/renam
 import { SetCategoryArchivedUseCase } from './features/categories/useCases/setCategoryArchivedUseCase';
 import { UpdateCategoryUseCase } from './features/categories/useCases/updateCategoryUseCase';
 import { ListCategoriesUseCase } from './features/categories/useCases/listCategoriesUseCase';
+import { DeleteExpenseController } from './features/expenses/controllers/deleteExpenseController';
 import { GetExpensesController } from './features/expenses/controllers/getExpensesController';
+import { PatchExpenseController } from './features/expenses/controllers/patchExpenseController';
 import { PostExpenseController } from './features/expenses/controllers/postExpenseController';
 import { ExpenseService } from './features/expenses/services/expenseService';
 import { CreateExpenseUseCase } from './features/expenses/useCases/createExpenseUseCase';
+import { DeleteExpenseUseCase } from './features/expenses/useCases/deleteExpenseUseCase';
 import { ListExpensesUseCase } from './features/expenses/useCases/listExpensesUseCase';
+import { UpdateExpenseUseCase } from './features/expenses/useCases/updateExpenseUseCase';
 import { GetCheckHealthController } from './features/health/controllers/getCheckHealthController';
 import { CheckHealthUseCase } from './features/health/useCases/checkHealthUseCase';
 import { GetPaymentSourcesController } from './features/paymentSources/controllers/getPaymentSourcesController';
@@ -104,6 +108,14 @@ const createExpenseUseCase = new CreateExpenseUseCase(
 	paymentSourceService,
 );
 const listExpensesUseCase = new ListExpensesUseCase(expenseRepository);
+const updateExpenseUseCase = new UpdateExpenseUseCase(
+	expenseRepository,
+	categoryRepository,
+	paymentSourceRepository,
+	expenseService,
+	paymentSourceService,
+);
+const deleteExpenseUseCase = new DeleteExpenseUseCase(expenseRepository);
 const listSpacesUseCase = new ListSpacesUseCase(spaceRepository);
 const createSpaceUseCase = new CreateSpaceUseCase(spaceRepository);
 const renameSpaceUseCase = new RenameSpaceUseCase(spaceRepository);
@@ -155,6 +167,12 @@ const patchCategoryArchiveController = new PatchCategoryArchiveController(
 );
 const postExpenseController = new PostExpenseController(createExpenseUseCase);
 const getExpensesController = new GetExpensesController(listExpensesUseCase);
+const patchExpenseController = new PatchExpenseController(
+	updateExpenseUseCase,
+);
+const deleteExpenseController = new DeleteExpenseController(
+	deleteExpenseUseCase,
+);
 const getSpacesController = new GetSpacesController(listSpacesUseCase);
 const postSpaceController = new PostSpaceController(createSpaceUseCase);
 const patchSpaceController = new PatchSpaceController(renameSpaceUseCase);
@@ -184,6 +202,8 @@ export {
 	patchCategoryGroupController,
 	postExpenseController,
 	getExpensesController,
+	patchExpenseController,
+	deleteExpenseController,
 	getCheckHealthController,
 	postGoogleSignInController,
 	getSessionController,

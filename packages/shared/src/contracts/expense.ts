@@ -60,6 +60,19 @@ export const CreateExpenseRequest = v.object({
 
 export type CreateExpenseRequest = v.InferOutput<typeof CreateExpenseRequest>;
 
+/** Editing a gasto resends every field, same shape as creating one: the
+ * edit form is always pre-filled with the current values, so there is no
+ * partial-patch case to represent. */
+export const UpdateExpenseRequest = CreateExpenseRequest;
+
+export type UpdateExpenseRequest = v.InferOutput<typeof UpdateExpenseRequest>;
+
+const expenseId = v.pipe(v.string(), v.uuid());
+
+export const ExpenseIdParam = v.object({ expenseId });
+
+export type ExpenseIdParam = v.InferOutput<typeof ExpenseIdParam>;
+
 const period = v.pipe(
 	v.string(),
 	v.regex(/^\d{4}-\d{2}$/, 'El periodo debe tener el formato AAAA-MM.'),
