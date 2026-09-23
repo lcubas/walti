@@ -1,3 +1,4 @@
+import { and, desc, eq, gte, lt } from 'drizzle-orm';
 import type { Database } from '../../database/client';
 import { expenses } from '../../database/schema';
 import type { ExpenseRepository } from '../expenseRepository';
@@ -42,5 +43,28 @@ export class DrizzleExpenseRepository implements ExpenseRepository {
 			.returning(this.columns);
 
 		return expense;
+	}
+
+	listForSpacePeriod(spaceId: string, period: string) {
+		const start = `${period}-01`;
+		const end = `${this.nextPeriod(period)}-01`;
+
+		return this.db
+			.select(this.columns)
+			.from(expenses)
+			.where(
+				and(
+					eq(expenses.spaceId, spaceId),
+					gte(expenses.occurredOn, start),
+					lt(expenses.occurredOn, end),
+				),
+			)
+			.orderBy(desc(expenses.occurredOn), desc(expenses.createdAt));
+	}
+
+	private nextPeriod(period: string): string {
+		const [year, month] = period.split('-').map(Number);
+		const next = new Date(Date.UTC(year, month, 1));
+		return `${next.getUTCFullYear()}-${String(next.getUTCMonth() + 1).padStart(2, '0')}`;
 	}
 }

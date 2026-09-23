@@ -36,4 +36,7 @@ export const validatorHandler = {
 
 	param: <TSchema extends Schema>(schema: TSchema) =>
 		createValidator('param', schema),
+
+	query: <TSchema extends Schema>(schema: TSchema) =>
+		createValidator('query', schema),
 };

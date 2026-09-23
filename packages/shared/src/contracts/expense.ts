@@ -15,6 +15,11 @@ export const Expense = v.object({
 
 export type Expense = v.InferOutput<typeof Expense>;
 
+/** Every expense of a space for one month, most recent first. */
+export const ExpenseList = v.array(Expense);
+
+export type ExpenseList = v.InferOutput<typeof ExpenseList>;
+
 const amountCents = v.pipe(
 	v.number(),
 	v.integer('El monto debe ser un número entero de centavos.'),
@@ -54,3 +59,12 @@ export const CreateExpenseRequest = v.object({
 });
 
 export type CreateExpenseRequest = v.InferOutput<typeof CreateExpenseRequest>;
+
+const period = v.pipe(
+	v.string(),
+	v.regex(/^\d{4}-\d{2}$/, 'El periodo debe tener el formato AAAA-MM.'),
+);
+
+export const ListExpensesQuery = v.object({ period });
+
+export type ListExpensesQuery = v.InferOutput<typeof ListExpensesQuery>;

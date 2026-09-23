@@ -18,9 +18,11 @@ import { RenameCategoryGroupUseCase } from './features/categories/useCases/renam
 import { SetCategoryArchivedUseCase } from './features/categories/useCases/setCategoryArchivedUseCase';
 import { UpdateCategoryUseCase } from './features/categories/useCases/updateCategoryUseCase';
 import { ListCategoriesUseCase } from './features/categories/useCases/listCategoriesUseCase';
+import { GetExpensesController } from './features/expenses/controllers/getExpensesController';
 import { PostExpenseController } from './features/expenses/controllers/postExpenseController';
 import { ExpenseService } from './features/expenses/services/expenseService';
 import { CreateExpenseUseCase } from './features/expenses/useCases/createExpenseUseCase';
+import { ListExpensesUseCase } from './features/expenses/useCases/listExpensesUseCase';
 import { GetCheckHealthController } from './features/health/controllers/getCheckHealthController';
 import { CheckHealthUseCase } from './features/health/useCases/checkHealthUseCase';
 import { GetPaymentSourcesController } from './features/paymentSources/controllers/getPaymentSourcesController';
@@ -101,6 +103,7 @@ const createExpenseUseCase = new CreateExpenseUseCase(
 	expenseService,
 	paymentSourceService,
 );
+const listExpensesUseCase = new ListExpensesUseCase(expenseRepository);
 const listSpacesUseCase = new ListSpacesUseCase(spaceRepository);
 const createSpaceUseCase = new CreateSpaceUseCase(spaceRepository);
 const renameSpaceUseCase = new RenameSpaceUseCase(spaceRepository);
@@ -151,6 +154,7 @@ const patchCategoryArchiveController = new PatchCategoryArchiveController(
 	setCategoryArchivedUseCase,
 );
 const postExpenseController = new PostExpenseController(createExpenseUseCase);
+const getExpensesController = new GetExpensesController(listExpensesUseCase);
 const getSpacesController = new GetSpacesController(listSpacesUseCase);
 const postSpaceController = new PostSpaceController(createSpaceUseCase);
 const patchSpaceController = new PatchSpaceController(renameSpaceUseCase);
@@ -179,6 +183,7 @@ export {
 	postCategoryGroupController,
 	patchCategoryGroupController,
 	postExpenseController,
+	getExpensesController,
 	getCheckHealthController,
 	postGoogleSignInController,
 	getSessionController,

@@ -21,4 +21,13 @@ export interface ExpenseRepository {
 			note?: string;
 		},
 	): Promise<Expense>;
+
+	/**
+	 * Lists a space's expenses for one calendar month.
+	 *
+	 * @param spaceId - Space to list from.
+	 * @param period - Month to list, as "YYYY-MM".
+	 * @returns The expenses, most recent first.
+	 */
+	listForSpacePeriod(spaceId: string, period: string): Promise<Expense[]>;
 }
