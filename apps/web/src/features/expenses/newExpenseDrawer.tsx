@@ -21,7 +21,12 @@ export const NewExpenseDrawer = () => {
 			onOpenChange={(next) => (next ? openDrawer() : closeDrawer())}
 			showSwipeHandle
 		>
-			<DrawerContent className="[--drawer-height:92dvh]">
+			{/* z-40, below the toast's z-50 (components/ui/toast.tsx): both
+			    default to the same z-50, and since the toast's portal mounts
+			    once at app start while this one mounts on open, DOM order
+			    would otherwise let this drawer paint over a toast fired
+			    while it's open (e.g. the "gasto registrado" notification). */}
+			<DrawerContent className="z-40 [--drawer-height:92dvh]">
 				{/* Same max-width as <main> in AppLayout. */}
 				<div className="mx-auto flex w-full max-w-screen-sm flex-1 flex-col overflow-hidden">
 					<div className="flex shrink-0 items-center justify-between px-4 py-3">

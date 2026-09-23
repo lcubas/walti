@@ -33,7 +33,9 @@ export const MoveCategoryDrawer = ({
 		<Drawer open={open} onOpenChange={setOpen} showSwipeHandle>
 			<DrawerTrigger render={trigger} />
 
-			<DrawerContent>
+			{/* z-40, below the toast's z-50 (components/ui/toast.tsx) — see
+			    newExpenseDrawer.tsx for why this needs to be below the toast. */}
+			<DrawerContent className="z-40">
 				<div className="flex shrink-0 items-center justify-between px-4 py-3">
 					<DrawerClose
 						aria-label="Cerrar"

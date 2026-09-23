@@ -5,6 +5,7 @@ import { formatCivilDate } from '@/lib/format/date';
 import { formatMoney } from '@/lib/format/money';
 
 type ExpenseDayGroupProps = {
+	spaceId: string;
 	occurredOn: string;
 	expenses: DisplayExpense[];
 	currency: Currency;
@@ -13,6 +14,7 @@ type ExpenseDayGroupProps = {
 };
 
 export const ExpenseDayGroup = ({
+	spaceId,
 	occurredOn,
 	expenses,
 	currency,
@@ -40,6 +42,7 @@ export const ExpenseDayGroup = ({
 				{expenses.map((expense) => (
 					<ExpenseRow
 						key={expense.id}
+						spaceId={spaceId}
 						expense={expense}
 						currency={currency}
 						expanded={expandedExpenseId === expense.id}

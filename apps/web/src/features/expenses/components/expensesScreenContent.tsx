@@ -94,6 +94,7 @@ export const ExpensesScreenContent = ({
 				{days.map((day) => (
 					<ExpenseDayGroup
 						key={day.occurredOn}
+						spaceId={space.id}
 						occurredOn={day.occurredOn}
 						expenses={day.expenses}
 						currency={space.currency}

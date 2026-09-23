@@ -1,6 +1,11 @@
 import { queryOptions } from '@tanstack/react-query';
-import { Expense, ExpenseList, type CreateExpenseRequest } from '@walti/shared';
-import { request } from '@/shared/api/httpClient';
+import {
+	Expense,
+	ExpenseList,
+	type CreateExpenseRequest,
+	type UpdateExpenseRequest,
+} from '@walti/shared';
+import { request, requestNoContent } from '@/shared/api/httpClient';
 
 export const expensesQueryKey = (spaceId: string, period: string) =>
 	['expenses', spaceId, period] as const;
@@ -21,4 +26,19 @@ export const createExpense = (
 	request(`/v1/spaces/${spaceId}/expenses`, Expense, {
 		method: 'POST',
 		body,
+	});
+
+export const updateExpense = (
+	spaceId: string,
+	expenseId: string,
+	body: UpdateExpenseRequest,
+) =>
+	requestNoContent(`/v1/spaces/${spaceId}/expenses/${expenseId}`, {
+		method: 'PATCH',
+		body,
+	});
+
+export const deleteExpense = (spaceId: string, expenseId: string) =>
+	requestNoContent(`/v1/spaces/${spaceId}/expenses/${expenseId}`, {
+		method: 'DELETE',
 	});

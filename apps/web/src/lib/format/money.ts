@@ -53,6 +53,13 @@ export const sanitizeAmountInput = (raw: string): string => {
 	return result;
 };
 
+/** The inverse of parseMoneyInput: cents back into the plain string the
+ * amount input expects, to pre-fill it when editing an existing expense. */
+export const centsToAmountInput = (amountCents: number): string => {
+	const value = amountCents / 100;
+	return Number.isInteger(value) ? String(value) : value.toFixed(2);
+};
+
 export const parseMoneyInput = (raw: string): number | null => {
 	const normalized = raw.trim().replace(',', '.');
 
