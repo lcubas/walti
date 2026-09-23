@@ -37,11 +37,7 @@ eventRoutes.patch(
 	validatorHandler.param(EventIdParam),
 	validatorHandler.json(UpdateEventRequest),
 	(c) =>
-		patchEventController.handle(
-			c,
-			c.req.valid('param'),
-			c.req.valid('json'),
-		),
+		patchEventController.handle(c, c.req.valid('param'), c.req.valid('json')),
 );
 eventRoutes.patch(
 	'/:eventId/archive',

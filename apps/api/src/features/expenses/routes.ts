@@ -30,11 +30,7 @@ expenseRoutes.patch(
 	validatorHandler.param(ExpenseIdParam),
 	validatorHandler.json(UpdateExpenseRequest),
 	(c) =>
-		patchExpenseController.handle(
-			c,
-			c.req.valid('param'),
-			c.req.valid('json'),
-		),
+		patchExpenseController.handle(c, c.req.valid('param'), c.req.valid('json')),
 );
 expenseRoutes.delete(
 	'/:expenseId',

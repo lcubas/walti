@@ -68,7 +68,10 @@ export class DrizzleEventRepository implements EventRepository {
 		await this.db.update(events).set(changes).where(eq(events.id, eventId));
 	}
 
-	async setArchivedAt(eventId: string, archivedAt: string | null): Promise<void> {
+	async setArchivedAt(
+		eventId: string,
+		archivedAt: string | null,
+	): Promise<void> {
 		await this.db
 			.update(events)
 			.set({ archivedAt })

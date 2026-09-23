@@ -140,7 +140,10 @@ const updateExpenseUseCase = new UpdateExpenseUseCase(
 const deleteExpenseUseCase = new DeleteExpenseUseCase(expenseRepository);
 const listEventsUseCase = new ListEventsUseCase(eventRepository);
 const createEventUseCase = new CreateEventUseCase(eventRepository);
-const updateEventUseCase = new UpdateEventUseCase(eventRepository, eventService);
+const updateEventUseCase = new UpdateEventUseCase(
+	eventRepository,
+	eventService,
+);
 const setEventArchivedUseCase = new SetEventArchivedUseCase(eventRepository);
 const listEventExpensesUseCase = new ListEventExpensesUseCase(
 	eventRepository,
@@ -210,9 +213,7 @@ const patchCategoryArchiveController = new PatchCategoryArchiveController(
 );
 const postExpenseController = new PostExpenseController(createExpenseUseCase);
 const getExpensesController = new GetExpensesController(listExpensesUseCase);
-const patchExpenseController = new PatchExpenseController(
-	updateExpenseUseCase,
-);
+const patchExpenseController = new PatchExpenseController(updateExpenseUseCase);
 const deleteExpenseController = new DeleteExpenseController(
 	deleteExpenseUseCase,
 );
