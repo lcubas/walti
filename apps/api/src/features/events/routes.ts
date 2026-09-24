@@ -8,7 +8,6 @@ import {
 	UpdateEventRequest,
 } from '@walti/shared';
 import {
-	deleteEventExpensesController,
 	getEventExpenseCandidatesController,
 	getEventExpensesController,
 	getEventsController,
@@ -66,17 +65,6 @@ eventRoutes.post(
 	validatorHandler.json(AssociateExpensesRequest),
 	(c) =>
 		postEventExpensesController.handle(
-			c,
-			c.req.valid('param'),
-			c.req.valid('json'),
-		),
-);
-eventRoutes.delete(
-	'/:eventId/expenses',
-	validatorHandler.param(EventIdParam),
-	validatorHandler.json(AssociateExpensesRequest),
-	(c) =>
-		deleteEventExpensesController.handle(
 			c,
 			c.req.valid('param'),
 			c.req.valid('json'),

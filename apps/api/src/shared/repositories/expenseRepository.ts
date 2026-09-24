@@ -106,18 +106,4 @@ export interface ExpenseRepository {
 		eventId: string,
 		expenseIds: string[],
 	): Promise<void>;
-
-	/**
-	 * Bulk-clears the event from a set of expenses, only for the ones
-	 * currently linked to that exact event.
-	 *
-	 * @param spaceId - Space every expense must belong to.
-	 * @param eventId - Event they must currently be linked to.
-	 * @param expenseIds - Expenses to unlink.
-	 */
-	unassignEvent(
-		spaceId: string,
-		eventId: string,
-		expenseIds: string[],
-	): Promise<void>;
 }

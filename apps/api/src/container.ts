@@ -27,7 +27,6 @@ import { CreateExpenseUseCase } from './features/expenses/useCases/createExpense
 import { DeleteExpenseUseCase } from './features/expenses/useCases/deleteExpenseUseCase';
 import { ListExpensesUseCase } from './features/expenses/useCases/listExpensesUseCase';
 import { UpdateExpenseUseCase } from './features/expenses/useCases/updateExpenseUseCase';
-import { DeleteEventExpensesController } from './features/events/controllers/deleteEventExpensesController';
 import { GetEventExpenseCandidatesController } from './features/events/controllers/getEventExpenseCandidatesController';
 import { GetEventExpensesController } from './features/events/controllers/getEventExpensesController';
 import { GetEventsController } from './features/events/controllers/getEventsController';
@@ -42,7 +41,6 @@ import { ListEventExpenseCandidatesUseCase } from './features/events/useCases/li
 import { ListEventExpensesUseCase } from './features/events/useCases/listEventExpensesUseCase';
 import { ListEventsUseCase } from './features/events/useCases/listEventsUseCase';
 import { SetEventArchivedUseCase } from './features/events/useCases/setEventArchivedUseCase';
-import { UnassignExpensesFromEventUseCase } from './features/events/useCases/unassignExpensesFromEventUseCase';
 import { UpdateEventUseCase } from './features/events/useCases/updateEventUseCase';
 import { GetCheckHealthController } from './features/health/controllers/getCheckHealthController';
 import { CheckHealthUseCase } from './features/health/useCases/checkHealthUseCase';
@@ -158,10 +156,6 @@ const assignExpensesToEventUseCase = new AssignExpensesToEventUseCase(
 	expenseRepository,
 	expenseService,
 );
-const unassignExpensesFromEventUseCase = new UnassignExpensesFromEventUseCase(
-	eventRepository,
-	expenseRepository,
-);
 const listSpacesUseCase = new ListSpacesUseCase(spaceRepository);
 const createSpaceUseCase = new CreateSpaceUseCase(spaceRepository);
 const renameSpaceUseCase = new RenameSpaceUseCase(spaceRepository);
@@ -231,9 +225,6 @@ const getEventExpenseCandidatesController =
 const postEventExpensesController = new PostEventExpensesController(
 	assignExpensesToEventUseCase,
 );
-const deleteEventExpensesController = new DeleteEventExpensesController(
-	unassignExpensesFromEventUseCase,
-);
 const getSpacesController = new GetSpacesController(listSpacesUseCase);
 const postSpaceController = new PostSpaceController(createSpaceUseCase);
 const patchSpaceController = new PatchSpaceController(renameSpaceUseCase);
@@ -272,7 +263,6 @@ export {
 	getEventExpensesController,
 	getEventExpenseCandidatesController,
 	postEventExpensesController,
-	deleteEventExpensesController,
 	getCheckHealthController,
 	postGoogleSignInController,
 	getSessionController,

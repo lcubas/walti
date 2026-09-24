@@ -143,19 +143,6 @@ export class DrizzleExpenseRepository implements ExpenseRepository {
 			);
 	}
 
-	async unassignEvent(spaceId: string, eventId: string, expenseIds: string[]) {
-		await this.db
-			.update(expenses)
-			.set({ eventId: null })
-			.where(
-				and(
-					eq(expenses.spaceId, spaceId),
-					eq(expenses.eventId, eventId),
-					inArray(expenses.id, expenseIds),
-				),
-			);
-	}
-
 	private nextPeriod(period: string): string {
 		const [year, month] = period.split('-').map(Number);
 		const next = new Date(Date.UTC(year, month, 1));
