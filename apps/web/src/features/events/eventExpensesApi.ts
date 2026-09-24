@@ -39,13 +39,3 @@ export const assignExpensesToEvent = (
 		method: 'POST',
 		body: { expenseIds },
 	});
-
-export const unassignExpensesFromEvent = (
-	spaceId: string,
-	eventId: string,
-	expenseIds: string[],
-) =>
-	requestNoContent(`/v1/spaces/${spaceId}/events/${eventId}/expenses`, {
-		method: 'DELETE',
-		body: { expenseIds },
-	});

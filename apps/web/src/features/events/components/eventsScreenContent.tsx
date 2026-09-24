@@ -38,7 +38,6 @@ export const EventsScreenContent = ({ space }: { space: Space }) => {
 				<div className="rounded-xl border border-border p-3">
 					<NewEventForm
 						spaceId={space.id}
-						currency={space.currency}
 						onCreated={() => setCreating(false)}
 						onCancel={() => setCreating(false)}
 					/>
@@ -70,7 +69,6 @@ export const EventsScreenContent = ({ space }: { space: Space }) => {
 										key={event.id}
 										spaceId={space.id}
 										event={event}
-										currency={space.currency}
 										canEdit={canEdit}
 									/>
 								))}
@@ -90,7 +88,6 @@ export const EventsScreenContent = ({ space }: { space: Space }) => {
 										key={event.id}
 										spaceId={space.id}
 										event={event}
-										currency={space.currency}
 										canEdit={canEdit}
 									/>
 								))}

@@ -10,9 +10,7 @@ import { ArchivedBadge } from '@/shared/components/archivedBadge';
 import { NameForm } from '@/shared/components/nameForm';
 import { cn } from '@/lib/utils';
 import { ConfirmDialog } from '@/shared/components/confirmDialog';
-
-const actionClasses =
-	'inline-flex min-h-11 min-w-11 items-center justify-center gap-1.5 rounded-lg px-2 text-sm text-muted-foreground transition-colors hover:bg-accent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring';
+import { rowActionButtonClasses as actionClasses } from '@/shared/styles/rowActionButtonClasses';
 
 type PaymentSourceRowProps = {
 	paymentSource: PaymentSource;

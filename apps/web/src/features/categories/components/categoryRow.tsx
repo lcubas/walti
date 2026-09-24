@@ -12,9 +12,7 @@ import { cn } from '@/lib/utils';
 import { ConfirmDialog } from '@/shared/components/confirmDialog';
 import { ArchivedBadge } from '@/shared/components/archivedBadge';
 import { NameForm } from '@/shared/components/nameForm';
-
-const actionClasses =
-	'inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg px-2 text-sm text-muted-foreground transition-colors hover:bg-accent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring disabled:opacity-40';
+import { rowActionButtonClasses as actionClasses } from '@/shared/styles/rowActionButtonClasses';
 
 type CategoryRowProps = {
 	spaceId: string;

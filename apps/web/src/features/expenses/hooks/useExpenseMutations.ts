@@ -15,6 +15,7 @@ export const useCreateExpense = (spaceId: string) => {
 		onSuccess: () => {
 			notifyDone('Gasto registrado');
 			queryClient.invalidateQueries({ queryKey: ['expenses', spaceId] });
+			queryClient.invalidateQueries({ queryKey: ['events', spaceId] });
 		},
 		onError: (error) => notifyFailed('No pudimos registrar el gasto', error),
 	});
@@ -34,6 +35,7 @@ export const useUpdateExpense = (spaceId: string) => {
 		onSuccess: () => {
 			notifyDone('Gasto actualizado');
 			queryClient.invalidateQueries({ queryKey: ['expenses', spaceId] });
+			queryClient.invalidateQueries({ queryKey: ['events', spaceId] });
 		},
 		onError: (error) => notifyFailed('No pudimos actualizar el gasto', error),
 	});
@@ -47,6 +49,7 @@ export const useDeleteExpense = (spaceId: string) => {
 		onSuccess: () => {
 			notifyDone('Gasto eliminado');
 			queryClient.invalidateQueries({ queryKey: ['expenses', spaceId] });
+			queryClient.invalidateQueries({ queryKey: ['events', spaceId] });
 		},
 		onError: (error) => notifyFailed('No pudimos eliminar el gasto', error),
 	});

@@ -1,21 +1,18 @@
-import type { CreateEventRequest, Currency } from '@walti/shared';
+import type { CreateEventRequest } from '@walti/shared';
 import { type SubmitEvent, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { EventFormFields } from '@/features/events/components/eventFormFields';
 import { useCreateEvent } from '@/features/events/hooks/useEventMutations';
 import { todayCivilDate } from '@/lib/format/date';
-import { parseMoneyInput } from '@/lib/format/money';
 
 type NewEventFormProps = {
 	spaceId: string;
-	currency: Currency;
 	onCreated: () => void;
 	onCancel: () => void;
 };
 
 export const NewEventForm = ({
 	spaceId,
-	currency,
 	onCreated,
 	onCancel,
 }: NewEventFormProps) => {
@@ -26,8 +23,6 @@ export const NewEventForm = ({
 	const [nameError, setNameError] = useState<string | null>(null);
 	const [startsOn, setStartsOn] = useState(today);
 	const [endsOn, setEndsOn] = useState(today);
-	const [budget, setBudget] = useState('');
-	const [budgetError, setBudgetError] = useState<string | null>(null);
 
 	const submit = (event: SubmitEvent) => {
 		event.preventDefault();
@@ -39,27 +34,12 @@ export const NewEventForm = ({
 			return;
 		}
 
-		let budgetCents: number | undefined;
-
-		if (budget.trim().length > 0) {
-			const parsed = parseMoneyInput(budget);
-
-			if (parsed === null) {
-				setBudgetError('Ingresa un presupuesto válido, mayor a cero.');
-				return;
-			}
-
-			budgetCents = parsed;
-		}
-
 		setNameError(null);
-		setBudgetError(null);
 
 		const body: CreateEventRequest = {
 			name: trimmedName,
 			startsOn,
 			endsOn,
-			budgetCents,
 		};
 
 		createEvent.mutate(body, { onSuccess: onCreated });
@@ -68,7 +48,6 @@ export const NewEventForm = ({
 	return (
 		<form onSubmit={submit} noValidate>
 			<EventFormFields
-				currency={currency}
 				name={name}
 				onNameChange={(value) => {
 					setName(value);
@@ -81,12 +60,6 @@ export const NewEventForm = ({
 					setStartsOn(nextStart);
 					setEndsOn(nextEnd);
 				}}
-				budget={budget}
-				onBudgetChange={(value) => {
-					setBudget(value);
-					setBudgetError(null);
-				}}
-				budgetError={budgetError}
 			/>
 
 			<div className="mt-6 flex gap-2">

@@ -3,7 +3,6 @@ import {
 	assignExpensesToEvent,
 	eventExpenseCandidatesQueryKey,
 	eventExpensesQueryKey,
-	unassignExpensesFromEvent,
 } from '@/features/events/eventExpensesApi';
 import { notifyDone, notifyFailed } from '@/shared/notify';
 
@@ -40,15 +39,4 @@ export const useAssignExpensesToEvent = (spaceId: string, eventId: string) =>
 			assignExpensesToEvent(spaceId, eventId, expenseIds),
 		done: 'Gastos añadidos al evento',
 		failed: 'No pudimos añadir los gastos al evento',
-	});
-
-export const useUnassignExpensesFromEvent = (
-	spaceId: string,
-	eventId: string,
-) =>
-	useEventExpensesMutation(spaceId, eventId, {
-		mutationFn: (expenseIds) =>
-			unassignExpensesFromEvent(spaceId, eventId, expenseIds),
-		done: 'Gastos quitados del evento',
-		failed: 'No pudimos quitar los gastos del evento',
 	});
