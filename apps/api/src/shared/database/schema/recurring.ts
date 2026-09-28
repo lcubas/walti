@@ -36,6 +36,7 @@ export const recurringItems = sqliteTable(
 			.notNull()
 			.default('monthly'),
 		anchorDay: integer('anchor_day').notNull(),
+		anchorMonth: integer('anchor_month'),
 		expectedAmountCents: integer('expected_amount_cents').notNull(),
 		pausedAt: text('paused_at'),
 		archivedAt: text('archived_at'),
@@ -46,6 +47,14 @@ export const recurringItems = sqliteTable(
 		check(
 			'recurring_items_anchor_day_range',
 			sql`${t.anchorDay} BETWEEN 1 AND 31`,
+		),
+		check(
+			'recurring_items_anchor_month_matches_frequency',
+			sql`(${t.frequency} = 'yearly') = (${t.anchorMonth} IS NOT NULL)`,
+		),
+		check(
+			'recurring_items_anchor_month_range',
+			sql`${t.anchorMonth} IS NULL OR ${t.anchorMonth} BETWEEN 1 AND 12`,
 		),
 		check(
 			'recurring_items_expected_positive',
