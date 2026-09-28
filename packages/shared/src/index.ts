@@ -5,5 +5,6 @@ export * from './contracts/event';
 export * from './contracts/expense';
 export * from './contracts/health';
 export * from './contracts/paymentSource';
+export * from './contracts/recurring';
 export * from './contracts/session';
 export * from './contracts/space';

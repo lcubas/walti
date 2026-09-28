@@ -5,6 +5,7 @@ import { eventRoutes } from './features/events/routes';
 import { expenseRoutes } from './features/expenses/routes';
 import { healthRoutes } from './features/health/routes';
 import { paymentSourceRoutes } from './features/paymentSources/routes';
+import { recurringItemRoutes } from './features/recurring/routes';
 import { spaceRoutes } from './features/spaces/routes';
 import type { SessionContext } from './shared/http/requestContext';
 
@@ -16,6 +17,7 @@ v1.route('/spaces/:spaceId/categories', categoryRoutes);
 v1.route('/spaces/:spaceId/expenses', expenseRoutes);
 v1.route('/spaces/:spaceId/events', eventRoutes);
 v1.route('/payment-sources', paymentSourceRoutes);
+v1.route('/spaces/:spaceId/recurring-items', recurringItemRoutes);
 
 const app = new Hono<SessionContext>();
 

@@ -53,6 +53,17 @@ import { CreatePaymentSourceUseCase } from './features/paymentSources/useCases/c
 import { ListPaymentSourcesUseCase } from './features/paymentSources/useCases/listPaymentSourcesUseCase';
 import { RenamePaymentSourceUseCase } from './features/paymentSources/useCases/renamePaymentSourceUseCase';
 import { SetPaymentSourceArchivedUseCase } from './features/paymentSources/useCases/setPaymentSourceArchivedUseCase';
+import { GetRecurringItemsController } from './features/recurring/controllers/getRecurringItemsController';
+import { PatchRecurringItemArchiveController } from './features/recurring/controllers/patchRecurringItemArchiveController';
+import { PatchRecurringItemController } from './features/recurring/controllers/patchRecurringItemController';
+import { PatchRecurringItemPauseController } from './features/recurring/controllers/patchRecurringItemPauseController';
+import { PostRecurringItemController } from './features/recurring/controllers/postRecurringItemController';
+import { RecurringItemService } from './features/recurring/services/recurringItemService';
+import { CreateRecurringItemUseCase } from './features/recurring/useCases/createRecurringItemUseCase';
+import { ListRecurringItemsUseCase } from './features/recurring/useCases/listRecurringItemsUseCase';
+import { SetRecurringItemArchivedUseCase } from './features/recurring/useCases/setRecurringItemArchivedUseCase';
+import { SetRecurringItemPausedUseCase } from './features/recurring/useCases/setRecurringItemPausedUseCase';
+import { UpdateRecurringItemUseCase } from './features/recurring/useCases/updateRecurringItemUseCase';
 import { GetSpacesController } from './features/spaces/controllers/getSpacesController';
 import { PatchSpaceArchiveController } from './features/spaces/controllers/patchSpaceArchiveController';
 import { PatchSpaceController } from './features/spaces/controllers/patchSpaceController';
@@ -68,6 +79,7 @@ import { DrizzleEventRepository } from './shared/repositories/drizzle/drizzleEve
 import { DrizzleExpenseRepository } from './shared/repositories/drizzle/drizzleExpenseRepository';
 import { DrizzleHealthRepository } from './shared/repositories/drizzle/drizzleHealthRepository';
 import { DrizzlePaymentSourceRepository } from './shared/repositories/drizzle/drizzlePaymentSourceRepository';
+import { DrizzleRecurringItemRepository } from './shared/repositories/drizzle/drizzleRecurringItemRepository';
 import { DrizzleSpaceRepository } from './shared/repositories/drizzle/drizzleSpaceRepository';
 import { DrizzleUserRepository } from './shared/repositories/drizzle/drizzleUserRepository';
 import { CategorySeeder } from './shared/repositories/drizzle/categorySeeder';
@@ -79,6 +91,7 @@ const eventRepository = new DrizzleEventRepository(db);
 const expenseRepository = new DrizzleExpenseRepository(db);
 const healthRepository = new DrizzleHealthRepository(db);
 const paymentSourceRepository = new DrizzlePaymentSourceRepository(db);
+const recurringItemRepository = new DrizzleRecurringItemRepository(db);
 const spaceRepository = new DrizzleSpaceRepository(db, categorySeeder);
 const userRepository = new DrizzleUserRepository(db, categorySeeder);
 
@@ -89,6 +102,7 @@ const categoryService = new CategoryService();
 const expenseService = new ExpenseService();
 const eventService = new EventService();
 const paymentSourceService = new PaymentSourceService();
+const recurringItemService = new RecurringItemService();
 
 const signInWithGoogleUseCase = new SignInWithGoogleUseCase(
 	userRepository,
@@ -178,6 +192,26 @@ const setPaymentSourceArchivedUseCase = new SetPaymentSourceArchivedUseCase(
 	paymentSourceRepository,
 	paymentSourceService,
 );
+const listRecurringItemsUseCase = new ListRecurringItemsUseCase(
+	recurringItemRepository,
+);
+const createRecurringItemUseCase = new CreateRecurringItemUseCase(
+	recurringItemRepository,
+	categoryRepository,
+	expenseService,
+);
+const updateRecurringItemUseCase = new UpdateRecurringItemUseCase(
+	recurringItemRepository,
+	categoryRepository,
+	expenseService,
+	recurringItemService,
+);
+const setRecurringItemPausedUseCase = new SetRecurringItemPausedUseCase(
+	recurringItemRepository,
+);
+const setRecurringItemArchivedUseCase = new SetRecurringItemArchivedUseCase(
+	recurringItemRepository,
+);
 
 const getCheckHealthController = new GetCheckHealthController(
 	checkHealthUseCase,
@@ -242,6 +276,21 @@ const patchPaymentSourceController = new PatchPaymentSourceController(
 );
 const patchPaymentSourceArchiveController =
 	new PatchPaymentSourceArchiveController(setPaymentSourceArchivedUseCase);
+const getRecurringItemsController = new GetRecurringItemsController(
+	listRecurringItemsUseCase,
+);
+const postRecurringItemController = new PostRecurringItemController(
+	createRecurringItemUseCase,
+);
+const patchRecurringItemController = new PatchRecurringItemController(
+	updateRecurringItemUseCase,
+);
+const patchRecurringItemPauseController = new PatchRecurringItemPauseController(
+	setRecurringItemPausedUseCase,
+);
+const patchRecurringItemArchiveController = new PatchRecurringItemArchiveController(
+	setRecurringItemArchivedUseCase,
+);
 
 export {
 	sessionService,
@@ -275,4 +324,9 @@ export {
 	postPaymentSourceController,
 	patchPaymentSourceController,
 	patchPaymentSourceArchiveController,
+	getRecurringItemsController,
+	postRecurringItemController,
+	patchRecurringItemController,
+	patchRecurringItemPauseController,
+	patchRecurringItemArchiveController,
 };
