@@ -1,6 +1,6 @@
 import { spaceRoles } from '@walti/shared';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { ArrowLeft, Plus, Receipt } from 'lucide-react';
+import { ArrowLeft, Receipt, Search } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { Button } from '@/components/ui/button';
@@ -10,6 +10,8 @@ import {
 	CollapsibleTrigger,
 } from '@/components/ui/collapsible';
 import { categoriesQuery } from '@/features/categories/categoriesApi';
+import type { DisplayExpense } from '@/features/expenses/components/expensesScreenContent';
+import { ExpenseRow } from '@/features/expenses/components/expenseRow';
 import { ExpenseListRow } from '@/features/events/components/expenseListRow';
 import {
 	eventExpenseCandidatesQuery,
@@ -87,6 +89,15 @@ export const EventDetail = ({
 		};
 	};
 
+	const toDisplayExpense = (expense: Expense): DisplayExpense => ({
+		...expense,
+		categoryName: categoryNames.get(expense.categoryId) ?? 'Categoría',
+		paymentSourceName: expense.paymentSourceId
+			? (paymentSourceNames.get(expense.paymentSourceId) ?? null)
+			: null,
+		eventName: null,
+	});
+
 	const total = linked.reduce((sum, expense) => sum + expense.amountCents, 0);
 
 	return (
@@ -129,27 +140,21 @@ export const EventDetail = ({
 					</h3>
 
 					<ul className="space-y-2">
-						{linked.map((expense) => {
-							const info = describe(expense);
-
-							return (
-								<ExpenseListRow
-									key={expense.id}
-									expense={expense}
-									title={info.title}
-									subtitle={info.subtitle}
-									currency={space.currency}
-									detail={{
-										expanded: expandedExpenseId === expense.id,
-										onToggle: () =>
-											setExpandedExpenseId((current) =>
-												current === expense.id ? null : expense.id,
-											),
-										paymentSourceName: info.paymentSourceName,
-									}}
-								/>
-							);
-						})}
+						{linked.map((expense) => (
+							<ExpenseRow
+								key={expense.id}
+								spaceId={space.id}
+								expense={toDisplayExpense(expense)}
+								currency={space.currency}
+								expanded={expandedExpenseId === expense.id}
+								onToggle={() =>
+									setExpandedExpenseId((current) =>
+										current === expense.id ? null : expense.id,
+									)
+								}
+								readOnly
+							/>
+						))}
 					</ul>
 				</div>
 			)}
@@ -165,8 +170,8 @@ export const EventDetail = ({
 							/>
 						}
 					>
-						<Plus className="size-4" aria-hidden="true" />
-						Añadir gastos olvidados
+						<Search className="size-4" aria-hidden="true" />
+						Buscar gastos olvidados
 					</CollapsibleTrigger>
 
 					<CollapsibleContent className="overflow-hidden">

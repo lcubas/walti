@@ -91,6 +91,7 @@ export const NameForm = ({
 						placeholder={placeholder}
 						maxLength={maxLength}
 						autoComplete="off"
+						autoFocus
 						aria-invalid={message ? true : undefined}
 						aria-describedby={message ? errorId : undefined}
 					/>

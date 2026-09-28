@@ -62,6 +62,7 @@ export const EventFormFields = ({
 						placeholder="Viaje a Cusco"
 						maxLength={40}
 						autoComplete="off"
+						autoFocus
 						aria-invalid={nameError ? true : undefined}
 						aria-describedby={nameError ? nameErrorId : undefined}
 					/>

@@ -16,12 +16,10 @@ export const EventsScreenContent = ({ space }: { space: Space }) => {
 
 	const canEdit = space.role === spaceRoles.owner;
 	const today = todayCivilDate();
-
-	// Archived events stay in whichever bucket their dates put them in,
-	// marked with a badge — there is no third "archived" section, same
-	// convention as categorías/fuentes de pago.
-	const current = events.filter((event) => event.endsOn >= today);
-	const past = events.filter((event) => event.endsOn < today);
+	const active = events.filter((event) => !event.archivedAt);
+	const current = active.filter((event) => event.endsOn >= today);
+	const past = active.filter((event) => event.endsOn < today);
+	const archived = events.filter((event) => event.archivedAt);
 
 	return (
 		<section className="space-y-4 py-2">
@@ -84,6 +82,25 @@ export const EventsScreenContent = ({ space }: { space: Space }) => {
 
 							<ul className="space-y-2">
 								{past.map((event) => (
+									<EventRow
+										key={event.id}
+										spaceId={space.id}
+										event={event}
+										canEdit={canEdit}
+									/>
+								))}
+							</ul>
+						</section>
+					) : null}
+
+					{archived.length > 0 ? (
+						<section className="space-y-2">
+							<h3 className="text-sm font-medium text-muted-foreground">
+								Archivados
+							</h3>
+
+							<ul className="space-y-2">
+								{archived.map((event) => (
 									<EventRow
 										key={event.id}
 										spaceId={space.id}

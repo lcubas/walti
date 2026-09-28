@@ -23,6 +23,7 @@ type ExpenseRowProps = {
 	currency: Currency;
 	expanded: boolean;
 	onToggle: () => void;
+	readOnly?: boolean;
 };
 
 export const ExpenseRow = ({
@@ -31,6 +32,7 @@ export const ExpenseRow = ({
 	currency,
 	expanded,
 	onToggle,
+	readOnly = false,
 }: ExpenseRowProps) => {
 	const detailId = `expense-detail-${expense.id}`;
 	const [editing, setEditing] = useState(false);
@@ -121,37 +123,39 @@ export const ExpenseRow = ({
 								<DetailField label="Nota" value={expense.note} />
 							) : null}
 
-							<div className="flex gap-2 pt-1">
-								<Button
-									type="button"
-									variant="outline"
-									size="sm"
-									className="gap-1.5"
-									onClick={() => setEditing(true)}
-								>
-									<Pencil className="size-3.5" aria-hidden="true" />
-									Editar
-								</Button>
+							{readOnly ? null : (
+								<div className="flex gap-2 pt-1">
+									<Button
+										type="button"
+										variant="outline"
+										size="sm"
+										className="gap-1.5"
+										onClick={() => setEditing(true)}
+									>
+										<Pencil className="size-3.5" aria-hidden="true" />
+										Editar
+									</Button>
 
-								<ConfirmDialog
-									title="¿Eliminar este gasto?"
-									description={`Vas a eliminar el gasto de ${formatMoney(expense.amountCents, currency)} en ${expense.categoryName} del ${formatCivilDate(expense.occurredOn)}. Esta acción no se puede deshacer.`}
-									confirmLabel="Eliminar"
-									onConfirm={() => deleteExpense.mutate(expense.id)}
-									trigger={
-										<Button
-											type="button"
-											variant="destructive"
-											size="sm"
-											className="gap-1.5"
-											disabled={deleteExpense.isPending}
-										>
-											<Trash2 className="size-3.5" aria-hidden="true" />
-											Eliminar
-										</Button>
-									}
-								/>
-							</div>
+									<ConfirmDialog
+										title="¿Eliminar este gasto?"
+										description={`Vas a eliminar el gasto de ${formatMoney(expense.amountCents, currency)} en ${expense.categoryName} del ${formatCivilDate(expense.occurredOn)}. Esta acción no se puede deshacer.`}
+										confirmLabel="Eliminar"
+										onConfirm={() => deleteExpense.mutate(expense.id)}
+										trigger={
+											<Button
+												type="button"
+												variant="destructive"
+												size="sm"
+												className="gap-1.5"
+												disabled={deleteExpense.isPending}
+											>
+												<Trash2 className="size-3.5" aria-hidden="true" />
+												Eliminar
+											</Button>
+										}
+									/>
+								</div>
+							)}
 						</div>
 					)}
 				</section>

@@ -45,11 +45,11 @@ export const EventRow = ({ spaceId, event, canEdit }: EventRowProps) => {
 	}
 
 	return (
-		<li className="flex items-center gap-3 rounded-xl border border-border p-3">
+		<li className="flex overflow-hidden rounded-xl border border-border">
 			<Link
 				to={`${paths.events}/${event.id}`}
 				aria-label={`Ver detalle de ${event.name}, ${formatCivilDate(event.startsOn)} – ${formatCivilDate(event.endsOn)}`}
-				className="-m-1 flex min-w-0 flex-1 items-center gap-3 rounded-lg p-1 hover:bg-accent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring"
+				className="flex min-w-0 flex-1 items-center gap-3 p-3 hover:bg-accent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring"
 			>
 				<CalendarRange
 					className="size-5 shrink-0 text-muted-foreground"
@@ -77,47 +77,49 @@ export const EventRow = ({ spaceId, event, canEdit }: EventRowProps) => {
 				/>
 			</Link>
 
-			{event.archivedAt ? <ArchivedBadge /> : null}
+			<div className="flex shrink-0 items-center gap-1.5 py-3 pr-3">
+				{event.archivedAt ? <ArchivedBadge /> : null}
 
-			{!canEdit ? null : event.archivedAt ? (
-				<button
-					type="button"
-					onClick={() => unarchive.mutate(event.id)}
-					disabled={unarchive.isPending}
-					aria-label={`Recuperar ${event.name}`}
-					className={actionClasses}
-				>
-					<ArchiveRestore className="size-4" aria-hidden="true" />
-				</button>
-			) : (
-				<>
+				{!canEdit ? null : event.archivedAt ? (
 					<button
 						type="button"
-						onClick={() => setEditing(true)}
-						aria-label={`Editar ${event.name}`}
+						onClick={() => unarchive.mutate(event.id)}
+						disabled={unarchive.isPending}
+						aria-label={`Recuperar ${event.name}`}
 						className={actionClasses}
 					>
-						<Pencil className="size-4" aria-hidden="true" />
+						<ArchiveRestore className="size-4" aria-hidden="true" />
 					</button>
+				) : (
+					<>
+						<button
+							type="button"
+							onClick={() => setEditing(true)}
+							aria-label={`Editar ${event.name}`}
+							className={actionClasses}
+						>
+							<Pencil className="size-4" aria-hidden="true" />
+						</button>
 
-					<ConfirmDialog
-						title={`¿Archivar ${event.name}?`}
-						description="Desaparece de la lista de eventos activos, pero sus gastos y su histórico se conservan y puedes recuperarlo desde aquí."
-						confirmLabel="Archivar"
-						onConfirm={() => archive.mutate(event.id)}
-						trigger={
-							<button
-								type="button"
-								disabled={archive.isPending}
-								aria-label={`Archivar ${event.name}`}
-								className={actionClasses}
-							>
-								<Archive className="size-4" aria-hidden="true" />
-							</button>
-						}
-					/>
-				</>
-			)}
+						<ConfirmDialog
+							title={`¿Archivar ${event.name}?`}
+							description="Desaparece de la lista de eventos activos, pero sus gastos y su histórico se conservan y puedes recuperarlo desde aquí."
+							confirmLabel="Archivar"
+							onConfirm={() => archive.mutate(event.id)}
+							trigger={
+								<button
+									type="button"
+									disabled={archive.isPending}
+									aria-label={`Archivar ${event.name}`}
+									className={actionClasses}
+								>
+									<Archive className="size-4" aria-hidden="true" />
+								</button>
+							}
+						/>
+					</>
+				)}
+			</div>
 		</li>
 	);
 };

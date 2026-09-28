@@ -46,7 +46,10 @@ const screens = {
 		},
 		{
 			path: paths.recurring,
-			element: <PendingScreen title="Gastos recurrentes" />,
+			lazy: () =>
+				import('@/features/recurring/recurringScreen').then((m) => ({
+					Component: m.RecurringScreen,
+				})),
 		},
 		{
 			path: paths.analysis,
