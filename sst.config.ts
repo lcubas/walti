@@ -5,18 +5,21 @@ export default $config({
 		return {
 			name: "walti",
 			home: "aws",
+			providers: {
+				aws: { region: "us-east-1" },
+			},
 			// Production keeps its data and cannot be removed by accident; other stages clean up after themselves.
 			removal: input?.stage === "production" ? "retain" : "remove",
 			protect: input?.stage === "production",
 		};
 	},
 	async run() {
-		const { api } = await import("./infra/api");
-		const { web } = await import("./infra/web");
+		const { router } = await import("./infra/router");
+		await import("./infra/api");
+		await import("./infra/web");
 
 		return {
-			api: api.url,
-			web: web.url,
+			url: router.url,
 		};
 	},
 });
