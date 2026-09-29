@@ -3,3 +3,5 @@ packages:
   - "packages/*"
 allowBuilds:
   esbuild: false
+minimumReleaseAgeExclude:
+  - '@types/aws-lambda@8.10.164'

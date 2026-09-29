@@ -169,6 +169,9 @@ importers:
       '@biomejs/biome':
         specifier: 2.5.10
         version: 2.5.10
+      '@types/aws-lambda':
+        specifier: 8.10.164
+        version: 8.10.164
       sst:
         specifier: ^4.17.1
         version: 4.17.1
@@ -1516,6 +1519,9 @@ packages:
     resolution: {integrity: sha512-u0M3m1aXo9lpDM/2iQhxlGzgWjHFq/MC4TqHn1YAvxk8g1wGtzRB2QBx/SLqRChhPhC29mzaB8eLcxKh/pcM1g==}
     cpu: [arm64]
     os: [win32]
+
+  '@types/aws-lambda@8.10.164':
+    resolution: {integrity: sha512-XOnrazWcOd6yWPnR7DxqCBPPYciDjHq+NN8LPwwqBCJNXLyPJgKo47fZpJ113+oyAn9Zti0Cf6H4k6yPcE3WFg==}
 
   '@types/d3-array@3.2.2':
     resolution: {integrity: sha512-hOLWVbm7uRza0BYXpIIW5pxfrKe0W+D5lrFiAEYR+pb6w3N2SwSMaJbXdUfSEv+dT4MfHBLtn5js0LAWaO6otw==}
@@ -4493,6 +4499,8 @@ snapshots:
 
   '@turbo/windows-arm64@2.11.2':
     optional: true
+
+  '@types/aws-lambda@8.10.164': {}
 
   '@types/d3-array@3.2.2': {}
 

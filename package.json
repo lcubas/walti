@@ -1,22 +1,23 @@
 {
-	"name": "walti",
-	"private": true,
-	"scripts": {
-		"build": "turbo run build",
-		"dev": "turbo run dev",
-		"typecheck": "turbo run typecheck",
-		"lint": "biome check .",
-		"lint:fix": "biome check --write .",
-		"format": "biome format --write ."
-	},
-	"devDependencies": {
-		"@biomejs/biome": "2.5.10",
-		"sst": "^4.17.1",
-		"turbo": "^2.11.2",
-		"typescript": "5.9.2"
-	},
-	"packageManager": "pnpm@12.6.0",
-	"engines": {
-		"node": ">=18"
-	}
+  "name": "walti",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "format": "biome format --write .",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "typecheck": "turbo run typecheck"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.10",
+    "@types/aws-lambda": "8.10.164",
+    "sst": "^4.17.1",
+    "turbo": "^2.11.2",
+    "typescript": "5.9.2"
+  },
+  "packageManager": "pnpm@12.6.0",
+  "engines": {
+    "node": ">=18"
+  }
 }
